@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Fondo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_marginBottom="@dimen/_15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edtNameBook"
+            style="@style/TextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5dp"
+            android:background="@drawable/edt_formularios"
+            android:drawableStart="@drawable/ic_book"
+            android:drawablePadding="@dimen/_5dp"
+            android:drawableTint="@color/fondo"
+            android:hint="@string/bookname"
+            android:inputType="text"
+            android:lines="1"
+            android:padding="@dimen/_5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gris4"
+            android:textSize="@dimen/text15" />
+
+        <EditText
+            android:id="@+id/edtUrlBook"
+            style="@style/TextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5dp"
+            android:background="@drawable/edt_formularios"
+            android:drawableStart="@drawable/ic_image"
+            android:drawablePadding="@dimen/_5dp"
+            android:drawableTint="@color/fondo"
+            android:hint="@string/bookimage"
+            android:inputType="textUri"
+            android:lines="1"
+            android:padding="@dimen/_5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gris4"
+            android:textSize="@dimen/text15" />
+
+        <EditText
+            android:id="@+id/edtDescriptionBook"
+            style="@style/TextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5dp"
+            android:background="@drawable/edt_formularios"
+            android:drawableStart="@drawable/ic_edit"
+            android:drawablePadding="@dimen/_5dp"
+            android:drawableTint="@color/fondo"
+            android:hint="@string/bookdescripcion"
+
+            android:maxLength="250"
+            android:padding="@dimen/_5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gris4"
+            android:textSize="@dimen/text15" />
+
+        <Button
+            style="@style/TextPrimary"
+            android:layout_width="@dimen/imageBookWidthB"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAddBook"
+            android:background="@drawable/btn_bookdos"
+            android:text="@string/add"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_15dp"
+            android:layout_marginBottom="@dimen/_15dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text15" />
+
+        <TextView
+            style="@style/TextSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:text="Añade un libro a tu coleccion"
+            android:textSize="@dimen/text15" />
+    </LinearLayout>
+
+</RelativeLayout>

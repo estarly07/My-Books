@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Fondo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/_20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imgBookVertical"
+                android:layout_width="@dimen/imageBookWidth"
+                android:layout_height="@dimen/imageBook"
+                android:layout_marginRight="@dimen/_20dp"
+                android:scaleType="centerCrop"
+                android:src="@color/gris1"
+
+                app:riv_corner_radius_bottom_right="@dimen/_5dp"
+                app:riv_corner_radius_top_right="@dimen/_5dp" />
+
+            <ImageView
+                android:layout_width="@dimen/_3dp"
+                android:layout_height="@dimen/imageBook"
+                android:src="@drawable/item_libro" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNameBookV"
+                style="@style/TextPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20dp"
+                android:text="Libro de prueba sobre sdafj"
+
+                android:textSize="@dimen/textSecondary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDateBookV"
+                style="@style/TextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_20dp"
+                android:text="@string/Masvistos"
+
+                android:textSize="@dimen/text15" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnBookEdit"
+            style="@style/ImageButtons"
+            android:layout_width="@dimen/_20dp"
+            android:layout_height="@dimen/_25dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+
+
+            android:background="@drawable/ic_edit" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/btnBookGuardar"
+                style="@style/ImageButtons"
+                android:layout_width="@dimen/_15dp"
+                android:layout_height="@dimen/_25dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/_25dp"
+                android:layout_marginRight="@dimen/_8dp"
+                android:background="@drawable/ic_tag" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/btnBookQuitarGuardar"
+                style="@style/ImageButtons"
+                android:layout_width="@dimen/_30dp"
+                android:layout_height="@dimen/_45dp"
+
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="true"
+
+                app:lottie_rawRes="@raw/tag" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

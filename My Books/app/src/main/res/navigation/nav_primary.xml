@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_primary"
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.example.mybooks.View.Menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_menuFragment_to_nav_book"
+            app:destination="@id/nav_book"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_menuFragment_to_formsFragment"
+            app:destination="@id/formsFragment"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+    </fragment>
+    <include app:graph="@navigation/nav_book"
+        />
+    <fragment
+        android:id="@+id/formsFragment"
+        android:name="com.example.mybooks.View.forms.FormsFragment"
+        android:label="fragment_forms"
+        tools:layout="@layout/fragment_forms" >
+        <action
+            android:id="@+id/action_formsFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+    </fragment>
+</navigation>

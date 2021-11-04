@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Fondo"
+    tools:context=".View.forms.FormsFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/contenedorContents"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_50dp"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="@dimen/imageBookWidthB"
+                        android:layout_height="@dimen/imageBookWidthB"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_astronauta4" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <include
+                        android:id="@+id/formBook"
+                        android:visibility="gone"
+                        layout="@layout/formulario_book" />
+                    <include
+                        android:id="@+id/formTheme"
+                        android:visibility="gone"
+                        layout="@layout/formulario_theme" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+    <include
+        android:id="@+id/formContent"
+        android:visibility="gone"
+        layout="@layout/formulario_content" />
+
+</RelativeLayout>

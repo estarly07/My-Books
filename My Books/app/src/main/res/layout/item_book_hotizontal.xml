@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/_50dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/_15dp"
+                android:layout_height="@dimen/imageBookH"
+                android:layout_marginLeft="@dimen/imageBookHComplemento"
+                android:paddingTop="@dimen/_3dp"
+                android:paddingBottom="@dimen/_3dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_complemento_libro"
+                android:visibility="gone" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imgBook"
+                android:layout_width="@dimen/imageBookWidthH"
+                android:layout_height="@dimen/imageBookH"
+                android:scaleType="centerCrop"
+                android:src="@color/gris1"
+                app:riv_corner_radius_bottom_right="@dimen/_5dp"
+                app:riv_corner_radius_top_right="@dimen/_5dp" />
+
+            <ImageView
+                android:layout_width="@dimen/_5dp"
+                android:layout_height="@dimen/imageBookH"
+                android:src="@drawable/item_libro" />
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/item_libro"
+            android:visibility="gone"
+
+            app:tint="@color/transparenteOscuro" />
+
+        <TextView
+            android:id="@+id/txtNameBookH"
+            style="@style/TextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20dp"
+            android:text="Libro de prueba sobre sdafj"
+
+            android:textSize="@dimen/textSecondary"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+android:id="@+id/txtDateBookH"
+            android:layout_marginBottom="@dimen/_20dp"
+            android:text="@string/Masvistos"
+
+            android:textSize="@dimen/text15" />
+    </LinearLayout>
+</RelativeLayout>

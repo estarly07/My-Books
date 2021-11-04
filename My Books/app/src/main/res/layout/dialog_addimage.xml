@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <androidx.cardview.widget.CardView
+        style="@style/CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:outlineSpotShadowColor="@color/fondo"
+        app:cardCornerRadius="@dimen/_5dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/_5dp"
+        app:cardElevation="@dimen/_5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_5dp">
+
+            <TextView
+                style="@style/TextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5dp"
+                android:gravity="center"
+                android:text="@string/contentimgae"
+                android:textSize="@dimen/text15" />
+
+            <EditText
+                android:id="@+id/edtNameBook"
+                style="@style/TextPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5dp"
+                android:background="@drawable/edt_formularios"
+                android:drawableStart="@drawable/ic_image"
+                android:drawableTint="@color/gris2"
+                android:drawablePadding="@dimen/_5dp"
+                android:inputType="text"
+                android:lines="1"
+                android:padding="@dimen/_5dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text15" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    style="@style/TextPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:id="@+id/btnCancel"
+                    android:layout_margin="@dimen/_15dp"
+                    android:layout_marginBottom="@dimen/_15dp"
+                    android:background="@drawable/btn_bookdos"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text15" />
+
+                <Button
+                    style="@style/TextPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:id="@+id/btnAcept"
+                    android:layout_margin="@dimen/_15dp"
+                    android:layout_marginBottom="@dimen/_15dp"
+                    android:background="@drawable/btn_bookdos"
+                    android:text="@string/acept"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text15" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

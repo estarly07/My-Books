@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Fondo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Menu.MenuFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollAllBooks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:outlineSpotShadowColor="@color/primary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/btn40dp"
+
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="@dimen/btn40dp"
+                        android:layout_height="@dimen/btn40dp"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/txtNameUser"
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_20dp"
+                        android:layout_weight="1"
+                        android:text="Hola, Estarly!!"
+                        android:textSize="@dimen/textSecondary"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/btnInsertBook"
+                        style="@style/ImageButtons"
+                        android:layout_width="@dimen/_25dp"
+                        android:layout_height="@dimen/_25dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_adddos" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/containerScroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20dp"
+                        android:layout_marginBottom="@dimen/_20dp"
+                        android:text="@string/Masvistos"
+
+                        android:textSize="@dimen/_25sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/reciclerLibrosMasVistos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20dp"
+                        android:layout_marginBottom="@dimen/_20dp"
+                        android:text="@string/todos"
+
+                        android:textSize="@dimen/_25sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/reciclerLibros"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/wait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/_15dp"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/_50dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="@dimen/imageBookHComplemento"
+            android:layout_height="@dimen/imageBookHComplemento"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_wait" />
+
+        <TextView
+            style="@style/TextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
+            android:text="@string/nobooks"
+            android:textSize="@dimen/_25sp" />
+
+        <TextView
+            style="@style/TextSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+
+            android:text="@string/registerBook"
+            android:textSize="@dimen/text15" />
+    </LinearLayout>
+</RelativeLayout>

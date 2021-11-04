@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Fondo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Search.SearchFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scroll"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/l"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/imageBookWidthB"
+                    android:scaleType="centerCrop"
+                    android:src="@color/primary"
+                    app:riv_corner_radius_bottom_left="@dimen/_15dp"
+                    app:riv_corner_radius_bottom_right="@dimen/_15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextPrimary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Buscar"
+
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/textprimary" />
+
+                        <EditText
+                            android:id="@+id/edtSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50dp"
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:background="@drawable/btn_book"
+                            android:backgroundTint="@color/white"
+                            android:drawableStart="@drawable/ic_search2"
+                            android:drawablePadding="@dimen/_20dp"
+                            android:hint="@string/searchinput"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/_20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gris3"
+                            android:textSize="@dimen/text15" />
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <Button
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/_30dp"
+                                        android:layout_margin="@dimen/_3dp"
+                                        android:background="@drawable/tag"
+                                        android:text="@string/books"
+                                        android:id="@+id/btnFilteBook"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text10" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_15dp"
+                                        android:id="@+id/indicarBook"
+                                        android:layout_height="@dimen/_15dp"
+                                        android:layout_gravity="center"
+
+                                        android:src="@drawable/item_indicator_search"
+                                        app:tint="@color/white" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <Button
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/_30dp"
+                                        android:layout_margin="@dimen/_3dp"
+                                        android:background="@drawable/tag"
+                                        android:text="@string/themes"
+                                        android:id="@+id/btnFilteTheme"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text10" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_15dp"
+                                        android:layout_height="@dimen/_15dp"
+                                        android:layout_gravity="center"
+                                        android:id="@+id/indicarTema"
+                                        android:visibility="invisible"
+                                        android:src="@drawable/item_indicator_search"
+                                        app:tint="@color/white" />
+                                </LinearLayout>
+
+
+
+
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/t"
+                style="@style/TextPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/l"
+                android:layout_marginTop="@dimen/_15dp"
+                android:layout_marginBottom="@dimen/_15dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="@string/resul"
+                android:textSize="@dimen/_25sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recicleResultSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/t"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/_15dp"
+                android:visibility="invisible" />
+
+            <RelativeLayout
+                android:id="@+id/containerNoSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/t"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/_15dp"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/_50dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/imageBookHComplemento"
+                        android:layout_height="@dimen/imageBookHComplemento"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_astronauta3" />
+
+                    <TextView
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_30dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:gravity="center"
+                        android:text="@string/search"
+                        android:textSize="@dimen/_25sp" />
+
+                    <TextView
+                        style="@style/TextSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center"
+                        android:text="@string/retry"
+                        android:textSize="@dimen/text15" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

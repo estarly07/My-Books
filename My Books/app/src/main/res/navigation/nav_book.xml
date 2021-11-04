@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_book"
+    app:startDestination="@id/bookFragment4">
+
+    <fragment
+        android:id="@+id/bookFragment4"
+        android:name="com.example.mybooks.View.Book.BookFragment"
+        android:label="fragment_book"
+        tools:layout="@layout/fragment_book" >
+        <action
+            android:id="@+id/action_to_nav_book_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_to_nav_book_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_to_nav_book_savedFragment2"
+            app:destination="@id/savedFragment2"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_bookFragment_to_formsFragment"
+            app:destination="@id/formsFragment3"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_bookFragment_to_contentFragment"
+            app:destination="@id/contentFragment4"
+            app:enterAnim="@anim/anim_appear" />
+    </fragment>
+    <fragment
+        android:id="@+id/formsFragment3"
+        android:name="com.example.mybooks.View.forms.FormsFragment"
+        android:label="fragment_forms"
+        tools:layout="@layout/fragment_forms" >
+        <action
+            android:id="@+id/action_formsFragment3_to_bookFragment4"
+            app:destination="@id/bookFragment4"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_formsFragment3_to_contentFragment4"
+            app:destination="@id/contentFragment4"
+            app:enterAnim="@anim/anim_appear" />
+    </fragment>
+    <fragment
+        android:id="@+id/contentFragment4"
+        android:name="com.example.mybooks.View.Content.ContentFragment"
+        android:label="fragment_content"
+        tools:layout="@layout/fragment_content" >
+        <action
+            android:id="@+id/action_contentFragment4_to_bookFragment4"
+            app:destination="@id/bookFragment4"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_contentFragment4_to_formsFragment3"
+            app:destination="@id/formsFragment3"
+            app:enterAnim="@anim/anim_appear" />
+    </fragment>
+</navigation>

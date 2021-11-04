@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        style="@style/CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/_5dp"
+        android:outlineSpotShadowColor="@color/fondo"
+        app:cardCornerRadius="@dimen/_5dp"
+        app:cardElevation="@dimen/_5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_5dp">
+
+            <ImageView
+                android:layout_width="@dimen/imageBook"
+                android:layout_height="@dimen/imageBook"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_3dp"
+                android:src="@drawable/ic_astronaut_email" />
+
+
+            <EditText
+                android:id="@+id/edtEmail"
+                style="@style/TextPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5dp"
+                android:background="@drawable/edt_formularios"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="@dimen/_5dp"
+                android:drawableTint="@color/fondo"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:lines="1"
+                android:padding="@dimen/_5dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gris4"
+                android:textSize="@dimen/text15" />
+
+            <EditText
+                android:id="@+id/edtPass"
+                style="@style/TextPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5dp"
+                android:background="@drawable/edt_formularios"
+                android:drawableStart="@drawable/ic_key"
+                android:drawablePadding="@dimen/_5dp"
+                android:drawableTint="@color/fondo"
+                android:hint="@string/pass"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:padding="@dimen/_5dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gris4"
+                android:textSize="@dimen/text15" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/naranja"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layoutButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_15dp"
+                        android:layout_marginBottom="@dimen/_15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_bookdos"
+                        android:text="@string/cancel"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text15" />
+
+                    <Button
+                        android:id="@+id/btnAcept"
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_15dp"
+                        android:layout_marginBottom="@dimen/_15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_bookdos"
+                        android:text="@string/loginE"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text15" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtRegister"
+                style="@style/TextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5dp"
+                android:layout_marginBottom="@dimen/_5dp"
+                android:gravity="center"
+                android:text="@string/register"
+                android:textSize="@dimen/text15" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
