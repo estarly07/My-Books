@@ -8,6 +8,8 @@ Book  es un proyecto que permite guardar tus libros de estudio para tener un acc
   - Implementación de patron Room. 
   - Arquitectura MVVM.
   - Binding.
+  - Servcios.
+  - Cloud Firestore.
 
 <h3>Login</h3>
  
