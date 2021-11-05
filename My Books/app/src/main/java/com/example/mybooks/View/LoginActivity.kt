@@ -1,6 +1,5 @@
 package com.example.mybooks.View
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +7,6 @@ import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelStore
-import com.example.mybooks.Model.SharedPreferences.SharedPreferences
 import com.example.mybooks.R
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToLeft

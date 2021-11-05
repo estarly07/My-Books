@@ -1,21 +1,11 @@
 package com.example.mybooks.Model.Service
 
-import android.R
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
-import com.example.mybooks.Model.Entities.ContentEntity
-import com.example.mybooks.Model.Entities.TextEntity
-import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.SharedPreferences.SharedPreferences
-import com.example.mybooks.Model.UseCase
-import com.example.mybooks.ViewModel.SettingsViewModel
-import com.google.protobuf.Enum
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {

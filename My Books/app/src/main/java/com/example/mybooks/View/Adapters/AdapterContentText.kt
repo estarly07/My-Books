@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -12,7 +11,6 @@ import com.example.mybooks.Model.Entities.TextEntity
 import com.example.mybooks.View.forms.FormsFragment
 import com.example.mybooks.databinding.ItemContenttextBinding
 import com.example.mybooks.selectTypeTextOrImage
-import com.example.mybooks.textChange
 
 class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
     private var list = mutableListOf<TextEntity>()

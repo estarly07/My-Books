@@ -15,7 +15,6 @@ import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.NameFragments
 import com.example.mybooks.R
-import com.example.mybooks.View.Adapters.AdapterBooksHorizontal
 import com.example.mybooks.View.Adapters.AdapterBooksVertical
 import com.example.mybooks.View.Adapters.AdapterSearch
 import com.example.mybooks.View.Adapters.AdapterThemesBook

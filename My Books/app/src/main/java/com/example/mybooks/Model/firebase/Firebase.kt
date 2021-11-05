@@ -11,44 +11,13 @@ import com.example.mybooks.ViewModel.SettingsViewModel.CallBack
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.collections.HashMap
-
-enum class NamesFirestor(name: String) {
-    //Nombres de las colecciones
-    COLLECTION_BOOK("Books"),
-    COLLECTION_CONTENTS("Contents"),
-    COLLECTION_TEXTS("Texts"),
-    COLLECTION_THEMES("Themes"),
-
-    //Nombres de los campos
-    CAMPS_BOOK("books"),
-    CAMPS_CONTENTS("contents"),
-    CAMPS_TEXTS("texts"),
-    CAMPS_THEMES("themes");
-
-    fun getName(): String {
-        return name
-    }
-}
+import com.example.mybooks.Model.firebase.NamesFirestore.*
 
 
 class Firebase {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firebase = FirebaseFirestore.getInstance()
-    val preferences = SharedPreferences.getInstance()
-    private val namesCollectionsFirestore = listOf(
-        //COLLECTIONS
-        "Books",
-        "Contents",
-        "Texts",
-        "Themes",
-
-        //CAMPOS
-        "books",
-        "contents",
-        "texts",
-        "themes",
-    )
-
+    private val preferences = SharedPreferences.getInstance()
 
     companion object {
         private var INSTANCE: Firebase? = null
@@ -106,10 +75,10 @@ class Firebase {
         }
 
         val books = mapOf(
-            namesCollectionsFirestore[4] to array
+            CAMPS_BOOK.getName() to array
         )
 
-        firebase.collection(namesCollectionsFirestore[0])
+        firebase.collection(COLLECTION_BOOK.getName())
             .document(preferences.getToken(context = context))
             .set(books)
 
@@ -130,9 +99,9 @@ class Firebase {
 
         }
         val themes = mapOf(
-            namesCollectionsFirestore[7] to array
+           CAMPS_THEMES.getName() to array
         )
-        firebase.collection(namesCollectionsFirestore[3])
+        firebase.collection(COLLECTION_THEMES.getName())
             .document(preferences.getToken(context = context))
             .set(themes)
 
@@ -151,9 +120,9 @@ class Firebase {
 
         }
         val contents = mapOf(
-            namesCollectionsFirestore[5] to array
+            CAMPS_CONTENTS.getName() to array
         )
-        firebase.collection(namesCollectionsFirestore[1])
+        firebase.collection(COLLECTION_CONTENTS.getName())
             .document(preferences.getToken(context = context))
             .set(contents)
     }
@@ -172,27 +141,27 @@ class Firebase {
 
         }
         val texts = mapOf(
-            namesCollectionsFirestore[6] to array
+            CAMPS_TEXTS.getName() to array
         )
-        firebase.collection(namesCollectionsFirestore[2])
+        firebase.collection(COLLECTION_TEXTS.getName())
             .document(preferences.getToken(context = context))
             .set(texts)
     }
 
     fun getBooksFirebase(context: Context, callback: CallBack) {
-        firebase.collection(namesCollectionsFirestore[0])
+        firebase.collection(COLLECTION_BOOK.getName())
             .document(preferences.getToken(context = context)).get()
             .addOnSuccessListener { document ->
                 if (document != null) {
 
-                    val list = if (document.get(namesCollectionsFirestore[4]) != null) {
-                        document.get(namesCollectionsFirestore[4]) as List<*>
+                    val list = if (document.get(CAMPS_BOOK.getName()) != null) {
+                        document.get(CAMPS_BOOK.getName()) as List<*>
                     } else {
                         listOf<BookEntity>()
                     }
-                    var listBooks = mutableListOf<BookEntity>()
+                    val listBooks = mutableListOf<BookEntity>()
                     list.forEach { any ->
-                        val map: HashMap<String, *> = any as HashMap<String, *>
+                        val map: HashMap<*, *> = any as HashMap<*, *>
                         println(map)
                         val bookEntity = BookEntity(
                             id_book = (map["id_book"] as Long).toInt(),
@@ -215,17 +184,17 @@ class Firebase {
     }
 
     fun getThemesFirebase(context: Context, callback: CallBack) {
-        firebase.collection(namesCollectionsFirestore[3])
+        firebase.collection(COLLECTION_THEMES.getName())
             .document(preferences.getToken(context = context)).get()
             .addOnSuccessListener { snapshot ->
                 val listThemes = mutableListOf<ThemeEntity>()
                 if (snapshot != null) {
-                    println("LISTATHEMES ${snapshot.get(namesCollectionsFirestore[7])}")
-                    val list = if (snapshot.get(namesCollectionsFirestore[7]) != null) snapshot.get(
-                        namesCollectionsFirestore[7]
+                    println("LISTATHEMES ${snapshot.get(CAMPS_THEMES.getName())}")
+                    val list = if (snapshot.get(CAMPS_THEMES.getName()) != null) snapshot.get(
+                        CAMPS_THEMES.getName()
                     ) as List<*> else listOf<ThemeEntity>()
                     list.forEach { value ->
-                        val map = value as HashMap<String, *>
+                        val map = value as HashMap<*, *>
                         val theme = ThemeEntity(
                             idTheme = (map["idTheme"] as Long).toInt(),
                             name = map["name"].toString(),
@@ -241,16 +210,16 @@ class Firebase {
     }
 
     fun getContentsFirebase(context: Context, callback: CallBack) {
-        firebase.collection(namesCollectionsFirestore[1])
+        firebase.collection(COLLECTION_CONTENTS.getName())
             .document(preferences.getToken(context = context)).get()
             .addOnSuccessListener { document ->
                 val listContents = mutableListOf<ContentEntity>()
                 if (document != null) {
-                    val list = if (document.get(namesCollectionsFirestore[5]) != null) document.get(
-                        namesCollectionsFirestore[5]
+                    val list = if (document.get(CAMPS_CONTENTS.getName()) != null) document.get(
+                        CAMPS_CONTENTS.getName()
                     ) as List<*> else listOf<ContentEntity>()
                     list.forEach { value ->
-                        val map = value as HashMap<String, *>
+                        val map = value as HashMap<*, *>
                         val content = ContentEntity(
                             idContent = (map["idContent"] as Long).toInt(),
                             subTitle = map["subTitle"].toString(),
@@ -266,16 +235,16 @@ class Firebase {
     }
 
     fun getTextFirebase(context: Context, callback: CallBack) {
-        firebase.collection(namesCollectionsFirestore[2])
+        firebase.collection(COLLECTION_TEXTS.getName())
             .document(preferences.getToken(context = context)).get()
             .addOnSuccessListener { document ->
                 val listText = mutableListOf<TextEntity>()
                 if (document != null) {
-                    val list = if (document.get(namesCollectionsFirestore[6]) != null) document.get(
-                        namesCollectionsFirestore[6]
+                    val list = if (document.get(CAMPS_TEXTS.getName()) != null) document.get(
+                        CAMPS_TEXTS.getName()
                     ) as List<*> else listOf<TextEntity>()
                     for (value in list) {
-                        val map = value as HashMap<String, *>
+                        val map = value as HashMap<*, *>
                         val text = TextEntity(
                             id_text = (map["id_text"] as Long).toInt(),
                             type = map["type"].toString(),

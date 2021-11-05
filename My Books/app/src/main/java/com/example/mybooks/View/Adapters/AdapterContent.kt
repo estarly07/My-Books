@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mybooks.Model.Entities.TextEntity
 import com.example.mybooks.Models.Content
 import com.example.mybooks.databinding.ItemContentBinding
-import java.util.*
 
 class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
 
