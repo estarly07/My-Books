@@ -61,14 +61,14 @@ class Firebase {
         val array = mutableListOf<Any>()
         listBooks.forEach { book ->
             val map = HashMap<String, Any>()
-            map["id_book"] = book.id_book
-            map["name"] = book.name
-            map["image"] = book.image
-            map["creation_date"] = book.creation_date
-            map["saved"] = book.saved
-            map["description"] = book.description
-            map["lastTimeOpen"] = book.lastTimeOpen
-            map["fk_id_user"] = book.fk_id_user
+            map[ID_BOOK.getName()]          = book.id_book
+            map[NAME_BOOK.getName()]        = book.name
+            map[IMAGE_BOOK.getName()]       = book.image
+            map[CREATION_DATE.getName()]    = book.creation_date
+            map[SAVED.getName()]            = book.saved
+            map[DESCRIPTION.getName()]      = book.description
+            map[LAST_TIME_OPEN.getName()]   = book.lastTimeOpen
+            map[FK_ID_USER.getName()]       = book.fk_id_user
 
             array.add(map)
 
@@ -90,10 +90,10 @@ class Firebase {
         val array = mutableListOf<Any>()
         listThemes.forEach { theme ->
             val map = HashMap<String, Any>()
-            map["idTheme"] = theme.idTheme
-            map["name"] = theme.name
-            map["importance"] = theme.importance
-            map["fk_idBook"] = theme.fk_idBook
+            map[ID_THEME.getName()]          = theme.idTheme
+            map[NAME_THEME.getName()]        = theme.name
+            map[IMPORTANCE_THEME.getName()]  = theme.importance
+            map[FK_ID_BOOK.getName()]        = theme.fk_idBook
 
             array.add(map)
 
@@ -112,9 +112,9 @@ class Firebase {
         val array = mutableListOf<Any>()
         listContents.forEach { content ->
             val map = HashMap<String, Any>()
-            map["idContent"] = content.idContent
-            map["subTitle"] = content.subTitle
-            map["fk_idTheme"] = content.fk_idTheme
+            map[ID_CONTENT.getName()]       = content.idContent
+            map[SUBTITLE.getName()]         = content.subTitle
+            map[FK_ID_THEME.getName()]    = content.fk_idTheme
 
             array.add(map)
 
@@ -132,10 +132,10 @@ class Firebase {
         val array = mutableListOf<Any>()
         listText.forEach { text ->
             val map = HashMap<String, Any>()
-            map["id_text"] = text.id_text
-            map["content"] = text.content
-            map["type"] = text.type
-            map["fk_id_content"] = text.fk_id_content
+            map[ID_TEXT.getName()]          = text.id_text
+            map[CONTENT.getName()]          = text.content
+            map[TYPE_TEXT.getName()]        = text.type
+            map[FK_ID_CONTENT.getName()]    = text.fk_id_content
 
             array.add(map)
 
@@ -164,18 +164,17 @@ class Firebase {
                         val map: HashMap<*, *> = any as HashMap<*, *>
                         println(map)
                         val bookEntity = BookEntity(
-                            id_book = (map["id_book"] as Long).toInt(),
-                            name = map["name"].toString(),
-                            image = map["image"].toString(),
-                            creation_date = map["creation_date"].toString(),
-                            saved = map["saved"] as Boolean,
-                            description = map["description"].toString(),
-                            lastTimeOpen = map["lastTimeOpen"].toString(),
-                            fk_id_user = (map["fk_id_user"] as Long).toInt()
+                            id_book         = (map[ID_BOOK.getName()] as Long).toInt(),
+                            name            = map[NAME_BOOK.getName()].toString(),
+                            image           = map[IMAGE_BOOK.getName()].toString(),
+                            creation_date   = map[CREATION_DATE.getName()].toString(),
+                            saved           = map[SAVED.getName()] as Boolean,
+                            description     = map[DESCRIPTION.getName()].toString(),
+                            lastTimeOpen    = map[LAST_TIME_OPEN.getName()].toString(),
+                            fk_id_user      = (map[FK_ID_USER.getName()] as Long).toInt()
                         )
 
                         listBooks.add(bookEntity)
-                        println("1 ${map["image"]}")
                     }
                     callback.insertBooks(context = context, listBooks)
 
@@ -189,17 +188,16 @@ class Firebase {
             .addOnSuccessListener { snapshot ->
                 val listThemes = mutableListOf<ThemeEntity>()
                 if (snapshot != null) {
-                    println("LISTATHEMES ${snapshot.get(CAMPS_THEMES.getName())}")
                     val list = if (snapshot.get(CAMPS_THEMES.getName()) != null) snapshot.get(
                         CAMPS_THEMES.getName()
                     ) as List<*> else listOf<ThemeEntity>()
                     list.forEach { value ->
                         val map = value as HashMap<*, *>
                         val theme = ThemeEntity(
-                            idTheme = (map["idTheme"] as Long).toInt(),
-                            name = map["name"].toString(),
-                            importance = (map["importance"] as Long).toInt(),
-                            fk_idBook = (map["fk_idBook"] as Long).toInt()
+                            idTheme         = (map[ID_THEME.getName()] as Long).toInt(),
+                            name            =  map[NAME_THEME.getName()].toString(),
+                            importance      = (map[IMPORTANCE_THEME.getName()] as Long).toInt(),
+                            fk_idBook       = (map[FK_ID_BOOK.getName()] as Long).toInt()
 
                         )
                         listThemes.add(theme)
@@ -221,9 +219,9 @@ class Firebase {
                     list.forEach { value ->
                         val map = value as HashMap<*, *>
                         val content = ContentEntity(
-                            idContent = (map["idContent"] as Long).toInt(),
-                            subTitle = map["subTitle"].toString(),
-                            fk_idTheme = (map["fk_idTheme"] as Long).toInt()
+                            idContent   = (map[ID_CONTENT.getName()] as Long).toInt(),
+                            subTitle    =  map[SUBTITLE.getName()].toString(),
+                            fk_idTheme  = (map[FK_ID_THEME.getName()] as Long).toInt()
                         )
                         listContents.add(content)
                     }
@@ -246,10 +244,10 @@ class Firebase {
                     for (value in list) {
                         val map = value as HashMap<*, *>
                         val text = TextEntity(
-                            id_text = (map["id_text"] as Long).toInt(),
-                            type = map["type"].toString(),
-                            content = map["content"].toString(),
-                            fk_id_content = (map["fk_id_content"] as Long).toInt()
+                            id_text         = (map[ID_TEXT.getName()] as Long).toInt(),
+                            type            = map[CONTENT.getName()].toString(),
+                            content         = map[TYPE_TEXT.getName()].toString(),
+                            fk_id_content   = (map[FK_ID_CONTENT.getName()] as Long).toInt()
                         )
                         listText.add(text)
 
