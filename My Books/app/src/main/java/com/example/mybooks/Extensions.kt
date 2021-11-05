@@ -11,7 +11,12 @@ import android.widget.TextView
 import android.widget.Toast
 import java.util.regex.Pattern
 
-
+/**
+ *EXTENSION PARA MOSTRAR UN MENSAJE
+ * @param context
+ * @param duration duracion de cuanto se va a mostrar el mensaje
+ * @param resource layout que tendra el mensaje
+ * */
 fun String.showToast(context: Context, duration: Int, resource: Int): Unit {
     val toast = Toast(context)
     toast.duration = duration
@@ -21,7 +26,10 @@ fun String.showToast(context: Context, duration: Int, resource: Int): Unit {
     toast.view = view
     toast.show()
 }
-
+/** VALIDAR DE QUE UNA LISTA DE STRINGS NO ESTE VACIA O TENGA STRINGS VACIOS
+ *@return Boolean true => Si no esta vacia
+ *                false => Si esta vacia
+ **/
 fun List<String>.validateStrings(): Boolean {
     this.forEach { date ->
         if (date == "")
@@ -39,8 +47,10 @@ var colors = listOf(
     R.color.Pink
 )
 
-/**CAMBIO DE COLOR AL DARLE CLIC A ALGUN BOTON DEL TOOLBAR
- * @param listview => fondo,texto
+/**EXTENSION PARA EL CAMBIO DE COLOR AL DARLE CLIC A ALGUN BOTON DEL TOOLBAR
+ * @param listview => primer indice es el fondo (ImageView), segundo indices es el texto (TextView)
+ * @param isPressed => Si fue presionado el boton
+ * @param context
  * */
 fun List<View?>.pressedButtonsToolbar(context: Context, isPressed: Boolean): Unit {
     if (isPressed) {
@@ -54,8 +64,10 @@ fun List<View?>.pressedButtonsToolbar(context: Context, isPressed: Boolean): Uni
     }
 }
 
-/**CAMBIO DE COLOR AL SELECCIONAR UN TEMA
- * @param listview => fondo,texto
+/**EXTENSION PARA EL CAMBIO DE COLOR AL SELECCIONAR UN TEMA
+ * @param listview => primer indice es el fondo (ImageView), segundo indice es el texto (TextView)
+ * @param isSelect => Si fue seleccionado el tema
+ * @param context
  * */
 fun List<View>.selectTheme(context: Context, isSelect: Boolean) {
     if (isSelect) {
@@ -69,6 +81,7 @@ fun List<View>.selectTheme(context: Context, isSelect: Boolean) {
     }
 }
 
+/**EXTENSION CON LISTENER AL EDITTEXT PARA CUANDO ESCRIBA*/
 fun EditText.textChange(listener: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -86,7 +99,8 @@ fun EditText.textChange(listener: (String) -> Unit) {
     })
 }
 
-/**EXTENSION PARA CUANDO SELECCIONE UN EDITTEXT O UN IMAGE VIEW DE LA VISTA DONDE SE INGRESA EL CONTENIDO*/
+/**EXTENSION PARA CUANDO SELECCIONE UN EDITTEXT O UN IMAGEVIEW SE COLOREE EL CIRCULO O NO
+ * (VISTA => DONDE SE INGRESA EL CONTENIDO)*/
 fun View.selectTypeTextOrImage(context: Context, select: Boolean) {
     if (select) {
         this.background = context.resources.getDrawable(R.drawable.ic_circulo_select)
@@ -94,7 +108,11 @@ fun View.selectTypeTextOrImage(context: Context, select: Boolean) {
         this.background = context.resources.getDrawable(R.drawable.ic_circulo)
     }
 }
-/**EXTENSION PARA VALIDAR EL EMAIL*/
+
+/**EXTENSION PARA VALIDAR EL EMAIL
+@return Boolean true => Si es correcto el email
+ *                false => Si es incorrecto el email
+ * */
 fun String.validateEmail(): Boolean {
     val pattern = Pattern.compile(
         "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
