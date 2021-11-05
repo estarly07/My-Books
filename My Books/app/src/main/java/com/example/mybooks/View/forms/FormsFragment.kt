@@ -1,20 +1,13 @@
 package com.example.mybooks.View.forms
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.Dimension
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mybooks.Global
 import com.example.mybooks.Model.Entities.BookEntity
@@ -25,13 +18,10 @@ import com.example.mybooks.R
 import com.example.mybooks.View.Adapters.AdapterContentText
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animVanish
-import com.example.mybooks.View.Content.ContentFragment
 import com.example.mybooks.View.Menu.MenuActivity
-import com.example.mybooks.ViewModel.BookViewModel
 import com.example.mybooks.ViewModel.FormsViewModel
 import com.example.mybooks.databinding.FragmentFormsBinding
 import com.example.mybooks.showToast
-import java.text.FieldPosition
 
 
 class FormsFragment : Fragment() {

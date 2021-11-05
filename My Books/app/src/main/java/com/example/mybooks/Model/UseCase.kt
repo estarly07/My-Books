@@ -10,8 +10,6 @@ import com.example.mybooks.Model.firebase.Firebase
 import com.example.mybooks.Models.User
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
-import kotlinx.coroutines.CoroutineScope
-import java.util.concurrent.CountDownLatch
 
 class UseCase(context: Context) {
 

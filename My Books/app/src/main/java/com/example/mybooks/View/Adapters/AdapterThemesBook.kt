@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mybooks.Model.Entities.ThemeEntity
-import com.example.mybooks.R
-import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Book.BookFragment
 import com.example.mybooks.ViewModel.BookViewModel
 import com.example.mybooks.databinding.ItemThemeBinding

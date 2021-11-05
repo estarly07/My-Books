@@ -11,9 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.R
-import com.example.mybooks.databinding.FragmentSavedBinding
 import com.example.mybooks.databinding.ItemBooksavedBinding
-import com.example.mybooks.databinding.ItemThemeBinding
 
 class AdapterSavedBooks(val context: Context) :
     RecyclerView.Adapter<AdapterSavedBooks.ViewHolder>() {

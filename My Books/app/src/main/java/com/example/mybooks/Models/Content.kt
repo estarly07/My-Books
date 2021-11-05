@@ -1,8 +1,5 @@
 package com.example.mybooks.Models
 
-import androidx.annotation.NonNull
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
 import com.example.mybooks.Model.Entities.TextEntity
 
 class Content {

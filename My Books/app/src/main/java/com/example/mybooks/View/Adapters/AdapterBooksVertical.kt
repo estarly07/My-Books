@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.mybooks.Model.Entities.BookEntity
-import com.example.mybooks.R
 import com.example.mybooks.ViewModel.MenuViewModel
 import com.example.mybooks.databinding.ItemBookVerticalBinding
 

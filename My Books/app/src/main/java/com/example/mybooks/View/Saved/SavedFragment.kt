@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -18,7 +16,6 @@ import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.Models.User
 import com.example.mybooks.NameFragments
 import com.example.mybooks.R
-import com.example.mybooks.View.Adapters.AdapterBooksHorizontal
 import com.example.mybooks.View.Adapters.AdapterSavedBooks
 import com.example.mybooks.View.Book.BookFragment
 import com.example.mybooks.View.Menu.MenuActivity

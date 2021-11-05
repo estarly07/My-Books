@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Models.User
-import com.example.mybooks.validateStrings
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*

@@ -3,7 +3,6 @@ package com.example.mybooks.ViewModel
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mybooks.Model.Entities.BookEntity
@@ -16,17 +15,13 @@ import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Models.User
 import com.example.mybooks.R
 import com.example.mybooks.View.Menu.MenuActivity
-import com.example.mybooks.View.Menu.MenuFragment
 import com.example.mybooks.View.settings.SettingsFragment
-import com.example.mybooks.showToast
 import com.example.mybooks.validateEmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
-import java.util.concurrent.CountDownLatch
-import java.util.regex.Pattern
 
 class SettingsViewModel : ViewModel() {
     val countBook = MutableLiveData<Int>()
