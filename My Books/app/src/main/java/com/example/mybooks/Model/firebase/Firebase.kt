@@ -29,7 +29,11 @@ class Firebase {
         }
     }
 
-
+    /**REGISTRA EL USUARIO MEDIANTE UN CORREO EN LA AUTENTIFICACION DE LA FIREBASE
+     * @param email
+     * @param pass
+     * @param lister callback que nos permite quitar el dialogo de ingreso del correo y mostrar un mensaje (si es incorrecto solo se mostrara un mensaje)
+     * */
     fun registerUser(email: String, pass: String, lister: SettingsFragment.RegisterEmail) {
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             println(auth.currentUser?.uid)
@@ -43,6 +47,11 @@ class Firebase {
         }
     }
 
+    /**INICIAR SESIÓN  MEDIANTE UN CORREO EN LA AUTENTIFICACION DE LA FIREBASE
+     * @param email
+     * @param pass
+     * @param lister callback que nos permite quitar el dialogo de ingreso del correo y mostrar un mensaje (si es incorrecto solo se mostrara un mensaje)
+     * */
     fun loginUserEmail(email: String, pass: String, lister: SettingsFragment.RegisterEmail) {
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -55,7 +64,10 @@ class Firebase {
         }
     }
 
-    /**SALVAR LOS LIBROS EN FIREBASE*/
+    /**SALVAR LOS LIBROS EN CLOUD FIRESTORE
+     * @param context
+     * @param listBooks lista de libros que se quiere guardar en cloud firestore
+     * */
     fun saveBooks(context: Context, listBooks: List<BookEntity>) {
 
         val array = mutableListOf<Any>()
@@ -85,7 +97,9 @@ class Firebase {
 
     }
 
-    /**SALVAR LOS TEMAS EN FIREBASE*/
+    /**SALVAR LOS TEMAS EN CLOUD FIRESTORE
+     * @param context
+     * @param listThemes lista de temas que se quiere guardar en cloud firestore*/
     fun saveThemes(context: Context, listThemes: List<ThemeEntity>) {
         val array = mutableListOf<Any>()
         listThemes.forEach { theme ->
@@ -107,7 +121,9 @@ class Firebase {
 
     }
 
-    /**SALVAR LOS CONTENIDOS EN FIREBASE*/
+    /**SALVAR LOS CONTENIDOS EN CLOUD FIRESTORE
+     * @param context
+     * @param listContents lista de contenidos que se quiere guardar en cloud firestore*/
     fun saveContents(context: Context, listContents: List<ContentEntity>) {
         val array = mutableListOf<Any>()
         listContents.forEach { content ->
@@ -127,7 +143,9 @@ class Firebase {
             .set(contents)
     }
 
-    /**SALVAR LOS TEXTS EN FIREBASE*/
+    /**SALVAR LOS TEXTS EN CLOUD FIRESTORE
+     * @param context
+     * @param listText lista de textos que se quiere guardar en cloud firestore*/
     fun saveText(context: Context, listText: List<TextEntity>) {
         val array = mutableListOf<Any>()
         listText.forEach { text ->
@@ -148,6 +166,11 @@ class Firebase {
             .set(texts)
     }
 
+    /**
+     * OBTENER LOS LIBROS DE CLOUD FIRESTORE
+     * @param context
+     * @param callback callback que nos permite insertar los libros despues de obtenerlos
+     * */
     fun getBooksFirebase(context: Context, callback: CallBack) {
         firebase.collection(COLLECTION_BOOK.getName())
             .document(preferences.getToken(context = context)).get()
@@ -182,6 +205,11 @@ class Firebase {
             }
     }
 
+    /**
+     * OBTENER LOS TEMAS DE CLOUD FIRESTORE
+     * @param context
+     * @param callback callback que nos permite insertar los temas despues de obtenerlos
+     * */
     fun getThemesFirebase(context: Context, callback: CallBack) {
         firebase.collection(COLLECTION_THEMES.getName())
             .document(preferences.getToken(context = context)).get()
@@ -207,6 +235,11 @@ class Firebase {
             }
     }
 
+    /**
+     * OBTENER LOS CONTENIDOS DE CLOUD FIRESTORE
+     * @param context
+     * @param callback callback que nos permite insertar los contenidos despues de obtenerlos
+     * */
     fun getContentsFirebase(context: Context, callback: CallBack) {
         firebase.collection(COLLECTION_CONTENTS.getName())
             .document(preferences.getToken(context = context)).get()
@@ -232,6 +265,11 @@ class Firebase {
             }
     }
 
+    /**
+     * OBTENER LOS TEXTOS DE CLOUD FIRESTORE
+     * @param context
+     * @param callback callback que nos permite insertar los textos despues de obtenerlos
+     * */
     fun getTextFirebase(context: Context, callback: CallBack) {
         firebase.collection(COLLECTION_TEXTS.getName())
             .document(preferences.getToken(context = context)).get()
