@@ -26,9 +26,13 @@ class BookViewModel : ViewModel() {
     }
 
     /**
-     * @param isListSaved Para saber que lista obtener si toda  o solamente las que estan con estado de guardado
+     *ELIMINAR LOS TEMAS SELECCIONADOS
+     *
+     * @param isListSaved Saber que lista obtener despues de eliminar los temas seleccionados (Toda o los guardados)
+     * @param fk_idBook Id del libro del que se le van eliminar los temas
+     * @param ids Listado de ids de los temas a eliminar
      * */
-    fun deletTheme(context: Context, ids: MutableList<Int>, fk_idBook: Int, isListSaved: Boolean) {
+    fun deleteTheme(context: Context, ids: MutableList<Int>, fk_idBook: Int, isListSaved: Boolean) {
         useCase = UseCase(context)
 
         GlobalScope.launch(Dispatchers.Main) {
@@ -42,13 +46,20 @@ class BookViewModel : ViewModel() {
         }
     }
 
-    fun deleteBook(context: Context,bookEntity: BookEntity) {
+    /**
+     * @param bookEntity Libro a eliminar
+     * */
+    fun deleteBook(context: Context, bookEntity: BookEntity) {
         useCase = UseCase(context)
         GlobalScope.launch(Dispatchers.Main) {
             useCase?.deleteBook(bookEntity)
         }
     }
 
+    /**
+     * OBTENER LOS LIBROS GUARDADOS Y ASIGNARLOS A UNA VARIABLE LIVEDATA
+     * @param fk_idBook id del libro que contiene los temas a obtener
+     * */
     fun getSavedThemes(context: Context, fk_idBook: Int) {
         useCase = UseCase(context)
         GlobalScope.launch(Dispatchers.Main) {
