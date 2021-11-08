@@ -21,7 +21,11 @@ class ContentViewModel : ViewModel() {
         }
     }
 
-
+    /**
+     * OBTENER EL CONTENIDO POR TEMA (Lo obtenido se almacena en una variable livedata)
+     *
+     * @param idTheme id del tema que contiene el contenido
+     * */
     fun getContentByID(idTheme: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             val contents = useCase.getContentById(idTheme)
@@ -40,26 +44,42 @@ class ContentViewModel : ViewModel() {
         }
     }
 
+    /**
+     * ACTUALIZAR UN TEXTENTITY
+     *
+     * @param data       Texto nuevo con el cual se quiere modificar el TextEntity
+     * @param textEntity El textEntity que se quiere actualizar
+     * */
     fun updateData(data: String, textEntity: TextEntity) {
         textEntity.content = data
         GlobalScope.launch(Dispatchers.Main) {
             useCase.updateData(textEntity)
         }
-
     }
 
+    /**
+     * ACTUALIZAR EL SUBTITULO DE UN CONTENIDO
+     *
+     * @param subtitle Subtitulo nuevo con el cual se quiere actualizar
+     * @param content  El contenido que se quiere actualizar
+     * */
     fun updateSubtitle(subtitle: String, content: Content) {
         content.subTitle = subtitle
         val contentEntity = ContentEntity(
-            idContent = content.idContent,
-            subTitle = content.subTitle,
-            fk_idTheme = content.fk_idTheme
+            idContent   = content.idContent,
+            subTitle    = content.subTitle,
+            fk_idTheme  = content.fk_idTheme
         )
         GlobalScope.launch(Dispatchers.Main) {
             useCase.updateContent(content = contentEntity)
         }
     }
-
+    /**
+     * PONER UN TEMA EN UNA CATEGORIA (GUARDADO O NO GUARDADO), DEPENDIENDO DEL PARAMETRO BOOLEANO
+     *
+     * @param idTheme Id del tema a cambiar de categoria
+     * @param saved   Si se pone en la categoria de guardado (true) o no (false)
+     * */
     fun saveTheme(idTheme: Int, saved: Boolean) {
         GlobalScope.launch(Dispatchers.Main) {
             useCase.savedTheme(idTheme, saved)

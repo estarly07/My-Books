@@ -48,7 +48,6 @@ var colors = listOf(
 )
 
 /**EXTENSION PARA EL CAMBIO DE COLOR AL DARLE CLIC A ALGUN BOTON DEL TOOLBAR
- * @param listview => primer indice es el fondo (ImageView), segundo indices es el texto (TextView)
  * @param isPressed => Si fue presionado el boton
  * @param context
  * */
@@ -65,7 +64,6 @@ fun List<View?>.pressedButtonsToolbar(context: Context, isPressed: Boolean): Uni
 }
 
 /**EXTENSION PARA EL CAMBIO DE COLOR AL SELECCIONAR UN TEMA
- * @param listview => primer indice es el fondo (ImageView), segundo indice es el texto (TextView)
  * @param isSelect => Si fue seleccionado el tema
  * @param context
  * */
@@ -110,8 +108,8 @@ fun View.selectTypeTextOrImage(context: Context, select: Boolean) {
 }
 
 /**EXTENSION PARA VALIDAR EL EMAIL
-@return Boolean true => Si es correcto el email
- *                false => Si es incorrecto el email
+@return Boolean true  => Si es correcto el email
+ *              false => Si es incorrecto el email
  * */
 fun String.validateEmail(): Boolean {
     val pattern = Pattern.compile(
