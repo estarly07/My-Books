@@ -23,29 +23,25 @@ import java.util.concurrent.CountDownLatch
 class Notificacion : IntentService("MyService") {
 
 
-    val PROGRESS_MAX = 100
-    var PROGRESS_CURRENT = 0
-    var NOTIFICATION_CHANNEL_ID = ""
+    private val PROGRESS_MAX             = 100
+    private var PROGRESS_CURRENT         = 0
+    private var NOTIFICATION_CHANNEL_ID  = ""
+    private val notificationId           = 1
+
     lateinit var builder: NotificationCompat.Builder
-    val notificationId = 1
 
     override fun onCreate() {
         super.onCreate()
         NOTIFICATION_CHANNEL_ID = applicationContext.getString(R.string.app_name)
-
-
-
-
         builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).apply {
-            setContentTitle(applicationContext.getString(R.string.titleNotificacion))
-            setSilent(true)
-            setContentText(applicationContext.getString(R.string.contentNotificacion))
-            setSmallIcon(R.drawable.ic_logo)
-            setPriority(NotificationCompat.PRIORITY_LOW)
+            setContentTitle (applicationContext.getString(R.string.titleNotificacion))
+            setSilent       (true)
+            setContentText  (applicationContext.getString(R.string.contentNotificacion))
+            setSmallIcon    (R.drawable.ic_logo)
+            priority        =NotificationCompat.PRIORITY_LOW
         }
 
         NotificationManagerCompat.from(this).apply {
-
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 var mChannel = getNotificationChannel(
@@ -53,16 +49,21 @@ class Notificacion : IntentService("MyService") {
                 )
                 if (mChannel == null) {
                     mChannel = NotificationChannel(
-                        NOTIFICATION_CHANNEL_ID // default_channel_id, title, importance
-                        , NOTIFICATION_CHANNEL_ID, NotificationManager.IMPORTANCE_LOW
+                        NOTIFICATION_CHANNEL_ID, // default_channel_id, title, importance
+                        NOTIFICATION_CHANNEL_ID,
+                        NotificationManager.IMPORTANCE_LOW
                     )
                     mChannel.enableVibration(false)
                     createNotificationChannel(mChannel)
                 }
             }
 
-            builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
-            notify(notificationId, builder.build())
+            builder.setProgress(
+                PROGRESS_MAX,
+                PROGRESS_CURRENT,
+                false)
+            notify(notificationId, builder.build()
+            )
 
 
         }
@@ -73,17 +74,19 @@ class Notificacion : IntentService("MyService") {
     @SuppressLint("WrongThread")
     override fun onHandleIntent(p0: Intent?) {
         val countDownLatch = CountDownLatch(1)
-        val useCase = UseCase(this)
-        val preferences = SharedPreferences.getInstance()
+        val useCase        = UseCase(this)
+        val preferences    = SharedPreferences.getInstance()
+
         GlobalScope.launch(Dispatchers.Main) {
-            val books = useCase.getAllBooks(preferences.getIdUser(this@Notificacion))
+            val books= useCase.getAllBooks(preferences.getIdUser(this@Notificacion))
             if (books.isNotEmpty()) {
                 NotificationManagerCompat.from(this@Notificacion).apply {
 
                     useCase.saveBooksFirebase(this@Notificacion,books)
-                    val listThemes = mutableListOf<ThemeEntity>()
-                    val listContents = mutableListOf<ContentEntity>()
-                    val listTexts = mutableListOf<TextEntity>()
+                    val listThemes      = mutableListOf<ThemeEntity>()
+                    val listContents    = mutableListOf<ContentEntity>()
+                    val listTexts       = mutableListOf<TextEntity>()
+
                     books.forEach { bookEntity ->
                         val themes = useCase.getThemes(bookEntity.id_book)
                         themes.forEach { theme ->
@@ -98,11 +101,14 @@ class Notificacion : IntentService("MyService") {
                             }
                         }
                         delay(500)
-                        increaseProgress(notificacion = this, progres = (100 / books.size))
+                        increaseProgress(
+                            notificacion = this,
+                            progress = (100 / books.size)
+                        )
                     }
-                    useCase.saveThemesFirebase(this@Notificacion,listThemes)
+                    useCase.saveThemesFirebase (this@Notificacion,listThemes)
                     useCase.saveContentFirebase(this@Notificacion,listContents)
-                    useCase.saveTextFirebase(this@Notificacion,listTexts)
+                    useCase.saveTextFirebase   (this@Notificacion,listTexts)
                     countDownLatch.countDown()
 
                 }
@@ -112,13 +118,17 @@ class Notificacion : IntentService("MyService") {
             }
         }
         countDownLatch.await()
-        println("Termino")
 
     }
 
-    fun increaseProgress(notificacion: NotificationManagerCompat, progres: Int): Unit {
-        PROGRESS_CURRENT += progres
-        builder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false)
+
+    fun increaseProgress(notificacion: NotificationManagerCompat, progress: Int): Unit {
+        PROGRESS_CURRENT += progress
+        builder.setProgress(
+            PROGRESS_MAX,
+            PROGRESS_CURRENT,
+            false
+        )
 
         notificacion.notify(notificationId, builder.build())
 

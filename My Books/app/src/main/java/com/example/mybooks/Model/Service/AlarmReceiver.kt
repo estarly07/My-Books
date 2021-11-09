@@ -25,9 +25,9 @@ class AlarmReceiver : BroadcastReceiver() {
             today.set(Calendar.HOUR_OF_DAY, 24)
             today.set(Calendar.MINUTE,  0)
             today.set(Calendar.SECOND, 0)
-            println("${today.timeInMillis} ${today.get(Calendar.DAY_OF_MONTH)}")
-            sharedPreferences.saveCountSincronized(context)
-            AlarmService.getInstance().setAlarm(context, today.timeInMillis, 1)
+
+            sharedPreferences.saveCountSincronized (context)
+            AlarmService.getInstance().setAlarm    (context, today.timeInMillis, 1)
 
             val service = Intent(context, Notificacion::class.java)
             service.setData(Uri.parse("custom://" + System.currentTimeMillis()))
