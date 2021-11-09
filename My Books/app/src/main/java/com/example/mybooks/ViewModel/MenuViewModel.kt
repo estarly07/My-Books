@@ -12,9 +12,9 @@ import java.util.*
 
 class MenuViewModel : ViewModel() {
 
-    private val user = User.getInstance()
-    val bookCreate = MutableLiveData<BookEntity>()
-    var listBook = MutableLiveData<List<BookEntity>>()
+    private val user    = User.getInstance()
+    val bookCreate      = MutableLiveData<BookEntity>()
+    var listBook        = MutableLiveData<List<BookEntity>>()
     var listBookRecents = MutableLiveData<List<BookEntity>>()
 
     companion object {
@@ -25,23 +25,28 @@ class MenuViewModel : ViewModel() {
         }
     }
 
-
+    /**
+     * OBTENER TODOS LOS LIBROS Y SE GUARDA EN UNA VARIABLE LIVEDATA
+     * */
     fun getAllBooks() {
-
         CoroutineScope(Dispatchers.Main).launch {
             listBook.value = withContext(Dispatchers.IO) { useCase?.getAllBooks(user.id) }!!
         }
-
     }
 
+    /**
+     * OBTENER TODOS LOS LIBROS RECIENTES Y SE GUARDA EN UNA VARIABLE LIVEDATA
+     * */
     fun getRecentsBooks() {
-
         GlobalScope.launch(Dispatchers.Main) {
             listBookRecents.value =
                 withContext(Dispatchers.IO) { useCase?.getRecentsBooks(getDateNow()) }!!
         }
     }
 
+    /**
+     * ACTUALIZAR LA FECHA QUE FUE ABIERTO EL LIBRO
+     * */
     fun updateDateOpenBook(idBook: Int) {
         GlobalScope.launch(Dispatchers.Main) {
             useCase?.updateDateOpen(date = getDateNow(), idBook = idBook)
@@ -49,11 +54,20 @@ class MenuViewModel : ViewModel() {
 
     }
 
+    /**
+     * OBTENER LA FECHA ACTUAL
+     * */
     fun getDateNow(): String {
         val formateDate = SimpleDateFormat("dd/M/yyyy")
         return formateDate.format(Date())
     }
 
+    /**
+     * GUARDAR O DESGUARDAR UN LIBRO
+     * 
+     * @param isSaved Guardar(true) o quitar(false)
+     * @param idBook  Id del book a guardar
+     * */
     fun updateStateBook(context: Context, isSaved: Boolean, idBook: Int) {
 //        useCase = UseCase(context)
         GlobalScope.launch(Dispatchers.Main) {

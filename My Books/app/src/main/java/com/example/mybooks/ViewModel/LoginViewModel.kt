@@ -18,9 +18,9 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     private lateinit var useCase : UseCase
-    private val isLogin                     = MutableLiveData<EnumValidate>()
-    private var user:User                   = User.getInstance()
-    private val sharedPreferences           = SharedPreferences.getInstance()
+    val isLogin                     = MutableLiveData<EnumValidate>()
+    var user:User                   = User.getInstance()
+    val sharedPreferences           = SharedPreferences.getInstance()
 
     /**
      * REGISTRAR UN USUARIO
