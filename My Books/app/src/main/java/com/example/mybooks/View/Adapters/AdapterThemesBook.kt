@@ -168,7 +168,7 @@ class AdapterThemesBook() :
                 } else
                     clic?.onClic(
                         theme      = list[position],
-                        position   = position, 
+                        position   = position,
                         view       = view)
         }
     }

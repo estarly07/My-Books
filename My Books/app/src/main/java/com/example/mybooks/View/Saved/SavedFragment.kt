@@ -26,11 +26,11 @@ import com.example.mybooks.databinding.FragmentSavedBinding
 
 class SavedFragment : Fragment() {
     private lateinit var _binding: FragmentSavedBinding
-    private val binding get() = _binding
-    private val saveViewModel: SaveViewModel by viewModels()
-    private val menuViewModel: MenuViewModel by viewModels()
-    private val global = Global.getInstance()
-    private val user = User.getInstance()
+    private val binding get()    = _binding
+    private val saveViewModel    : SaveViewModel by viewModels()
+    private val menuViewModel    : MenuViewModel by viewModels()
+    private val global           = Global.getInstance()
+    private val user             = User.getInstance()
 
     companion object {
         private lateinit var data: GetDataCallBack
@@ -71,9 +71,7 @@ class SavedFragment : Fragment() {
                 binding.txtNameUser.text =
                     ("${view.context.resources.getString(R.string.Hello)}, ${user.name}!!")
             }
-
         }
-
 
         val scrollListener = MenuActivity.getOnScroll()
         binding.scrollAllBooks.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
@@ -88,14 +86,14 @@ class SavedFragment : Fragment() {
 
         binding.reciclerLibros.setHasFixedSize(true)
         binding.reciclerLibros.isNestedScrollingEnabled = false
-        binding.reciclerLibros.layoutManager = GridLayoutManager(view.context, 2)
-        val adapterSavedBooks = AdapterSavedBooks(view.context)
-        binding.reciclerLibros.adapter = adapterSavedBooks
+        binding.reciclerLibros.layoutManager     = GridLayoutManager(view.context, 2)
+        val adapterSavedBooks                    = AdapterSavedBooks(view.context)
+        binding.reciclerLibros.adapter           = adapterSavedBooks
 
 
         global?.view = view
         MenuActivity.getOnScroll()?.showButtonBook(show = false)
-        MenuActivity.getOnScroll()?.showToolbar(show = true)
+        MenuActivity.getOnScroll()?.showToolbar   (show = true)
 
         adapterSavedBooks.setClick(object : AdapterSavedBooks.Click {
             override fun clic(book: BookEntity, position: Int, view: View) {
@@ -123,10 +121,10 @@ class SavedFragment : Fragment() {
     /**SI NO HAY LIBROS MOSTRAR UNA ANIMACION*/
     private fun visibleWait(visibility: Boolean) {
         if (visibility) {
-            binding.wait.visibility = View.VISIBLE
+            binding.wait.visibility            = View.VISIBLE
             binding.containerScroll.visibility = View.INVISIBLE
         }else{
-            binding.wait.visibility = View.INVISIBLE
+            binding.wait.visibility            = View.INVISIBLE
             binding.containerScroll.visibility = View.VISIBLE
         }
     }

@@ -29,12 +29,12 @@ import com.example.mybooks.showToast
 
 class ContentFragment : Fragment() {
     lateinit var _binding: FragmentContentBinding
-    val binding get() = _binding
-    val contentViewModel: ContentViewModel by viewModels()
+    val binding get()    = _binding
+    val contentViewModel : ContentViewModel by viewModels()
 
-    val global = Global.getInstance()
+    val global  = Global.getInstance()
     val adapter = AdapterContent()
-    val scroll = MenuActivity.getOnScroll()
+    val scroll  = MenuActivity.getOnScroll()
 
     companion object {
         private lateinit var theme: ThemeEntity
@@ -46,7 +46,7 @@ class ContentFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentContentBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -55,7 +55,7 @@ class ContentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (theme.importance == 1) {
             binding.btnThemeQuitarGuardar.visibility = View.VISIBLE
-            binding.btnThemeGuardar.visibility = View.GONE
+            binding.btnThemeGuardar.visibility       = View.GONE
         }
         global?.view = view
 
@@ -69,32 +69,36 @@ class ContentFragment : Fragment() {
         scroll?.showButtonBook(show = false)
 
         binding.reciclerContent.layoutManager =
-            LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(
+                view.context,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
         binding.reciclerContent.setHasFixedSize(true)
         binding.reciclerContent.isNestedScrollingEnabled = false
 
         adapter.setClic(object : AdapterContent.Clic {
             override fun clic(
-                textEntity: TextEntity,
-                positionText: Int,
-                positionContenido: Int,
-                view: View
+                textEntity        : TextEntity,
+                positionText      : Int,
+                positionContenido : Int,
+                view              : View
             ) {
                 if (textEntity.type == "TEXT") {
                     showDialogText(
                         view.context,
-                        text = textEntity.content,
-                        textEntity = textEntity,
+                        text            = textEntity.content,
+                        textEntity      = textEntity,
                         positionContent = positionContenido,
-                        positionText = positionText
+                        positionText    = positionText
                     )
                 } else {
                     showDialogImage(
                         view.context,
-                        img = textEntity.content,
-                        textEntity = textEntity,
+                        img             = textEntity.content,
+                        textEntity      = textEntity,
                         positionContent = positionContenido,
-                        positionText = positionText
+                        positionText    = positionText
                     )
                 }
             }
@@ -102,12 +106,10 @@ class ContentFragment : Fragment() {
             override fun clicSubtitle(content: Content, position: Int, view: View) {
                 showDialogSubtitle(
                     view.context,
-                    content = content,
+                    content  = content,
                     position = position
                 )
             }
-
-
         })
         binding.reciclerContent.adapter = adapter
         binding.btnAddContent.setOnClickListener {
@@ -130,13 +132,11 @@ class ContentFragment : Fragment() {
 
             binding.btnThemeQuitarGuardar.playAnimation()
             binding.btnThemeQuitarGuardar.visibility = View.VISIBLE
-            binding.btnThemeGuardar.visibility = View.GONE
+            binding.btnThemeGuardar.visibility       = View.GONE
             contentViewModel.saveTheme(
                 idTheme = theme.idTheme,
-                saved = true
-
+                saved   = true
             )
-
         }
         binding.btnThemeQuitarGuardar.setOnClickListener { view ->
 
@@ -144,12 +144,9 @@ class ContentFragment : Fragment() {
             binding.btnThemeGuardar.visibility = View.VISIBLE
             contentViewModel.saveTheme(
                 idTheme = theme.idTheme,
-                saved = false
+                saved   = false
             )
-
-
         }
-
         contentViewModel.getContentByID(theme.idTheme)
     }
 
@@ -157,6 +154,7 @@ class ContentFragment : Fragment() {
         binding.dialogWrite.root.animAppear(context, duration = 1000)
         binding.dialogWrite.edtContentWrite.setText(content.subTitle)
         binding.dialogWrite.edtContentWrite.requestFocus()
+
         binding.dialogWrite.btnCancelDialogWrite.setOnClickListener {
 
             binding.dialogWrite.root.animVanish(it.context, 400)
@@ -164,23 +162,20 @@ class ContentFragment : Fragment() {
         binding.dialogWrite.btnAceptDialogWrite.setOnClickListener {
             val txt = binding.dialogWrite.edtContentWrite.text.toString().trim()
             addEditSubtitle(
-                context = it.context,
-                subtitle = txt,
-                content = content,
+                context         = it.context,
+                subtitle        = txt,
+                content         = content,
                 positionContent = position
             )
-
-
         }
-
     }
 
     private fun showDialogText(
-        context: Context,
-        text: String,
-        textEntity: TextEntity,
-        positionContent: Int,
-        positionText: Int
+        context         : Context,
+        text            : String,
+        textEntity      : TextEntity,
+        positionContent : Int,
+        positionText    : Int
     ) {
         binding.dialogWrite.root.animAppear(context, 1000)
         binding.dialogWrite.edtContentWrite.setText(text)
@@ -193,41 +188,39 @@ class ContentFragment : Fragment() {
         binding.dialogWrite.btnAceptDialogWrite.setOnClickListener {
             val txt = binding.dialogWrite.edtContentWrite.text.toString().trim()
             addEdittext(
-                context = it.context,
-                content = txt,
-                textEntity = textEntity,
+                context         = it.context,
+                content         = txt,
+                textEntity      = textEntity,
                 positionContent = positionContent,
-                positionText = positionText
+                positionText    = positionText
             )
-
-
         }
     }
 
     private fun showDialogImage(
-        context: Context,
-        img: String,
-        textEntity: TextEntity,
-        positionContent: Int,
-        positionText: Int
+        context         : Context,
+        img             : String,
+        textEntity      : TextEntity,
+        positionContent : Int,
+        positionText    : Int
     ) {
         binding.dialogImage.root.animAppear(context, 1000)
         binding.dialogImage.edtNameBook.setText(img)
         binding.dialogImage.edtNameBook.requestFocus()
         binding.dialogImage.btnAcept.setOnClickListener {
             addImage(
-                context = it.context,
-                image = binding.dialogImage.edtNameBook.text.toString().trim(),
-                textEntity = textEntity,
+                context         = it.context,
+                image           = binding.dialogImage.edtNameBook.text.toString().trim(),
+                textEntity      = textEntity,
                 positionContent = positionContent,
-                positionText = positionText
+                positionText    = positionText
             )
 
 
         }
         binding.dialogImage.btnCancel.setOnClickListener {
             binding.dialogImage.root.animVanish(
-                context = it.context,
+                context  = it.context,
                 duration = 300
             )
 
@@ -235,11 +228,11 @@ class ContentFragment : Fragment() {
     }
 
     private fun addImage(
-        context: Context,
-        image: String,
-        textEntity: TextEntity,
-        positionContent: Int,
-        positionText: Int
+        context         : Context,
+        image           : String,
+        textEntity      : TextEntity,
+        positionContent : Int,
+        positionText    : Int
     ): Unit {
         if (image == "") {
             "Llena el campo".showToast(context, Toast.LENGTH_SHORT, R.layout.toast_login)
@@ -247,8 +240,8 @@ class ContentFragment : Fragment() {
         }
 
         adapter.setObject(
-            content = image,
-            positionText = positionText,
+            content           = image,
+            positionText      = positionText,
             positionContenido = positionContent
         )
         contentViewModel.updateData(data = image, textEntity = textEntity)
@@ -256,15 +249,15 @@ class ContentFragment : Fragment() {
     }
 
     private fun addEdittext(
-        context: Context,
-        content: String,
-        textEntity: TextEntity,
-        positionContent: Int,
-        positionText: Int
+        context         : Context,
+        content         : String,
+        textEntity      : TextEntity,
+        positionContent : Int,
+        positionText    : Int
     ) {
         if (content == "") {
             "Ingresa algo".showToast(
-                context = context,
+                context  = context,
                 duration = Toast.LENGTH_SHORT,
                 resource = R.layout.toast_login
             )
@@ -272,12 +265,12 @@ class ContentFragment : Fragment() {
         }
 
         adapter.setObject(
-            content = content,
-            positionText = positionText,
+            content           = content,
+            positionText      = positionText,
             positionContenido = positionContent
         )
         binding.dialogImage.root.animVanish(
-            context = context,
+            context  = context,
             duration = 300
         )
         binding.dialogWrite.root.animVanish(context, 400)
@@ -286,14 +279,14 @@ class ContentFragment : Fragment() {
     }
 
     private fun addEditSubtitle(
-        context: Context,
-        subtitle: String,
-        content: Content,
-        positionContent: Int,
+        context         : Context,
+        subtitle        : String,
+        content         : Content,
+        positionContent : Int,
     ) {
         if (subtitle == "") {
             "Ingresa algo".showToast(
-                context = context,
+                context  = context,
                 duration = Toast.LENGTH_SHORT,
                 resource = R.layout.toast_login
             )
@@ -301,15 +294,18 @@ class ContentFragment : Fragment() {
         }
 
         adapter.setSubtitle(
-            subtitle = subtitle,
+            subtitle          = subtitle,
             positionContenido = positionContent
         )
         binding.dialogImage.root.animVanish(
-            context = context,
+            context  = context,
             duration = 300
         )
         binding.dialogWrite.root.animVanish(context, 400)
-      contentViewModel.updateSubtitle(subtitle = subtitle, content = content)
+      contentViewModel.updateSubtitle(
+          subtitle = subtitle,
+          content  = content
+      )
 
     }
 }

@@ -28,12 +28,12 @@ import com.example.mybooks.databinding.FragmentMenuBinding
 
 
 class MenuFragment : Fragment() {
-    private lateinit var _binding: FragmentMenuBinding
-    private val binding get() = _binding
-    private val menuViewModel: MenuViewModel by viewModels()
-    private var adapter: AdapterBooksVertical = AdapterBooksVertical()
-    private val global = Global.getInstance()
-    private val user = User.getInstance()
+    private lateinit var _binding : FragmentMenuBinding
+    private val binding get()     = _binding
+    private val menuViewModel     : MenuViewModel by viewModels()
+    private var adapter           : AdapterBooksVertical = AdapterBooksVertical()
+    private val global            = Global.getInstance()
+    private val user              = User.getInstance()
 
     interface CallBack {
         fun getData()
@@ -72,9 +72,9 @@ class MenuFragment : Fragment() {
 
         }
         global?.fragment = NameFragments.MENU
-        global?.view = view
+        global?.view     = view
         MenuActivity.getOnScroll()?.showButtonBook(show = false)
-        MenuActivity.getOnScroll()?.showToolbar(show = true)
+        MenuActivity.getOnScroll()?.showToolbar   (show = true)
         binding.scrollAllBooks.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (scrollY > oldScrollY)
                 MenuActivity.getOnScroll()?.scrollChangeToolbar(false)
@@ -131,8 +131,7 @@ class MenuFragment : Fragment() {
             }
         })
         menuViewModel.listBook.observe(viewLifecycleOwner, { list ->
-            println(list.size)
-            visibleWait(list.isEmpty())
+            visibleWait    (list.isEmpty())
             adapter.setlist(list)
         })
 
@@ -162,10 +161,10 @@ class MenuFragment : Fragment() {
     /**SI NO HAY LIBROS MOSTRAR UNA ANIMACION*/
     private fun visibleWait(showAnim: Boolean) {
         if (showAnim) {
-            binding.wait.visibility = View.VISIBLE
+            binding.wait.visibility            = View.VISIBLE
             binding.containerScroll.visibility = View.INVISIBLE
         } else {
-            binding.wait.visibility = View.INVISIBLE
+            binding.wait.visibility            = View.INVISIBLE
             binding.containerScroll.visibility = View.VISIBLE
         }
     }

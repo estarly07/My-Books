@@ -10,11 +10,11 @@ import com.example.mybooks.R
  * @param duration duracion de cuanto tiempo va a tardar la animacion
  * */
 fun View.animAppear(context: Context, duration: Int): Unit {
-    val animations = AnimationUtils.loadAnimation(context, R.anim.anim_appear)
+    val animations      = AnimationUtils.loadAnimation(context, R.anim.anim_appear)
     animations.duration = duration.toLong()
 
-    this.visibility = View.VISIBLE
-    this.animation = animations
+    this.visibility     = View.VISIBLE
+    this.animation      = animations
 }
 
 /**EXTENSION PARA OCULTAR UNA VIEW CON UNA ANIMACIÓN
@@ -22,10 +22,10 @@ fun View.animAppear(context: Context, duration: Int): Unit {
  * @param duration duracion de cuanto tiempo va a tardar la animacion
  * */
 fun View.animVanish(context: Context, duration: Int): Unit {
-    val animations = AnimationUtils.loadAnimation(context, R.anim.anim_vanish)
-    this.visibility = View.INVISIBLE
+    val animations      = AnimationUtils.loadAnimation(context, R.anim.anim_vanish)
+    this.visibility     = View.INVISIBLE
     animations.duration = duration.toLong()
-    this.animation = animations
+    this.animation      = animations
 }
 
 /**EXTENSION PARA MOVER A LA IZQUIERDA UNA VIEW CON UNA ANIMACIÓN
@@ -33,15 +33,15 @@ fun View.animVanish(context: Context, duration: Int): Unit {
  * @param duration duracion de cuanto tiempo va a tardar la animacion
  * */
 fun View.animTraslateToLeft(context: Context, duration: Int): Unit {
-    val animations = AnimationUtils.loadAnimation(context, R.anim.anim_traslate_toleft)
-    this.visibility = View.VISIBLE
+    val animations      = AnimationUtils.loadAnimation(context, R.anim.anim_traslate_toleft)
+    this.visibility     = View.VISIBLE
     animations.duration = duration.toLong()
-    this.animation = animations
+    this.animation      = animations
 }
 
 /**EXTENSION PARA MOVER ASIA ARRIBA O ABAJO  UNA VIEW CON UNA ANIMACIÓN
- * @param isUp true => Mover asia arriba false => Mover asia abajo
- * @param duration duracion de cuanto tiempo va a tardar la animacion
+ * @param isUp      true => Mover asia arriba false => Mover asia abajo
+ * @param duration  duracion de cuanto tiempo va a tardar la animacion
  * */
 fun View.animTraslateToBottomOrUp(isUp: Boolean , duration: Long) {
     val moveY = if (isUp)  0  else  this.height * 2

@@ -25,12 +25,12 @@ import com.example.mybooks.showToast
 
 
 class FormsFragment : Fragment() {
-    lateinit var _binding: FragmentFormsBinding
-    val binding get() = _binding
-    val global = Global.getInstance()
-    val formsViewModel: FormsViewModel by viewModels()
-    val adapter = AdapterContentText()
-    var cont = 0
+    lateinit var _binding : FragmentFormsBinding
+    val binding get()     = _binding
+    val global            = Global.getInstance()
+    val formsViewModel    : FormsViewModel by viewModels()
+    val adapter           = AdapterContentText()
+    var cont              = 0
 
     interface DeleteSelect {
         fun deleteSelect()
@@ -99,15 +99,15 @@ class FormsFragment : Fragment() {
                     override fun clic(textEntity: TextEntity, position: Int, view: View) {
                         if (textEntity.type == "TEXT") {
                             showDialogText(
-                                context = view.context,
-                                text = textEntity.content,
+                                context  = view.context,
+                                text     = textEntity.content,
                                 isModify = true,
                                 position = position
                             )
                         } else {
                             showDialogImage(
-                                context = view.context,
-                                img = textEntity.content,
+                                context  = view.context,
+                                img      = textEntity.content,
                                 isModify = true,
                                 position = position
                             )
@@ -126,15 +126,15 @@ class FormsFragment : Fragment() {
                     override fun clic(textEntity: TextEntity, position: Int, view: View) {
                         if (textEntity.type == "TEXT") {
                             showDialogText(
-                                context = view.context,
-                                text = textEntity.content,
+                                context  = view.context,
+                                text     = textEntity.content,
                                 isModify = true,
                                 position = position
                             )
                         } else {
                             showDialogImage(
-                                context = view.context,
-                                img = textEntity.content,
+                                context  = view.context,
+                                img      = textEntity.content,
                                 isModify = true,
                                 position = position
                             )
@@ -151,7 +151,7 @@ class FormsFragment : Fragment() {
 
         global?.view = view
         MenuActivity.getOnScroll()?.showButtonBook(show = false)
-        MenuActivity.getOnScroll()?.showToolbar(show = false)
+        MenuActivity.getOnScroll()?.showToolbar   (show = false)
 
         binding.formBook.btnAddBook.setOnClickListener {
             if (binding.formBook.btnAddBook.text == "Modificar libro")
@@ -181,7 +181,8 @@ class FormsFragment : Fragment() {
         binding.formTheme.btnAddBook.setOnClickListener {
             if (binding.formTheme.btnAddBook.text == "Modificar tema") {
                 formsViewModel.updateTheme(
-                    context = view.context, data = listOf(
+                    context  = view.context,
+                    data     = listOf(
                         binding.formTheme.edtNameBook.text.trim().toString(),
                     ),
                     themeOld = theme
@@ -189,7 +190,8 @@ class FormsFragment : Fragment() {
                 binding.formTheme.edtNameBook.setText("")
             } else {
                 formsViewModel.insertTheme(
-                    context = view.context, data = listOf(
+                    context = view.context,
+                    data    = listOf(
                         "0",
                         binding.formTheme.edtNameBook.text.trim().toString(),
                         "false",
@@ -206,22 +208,30 @@ class FormsFragment : Fragment() {
         binding.formContent.reciclerContentText.adapter = adapter
 
         binding.formContent.btnImageContent.setOnClickListener {
-            showDialogImage(context = it.context, img = "", isModify = false, position = 0)
+            showDialogImage(
+                context  = it.context,
+                img      = "",
+                isModify = false,
+                position = 0)
 
         }
         binding.formContent.btnWriteContent.setOnClickListener {
-            showDialogText(it.context, text = "", isModify = false, position = 0)
+            showDialogText(
+                it.context,
+                text     = "",
+                isModify = false,
+                position = 0)
 
         }
         binding.formContent.btnAddText.setOnClickListener { view ->
 
             formsViewModel.insertContent(
-                context = view.context,
+                context  = view.context,
                 subTitle = binding.formContent.edtSubtitle.text.toString().trim(),
-                idTheme = theme.idTheme,
-                data = this.adapter.getList(),
-                view = view,
-                type = formType
+                idTheme  = theme.idTheme,
+                data     = this.adapter.getList(),
+                view     = view,
+                type     = formType
             )
 
 
@@ -241,20 +251,22 @@ class FormsFragment : Fragment() {
             return
         }
         if (isModify) {
-            adapter.setObject(content = image, position = position)
+            adapter.setObject(
+                content  = image,
+                position = position)
         } else {
             binding.formContent.containerEmpty.visibility = View.GONE
             cont++
             adapter.setList(
                 TextEntity(
-                    id_text = cont,
-                    content = image,
-                    type = "IMAGE",
+                    id_text       = cont,
+                    content       = image,
+                    type          = "IMAGE",
                     fk_id_content = 0
                 )
             )
             binding.formContent.dialogImage.root.animVanish(
-                context = context,
+                context  = context,
                 duration = 300
             )
         }
@@ -263,22 +275,25 @@ class FormsFragment : Fragment() {
     private fun addEdittext(context: Context, content: String, isModify: Boolean, position: Int) {
         if (content == "") {
             "Ingresa algo".showToast(
-                context = context,
+                context  = context,
                 duration = Toast.LENGTH_SHORT,
                 resource = R.layout.toast_login
             )
             return
         }
         if (isModify) {
-            adapter.setObject(content = content, position = position)
+            adapter.setObject(
+                content  = content,
+                position = position
+            )
         } else {
             binding.formContent.containerEmpty.visibility = View.GONE
             cont++
             adapter.setList(
                 TextEntity(
-                    id_text = cont,
-                    content = content,
-                    type = "TEXT",
+                    id_text       = cont,
+                    content       = content,
+                    type          = "TEXT",
                     fk_id_content = 0
                 )
             )
@@ -296,8 +311,8 @@ class FormsFragment : Fragment() {
         binding.formContent.dialogWrite.btnAceptDialogWrite.setOnClickListener {
             val txt = binding.formContent.dialogWrite.edtContentWrite.text.toString().trim()
             addEdittext(
-                context = it.context,
-                content = txt,
+                context  = it.context,
+                content  = txt,
                 isModify = isModify,
                 position = position
             )
@@ -311,19 +326,20 @@ class FormsFragment : Fragment() {
         binding.formContent.dialogImage.edtNameBook.requestFocus()
         binding.formContent.dialogImage.btnAcept.setOnClickListener {
             addImage(
-                context = it.context,
-                image = binding.formContent.dialogImage.edtNameBook.text.toString().trim(),
-                isModify = isModify, position = position
+                context  = it.context,
+                image    = binding.formContent.dialogImage.edtNameBook.text.toString().trim(),
+                isModify = isModify,
+                position = position
             )
             binding.formContent.dialogImage.root.animVanish(
-                context = it.context,
+                context  = it.context,
                 duration = 300
             )
 
         }
         binding.formContent.dialogImage.btnCancel.setOnClickListener {
             binding.formContent.dialogImage.root.animVanish(
-                context = it.context,
+                context  = it.context,
                 duration = 200
             )
 

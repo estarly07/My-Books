@@ -30,16 +30,16 @@ import com.example.mybooks.textChange
 
 class SearchFragment : Fragment() {
     lateinit var _binding: FragmentSearchBinding
-    val binding get() = _binding
-    val searchViewModel: SearchViewModel by viewModels()
-    val menuViewModel: MenuViewModel by viewModels()
-    var global: Global? = Global.getInstance()
+    val binding get()    = _binding
+    val searchViewModel  : SearchViewModel by viewModels()
+    val menuViewModel    : MenuViewModel by viewModels()
+    var global           : Global? = Global.getInstance()
 
     enum class Filters {
         ALL, BOOKS, THEMES
     }
 
-    private var filter = Filters.BOOKS
+    private var filter   = Filters.BOOKS
     private var txtInput = ""
 
     /**ALMACENAR EL TEXTO INGRESADO POR EL USUARIO*/
@@ -58,18 +58,16 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         global?.fragment = NameFragments.MENU
-        global?.view = view
+        global?.view     = view
         MenuActivity.getOnScroll()?.showButtonBook(show = false)
-        MenuActivity.getOnScroll()?.showToolbar(show = true)
+        MenuActivity.getOnScroll()?.showToolbar   (show = true)
         SearchViewModel.initUseCase(view.context)
         binding.edtSearch.textChange { text ->
             txtInput = text
-            println(text)
-            println(filter.toString())
             when (filter) {
-                Filters.BOOKS -> searchViewModel.searchBooks(name = text)
+                Filters.BOOKS  -> searchViewModel.searchBooks (name = text)
                 Filters.THEMES -> searchViewModel.searchThemes(name = text)
-                Filters.ALL -> searchViewModel.searchAll(name = text)
+                Filters.ALL    -> searchViewModel.searchAll   (name = text)
             }
 
         }
@@ -86,7 +84,7 @@ class SearchFragment : Fragment() {
         binding.recicleResultSearch.adapter = adapterBooks
         searchViewModel.listSearchBooks.observe(viewLifecycleOwner, { list ->
             if (list.isEmpty()) {
-                binding.containerNoSearch.visibility = View.VISIBLE
+                binding.containerNoSearch.visibility   = View.VISIBLE
                 binding.recicleResultSearch.visibility = View.INVISIBLE
             } else {
                 val adapter = AdapterBooksVertical()
@@ -105,15 +103,15 @@ class SearchFragment : Fragment() {
 
                     }
                 })
-                binding.recicleResultSearch.adapter = adapter
+                binding.recicleResultSearch.adapter    = adapter
                 adapter.setlist(list as MutableList<BookEntity>)
-                binding.containerNoSearch.visibility = View.INVISIBLE
+                binding.containerNoSearch.visibility   = View.INVISIBLE
                 binding.recicleResultSearch.visibility = View.VISIBLE
             }
         })
         searchViewModel.listSearchThemes.observe(viewLifecycleOwner, { list ->
             if (list.isEmpty()) {
-                binding.containerNoSearch.visibility = View.VISIBLE
+                binding.containerNoSearch.visibility   = View.VISIBLE
                 binding.recicleResultSearch.visibility = View.INVISIBLE
             } else {
                 val adapter = AdapterThemesBook()
@@ -132,15 +130,15 @@ class SearchFragment : Fragment() {
                     }
 
                 })
-                binding.recicleResultSearch.adapter = adapter
+                binding.recicleResultSearch.adapter    = adapter
                 adapter.setList(list as MutableList<ThemeEntity>)
-                binding.containerNoSearch.visibility = View.INVISIBLE
+                binding.containerNoSearch.visibility   = View.INVISIBLE
                 binding.recicleResultSearch.visibility = View.VISIBLE
             }
         })
         searchViewModel.listSearch.observe(viewLifecycleOwner, { list ->
             if (list.isEmpty()) {
-                binding.containerNoSearch.visibility = View.VISIBLE
+                binding.containerNoSearch.visibility   = View.VISIBLE
                 binding.recicleResultSearch.visibility = View.INVISIBLE
             } else {
                 val adapter = AdapterSearch()
