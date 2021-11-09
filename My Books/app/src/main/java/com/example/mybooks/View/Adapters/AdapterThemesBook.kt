@@ -13,9 +13,8 @@ import com.example.mybooks.selectTheme
 
 class AdapterThemesBook() :
     RecyclerView.Adapter<AdapterThemesBook.ViewHolder>() {
-    private var list = mutableListOf<ThemeEntity>()
-    private var isSavedList =
-        false //SABER QUE LISTA ES SI TODA O SOLA LA QUE TIENE EL ESTADO DE GUARDADO FILTRO
+    private var list        = mutableListOf<ThemeEntity>()
+    private var isSavedList = false //SABER QUE LISTA ES SI TODA O SOLA LA QUE TIENE EL ESTADO DE GUARDADO FILTRO
 
     fun setList(list: List<ThemeEntity>) {
         listThemesSelect.clear()
@@ -37,18 +36,18 @@ class AdapterThemesBook() :
     private var isStartSelection = false
 
     /**TENER LAS VIEWS DE LOS ITEMS SELECCIONADOS PARA POSTERIORMENTE PODER HACER LA FUNCION DE DESELECCIONAR TODAS*/
-    private var listAllViews = mutableListOf<List<View>>()
+    private var listAllViews     = mutableListOf<List<View>>()
 
 
     /**CALLBACK PARA DESELECCIONAR TODOS LOS ITEMS O ELIMINARLOS*/
     interface EventSelect {
-        fun deselect()
-        fun selectAll()
+        fun deselect    ()
+        fun selectAll   ()
         fun deleteSelect(context: Context, bookViewModel: BookViewModel, fk_idBook: Int)
     }
 
     interface Clic {
-        fun onClic(theme: ThemeEntity, position: Int, view: View)
+        fun onClic    (theme: ThemeEntity, position: Int, view: View)
         fun onClicEdit(theme: ThemeEntity, position: Int, view: View)
     }
 
@@ -62,7 +61,7 @@ class AdapterThemesBook() :
         override fun deselect() {
             listAllViews.forEach { views ->
                 views.selectTheme(
-                    context = views[0].context,
+                    context  = views[0].context,
                     isSelect = false
                 )
             }
@@ -81,9 +80,9 @@ class AdapterThemesBook() :
 
         override fun deleteSelect(context: Context, bookViewModel: BookViewModel, fk_idBook: Int) {
             bookViewModel.deleteTheme(
-                context = context,
-                ids = listThemesSelect,
-                fk_idBook = fk_idBook,
+                context     = context,
+                ids         = listThemesSelect,
+                fk_idBook   = fk_idBook,
                 isListSaved = isSavedList
             )
             BookFragment.getSelect()?.showOptionsSelect(show = false)
@@ -116,12 +115,11 @@ class AdapterThemesBook() :
             if (!listThemesSelect.isEmpty()) {
                 selectTheme(
                     idTheme = list[position].idTheme,
-                    holder = holder
+                    holder  =     holder
                 )
             }
         }
         holder.binding.txtNameTheme.setText(list.get(position).name)
-        println(listThemesSelect.size)
 
         if (!listThemesSelect.isEmpty()) {
             listThemesSelect.forEach { id ->
@@ -132,7 +130,7 @@ class AdapterThemesBook() :
                         holder.binding.txtNameTheme
                     )
                     views.selectTheme(
-                        context = holder.binding.root.context,
+                        context  = holder.binding.root.context,
                         isSelect = false
                     )
                 }
@@ -145,7 +143,7 @@ class AdapterThemesBook() :
                 holder.binding.txtNameTheme
             )
             views.selectTheme(
-                context = holder.binding.root.context,
+                context  = holder.binding.root.context,
                 isSelect = false
             )
         }
@@ -153,7 +151,7 @@ class AdapterThemesBook() :
         holder.binding.btnSelectTheme.setOnClickListener { view ->
             selectTheme(
                 idTheme = list[position].idTheme,
-                holder = holder
+                holder  = holder
             )
         }
 
@@ -165,10 +163,13 @@ class AdapterThemesBook() :
                 if (isStartSelection) {
                     selectTheme(
                         idTheme = list[position].idTheme,
-                        holder = holder
+                        holder  = holder
                     )
                 } else
-                    clic?.onClic(list[position], position, view = view)
+                    clic?.onClic(
+                        theme      = list[position],
+                        position   = position, 
+                        view       = view)
         }
     }
 

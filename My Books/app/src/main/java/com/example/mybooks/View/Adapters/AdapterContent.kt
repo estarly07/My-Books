@@ -19,7 +19,7 @@ class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<Content>) {
-        clean = true
+        clean     = true
         this.list = list as MutableList<Content>
         this.notifyDataSetChanged()
     }
@@ -29,7 +29,7 @@ class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
          *@param positionContenido es la posicion del contenido
          *@param positionText es la posicion del item del text
          * */
-        fun clic(textEntity: TextEntity, positionText: Int, positionContenido: Int, view: View)
+        fun clic        (textEntity: TextEntity, positionText: Int, positionContenido: Int, view: View)
         fun clicSubtitle(content: Content, position: Int, view: View)
     }
 
@@ -39,7 +39,11 @@ class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
         this.clic = clic
     }
 
-    fun setObject(content: String, positionContenido: Int, positionText: Int) {
+    fun setObject(
+        content            : String,
+        positionContenido  : Int,
+        positionText       : Int
+    ) {
         list[positionContenido].arrayText[positionText].content = content
         this.notifyItemChanged(positionContenido)
     }
@@ -58,16 +62,19 @@ class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.txtSubtitleContent.text = (list[position].subTitle.uppercase())
         holder.binding.txtSubtitleContent.setOnClickListener {
-            clic?.clicSubtitle(content = list[position], position = position, view = it)
+            clic?.clicSubtitle(
+                content     = list[position],
+                position    = position,
+                view        = it)
         }
         val adapter = AdapterText()
         adapter.setClic(object : AdapterText.Clic {
             override fun clic(textEntity: TextEntity, positionText: Int, view: View) {
                 clic?.clic(
-                    textEntity = textEntity,
-                    positionText = positionText,
-                    positionContenido = position,
-                    view = view
+                    textEntity          = textEntity,
+                    positionText        = positionText,
+                    positionContenido   = position,
+                    view                = view
                 )
             }
 
