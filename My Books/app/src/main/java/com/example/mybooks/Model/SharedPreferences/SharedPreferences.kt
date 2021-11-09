@@ -29,10 +29,10 @@ class SharedPreferences {
     }
 
 
-    fun saveStateDescarga(activity: Activity, isSucessDowloand: Boolean) {
+    fun saveStateDescarga(activity: Activity, isSuccessDownload: Boolean) {
         val sharedPreferences = activity.getSharedPreferences(KEY, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putBoolean(DESCARGA, isSucessDowloand)
+        editor.putBoolean(DESCARGA, isSuccessDownload)
         editor.apply()
         println(" ssssssssssssssssssssssss ${getStateDowloand(activity)}")
     }
@@ -43,10 +43,10 @@ class SharedPreferences {
     }
 
     /**GUARDAR UN BOOLEANO SI EL USUARIO TIENE ACTIVIDADO LA OPCION DE SINCRONIZAR CON CLOUD*/
-    fun activeSincronized(activity: Activity, isActiveSincronized: Boolean) {
+    fun activeSincronized(activity: Activity, isActiveSynchronized: Boolean) {
         val sharedPreferences = activity.getSharedPreferences(KEY_SINCRONIZED, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putBoolean(IS_SINCRONIZED, isActiveSincronized)
+        editor.putBoolean(IS_SINCRONIZED, isActiveSynchronized)
         editor.apply()
     }
 

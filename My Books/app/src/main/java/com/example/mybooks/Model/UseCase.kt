@@ -189,16 +189,16 @@ class UseCase(context: Context) {
         bookDao.deletAll()
     }
 
-    fun saveStateDowloand(activity: Activity, isSucessDowloand: Boolean) {
-        prefereces.saveStateDescarga(activity, isSucessDowloand = isSucessDowloand)
+    fun saveStateDowloand(activity: Activity, isSuccessDownload: Boolean) {
+        prefereces.saveStateDescarga(activity, isSuccessDownload = isSuccessDownload)
     }
 
     fun getStateDowloand(activity: Activity): Boolean {
         return prefereces.getStateDowloand(activity)
     }
 
-    fun activeSincronized(activity: Activity, isActiveSincronized: Boolean) {
-        prefereces.activeSincronized(activity = activity, isActiveSincronized = isActiveSincronized)
+    fun activeSincronized(activity: Activity, isActiveSynchronized: Boolean) {
+        prefereces.activeSincronized(activity = activity, isActiveSynchronized = isActiveSynchronized)
     }
 
     fun getActiveSincronized(context: Context): Boolean {

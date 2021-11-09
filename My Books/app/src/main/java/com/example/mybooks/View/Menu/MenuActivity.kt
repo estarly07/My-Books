@@ -144,7 +144,7 @@ class MenuActivity : AppCompatActivity() {
                 settingsViewModel.setService(
                     context = this@MenuActivity,
                     activity = this@MenuActivity,
-                    isActiveSincronized = isActiveSincronized
+                    isActiveSynchronized = isActiveSincronized
                 )
             }
 
