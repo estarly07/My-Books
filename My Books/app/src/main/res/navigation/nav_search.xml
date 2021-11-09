@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_search"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.mybooks.View.Search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_contentFragment"
+            app:destination="@id/contentFragment2"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_searchFragment_to_nav_book"
+            app:destination="@id/nav_book"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+    </fragment>
+    <fragment
+        android:id="@+id/contentFragment2"
+        android:name="com.example.mybooks.View.Content.ContentFragment"
+        android:label="fragment_content"
+        tools:layout="@layout/fragment_content" >
+        <action
+            android:id="@+id/action_contentFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+        <action
+            android:id="@+id/action_contentFragment2_to_formsFragment2"
+            app:destination="@id/formsFragment2" />
+    </fragment>
+    <include app:graph="@navigation/nav_book" />
+    <fragment
+        android:id="@+id/formsFragment2"
+        android:name="com.example.mybooks.View.forms.FormsFragment"
+        android:label="fragment_forms"
+        tools:layout="@layout/fragment_forms" >
+        <action
+            android:id="@+id/action_formsFragment2_to_contentFragment2"
+            app:destination="@id/contentFragment2" />
+    </fragment>
+</navigation>

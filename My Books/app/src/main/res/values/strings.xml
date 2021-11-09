@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">My Books</string>
+    <string name="Registrate">Registrate!!</string>
+    <string name="Register">Registar</string>
+    <string name="username">Usuario</string>
+    <string name="pass">Contraseña</string>
+    <string name="comenzar">Comenzar</string>
+    <string name="login">Login</string>
+    <string name="Masvistos">Vistos Hoy</string>
+    <string name="Hello">Hola</string>
+    <string name="todos">Todos tus libros</string>
+    <string name="todossaved">Tus libros guardados</string>
+    <string name="search">Dato no encontrado</string>
+    <string name="retry">Intenta con otro valor</string>
+    <string name="nobooks">No tienes ningun libro</string>
+    <string name="nobookssaved">No tienes libros guardados</string>
+    <string name="save">Guarda tus libros</string>
+    <string name="saveBooks">Libros guardados</string>
+    <string name="saveThemes">temas guardados</string>
+    <string name="registerBook">Crea un libro</string>
+    <string name="searchinput">Ingresa datos a buscar...</string>
+    <string name="Buscar">Buscar</string>
+    <string name="resul">Resultado de la busqueda</string>
+    <string name="todostemas">Todos</string>
+    <string name="temasguardados">Guardados</string>
+    <string name="ver">Ver todo el libro</string>
+    <string name="name">Ingresa tu nombre</string>
+
+    <string name="books">Libros</string>
+    <string name="themes">Temas</string>
+    <string name="all">Todo</string>
+    <string name="settings">Ajustes</string>
+    <string name="subir">Guardar en la nube</string>
+    <string name="sincronizar">Sincronizar con la nube</string>
+
+    <string name="bookname">Ingresa el nombre del libro</string>
+    <string name="bookimage">Ingresa el url de la imagen del libro</string>
+    <string name="bookdescripcion">Ingresa una descripcion sobre el libro</string>
+    <string name="add">Añadir libro</string>
+    <string name="addContent">Ingresa imagenes o texto</string>
+    <string name="addContent2">(Toca los botones superiores \npara agregar texto o imagenes)</string>
+
+    <string name="themename">Ingresa el nombre del tema</string>
+    <string name="themeadd">Añadir tema</string>
+
+    <string name="contentname">Ingresa el titulo del contenido</string>
+    <string name="content">Escribe contenido</string>
+    <string name="contentadd">Agregar</string>
+    <string name="contentimgae">Ingresa la url de la imagen</string>
+    <string name="delete">¿Quieres eliminarlo?</string>
+    <string name="loginEmail">Iniciar sesión</string>
+    <string name="registerE">Registrar</string>
+    <string name="loginE">Iniciar</string>
+    <string name="register">Registrar cuenta</string>
+    <string name="sincroniced">Si sincronizas con la nube eliminaras todos tus libros locales </string>
+
+    <string name="eliminandoData">Eliminando información local</string>
+    <string name="DescargandoData">Descargando información de la nube</string>
+    <string name="InsertandoData">Insertando la información</string>
+
+
+    <string name="titleNotificacion">Sincronización</string>
+    <string name="contentNotificacion">subiendo tus datos</string>
+
+    <string name="email">Ingresa tu email</string>
+
+    <string name="acept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="photoDefault">https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg</string>
+
+    <string-array name="stickers">
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020692.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020789.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020538.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020387.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020565.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020335.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020607.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020990.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020400.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020618.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5021/5021000.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020369.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020391.png</item>
+        <item>https://cdn-icons-png.flaticon.com/512/5020/5020820.png</item>
+
+    </string-array>
+
+</resources>

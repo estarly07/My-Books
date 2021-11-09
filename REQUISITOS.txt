@@ -1,0 +1,26 @@
+My Book
+
+Este proyecto consiste en hacer una biblioteca de libros de estudio.
+
+Requisitos
+-Lenguaje Kotlin
+-Base de datos Sqlite completada con el patron Room
+-Arquitectura MVVM
+-Patrones de diseño (Singleton,Factory,Builder,Observer)
+-Implementar Binding y LiveData
+
+Funcionalidades
+-Crear, editar y eliminar libros
+-Crear, editar y eliminar temas
+-Crear, editar y eliminar contenido
+-Crear, editar y eliminar notas
+-Guardar libros(dar like)
+-Estadisticas
+
+Base de datos
+
+-User=>id_user,nombre,foto,descripcion
+-Libro=>id_libro,nombre,fecha_creacion,guardado,descripcion,fk_id_user
+-Tema=>id_tema,nombre,fk_id_libro,importancia
+-Contenido=>id_contenido,titulo,imagen,texto_contenido,fk_id_tema
+-Notas=>id_nota,titulo,fecha_creacion,descripcion,importancia

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_estrellas" />
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_nube" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/marginsmall"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:src="@drawable/ic_astronautados" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+
+                android:id="@+id/containerInputsLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_50dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/edtNameLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparente"
+                            android:drawableStart="@drawable/ic_user"
+                            android:drawablePadding="@dimen/_20dp"
+                            android:drawableTint="@color/white"
+                            android:hint="@string/username"
+                            android:maxLength="25"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/_20dp"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/_25sp" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/linea"
+                            android:background="@drawable/edt_login" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_50dp"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/edtPassLogin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparente"
+                            android:drawableStart="@drawable/ic_key"
+                            android:drawablePadding="@dimen/_20dp"
+                            android:drawableTint="@color/white"
+                            android:hint="@string/pass"
+                            android:inputType="textPassword"
+                            android:maxLength="20"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/_20dp"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/_25sp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparente"
+                            android:drawableStart="@drawable/ic_key"
+                            android:drawablePadding="@dimen/_20dp"
+                            android:drawableTint="@color/white"
+                            android:hint="@string/pass"
+                            android:maxLength="20"
+                            android:maxLines="1"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/_25sp"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/linea"
+                            android:background="@drawable/edt_login" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/boton"
+                    android:background="@drawable/btn_login"
+                    android:text="@string/login"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txtBotones" />
+
+                <TextView
+                    android:id="@+id/btnTextRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margintop"
+                    android:gravity="center"
+                    android:text="@string/Registrate"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSecondary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/containerInputsRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_50dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/edtUserRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparente"
+                            android:drawableStart="@drawable/ic_user"
+                            android:drawablePadding="@dimen/_20dp"
+                            android:drawableTint="@color/white"
+                            android:hint="@string/username"
+                            android:maxLength="25"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/_20dp"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/_25sp" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/linea"
+                            android:background="@drawable/edt_login" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_50dp"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/edtPassRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparente"
+                            android:drawableStart="@drawable/ic_key"
+                            android:drawablePadding="@dimen/_20dp"
+                            android:drawableTint="@color/white"
+                            android:hint="@string/pass"
+                            android:inputType="textPassword"
+                            android:maxLength="20"
+                            android:maxLines="1"
+                            android:paddingStart="@dimen/_20dp"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/_25sp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparente"
+                            android:drawableStart="@drawable/ic_key"
+                            android:drawablePadding="@dimen/_20dp"
+                            android:drawableTint="@color/white"
+                            android:hint="@string/pass"
+                            android:maxLength="20"
+                            android:maxLines="1"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/_25sp"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/linea"
+                            android:background="@drawable/edt_login" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/boton"
+                    android:background="@drawable/btn_login"
+                    android:text="@string/Register"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txtBotones" />
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

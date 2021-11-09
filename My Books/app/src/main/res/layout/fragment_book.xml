@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Fondo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".View.Book.BookFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/contenedorSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/_15dp"
+        android:outlineSpotShadowColor="@color/primary"
+        android:padding="@dimen/_5dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="@dimen/_5dp"
+        app:cardElevation="@dimen/_5dp">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:padding="@dimen/_5dp">
+
+            <ImageButton
+                android:id="@+id/btnSelectAll"
+                style="@style/ImageButtons"
+                android:layout_width="@dimen/_25dp"
+                android:layout_height="@dimen/_25dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_selectall"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btnDeselectAll"
+                style="@style/ImageButtons"
+                android:layout_width="@dimen/_25dp"
+                android:layout_height="@dimen/_25dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@drawable/ic_desselectall" />
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                style="@style/ImageButtons"
+                android:layout_width="@dimen/_25dp"
+                android:layout_height="@dimen/_25dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5dp"
+                android:background="@drawable/ic_delete" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/btn40dp"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    style="@style/ImageButtons"
+                    android:layout_width="@dimen/btn30dp"
+                    android:layout_height="@dimen/btn30dp"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/ic_back" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+
+                    <ImageButton
+                        android:id="@+id/btnInsertTheme"
+                        style="@style/ImageButtons"
+                        android:layout_width="@dimen/_25dp"
+                        android:layout_height="@dimen/_25dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_adddos" />
+
+                    <ImageButton
+                        android:id="@+id/btnDeleteBook"
+                        style="@style/ImageButtons"
+                        android:layout_width="@dimen/_25dp"
+                        android:layout_height="@dimen/_25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_5dp"
+                        android:background="@drawable/ic_delete" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15dp">
+
+                <ImageView
+                    android:layout_width="@dimen/_15dp"
+                    android:layout_height="@dimen/imageBookH"
+                    android:layout_marginLeft="@dimen/imageBookHComplemento"
+                    android:paddingTop="@dimen/_3dp"
+                    android:paddingBottom="@dimen/_3dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_complemento_libro"
+                    android:visibility="gone" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imgBook"
+                    android:layout_width="@dimen/imageBookWidthB"
+                    android:layout_height="@dimen/imageBookB"
+                    android:scaleType="centerCrop"
+                    android:src="@color/gris1"
+                    app:riv_corner_radius_bottom_right="@dimen/_5dp"
+                    app:riv_corner_radius_top_right="@dimen/_5dp" />
+
+                <ImageView
+                    android:layout_width="@dimen/_5dp"
+                    android:layout_height="@dimen/imageBookB"
+                    android:src="@drawable/item_libro" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtTitleBook"
+                style="@style/TextPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20dp"
+                android:drawablePadding="@dimen/_20dp"
+                android:gravity="center"
+                android:text="Libro de prueba sobre sdafj"
+                android:textSize="@dimen/textprimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDateBook"
+                style="@style/TextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_20dp"
+                android:gravity="center"
+                android:text="@string/Masvistos"
+                android:textSize="@dimen/text15"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDescriptionBook"
+                style="@style/TextSecondary"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20dp"
+                android:layout_marginBottom="@dimen/_20dp"
+                android:gravity="center"
+                android:textSize="@dimen/text15" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnAllThemes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_book"
+                    android:drawableStart="@drawable/ic_all"
+                    android:padding="@dimen/_5dp"
+                    android:text="@string/todostemas"
+                    android:textColor="@color/gris4"
+                    android:textSize="@dimen/textSecondary" />
+
+                <Button
+                    android:id="@+id/btnListSavedThemes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_book"
+                    android:drawableStart="@drawable/ic_tagdos"
+                    android:padding="@dimen/_5dp"
+                    android:text="@string/temasguardados"
+                    android:textColor="@color/gris4"
+                    android:textSize="@dimen/textSecondary" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reciclerTemas"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/includeDialog"
+        layout="@layout/dialog_remove"
+        android:visibility="invisible" />
+
+</RelativeLayout>

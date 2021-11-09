@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Fondo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnWriteContent"
+                    style="@style/ImageButtons"
+                    android:layout_width="@dimen/_25dp"
+                    android:layout_height="@dimen/_25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/_3dp"
+                    android:background="@drawable/ic_edit" />
+
+                <ImageButton
+                    android:id="@+id/btnImageContent"
+                    style="@style/ImageButtons"
+                    android:layout_width="@dimen/_25dp"
+                    android:layout_height="@dimen/_25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/_3dp"
+                    android:background="@drawable/ic_image" />
+
+                <ImageButton
+                    android:id="@+id/btnDeleteContent"
+                    style="@style/ImageButtons"
+                    android:layout_width="@dimen/_25dp"
+                    android:layout_height="@dimen/_25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/_3dp"
+                    android:background="@drawable/ic_delete" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btnAddText"
+                    style="@style/TextPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/btn_bookdos"
+                    android:text="@string/contentadd"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text15" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edtSubtitle"
+            style="@style/TextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"
+            android:background="@color/white"
+            android:hint="@string/contentname"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gris1"
+            android:textSize="@dimen/_25sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1dp"
+
+            android:layout_marginTop="@dimen/_3dp"
+            android:layout_marginRight="@dimen/_50dp"
+            android:background="@color/gris1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reciclerContentText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_15dp" />
+
+            <RelativeLayout
+                android:id="@+id/containerEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgEmpty"
+                    android:layout_width="@dimen/imageBookWidthH"
+                    android:layout_height="@dimen/imageBookH"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:src="@drawable/ic_pen"
+                    app:tint="@color/gris1" />
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/addContent"
+                        android:textSize="@dimen/text15" />
+
+                    <TextView
+                        style="@style/TextSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/_50dp"
+                        android:text="@string/addContent2"
+                        android:textSize="@dimen/text10" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <EditText
+                    style="@style/TextPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30dp"
+                    android:background="@color/white"
+                    android:hint="@string/contentname"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gris1"
+                    android:textSize="@dimen/_25sp" />
+
+                <LinearLayout
+                    android:id="@+id/contenedorDocument"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_1dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:hint="@string/content"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/gris3"
+                        android:textColorHint="@color/gris1"
+                        android:textSize="@dimen/text15" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/dialogImage"
+        layout="@layout/dialog_addimage"
+        android:visibility="invisible" />
+
+    <include
+        android:id="@+id/dialogWrite"
+        layout="@layout/dialogo_escritura"
+        android:visibility="invisible" />
+
+</RelativeLayout>

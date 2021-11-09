@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Menu.MenuActivity">
+
+
+    <LinearLayout
+        style="@style/Fondo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="12" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerSettings"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_settings" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerMenu"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_primary" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerSaved"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_fragment_saved" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerSearch"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_search" />
+
+            <Button
+                android:id="@+id/btnShowBook"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/_5dp"
+                android:layout_marginRight="@dimen/_5dp"
+                android:layout_marginBottom="@dimen/_30dp"
+                android:background="@drawable/btn_bookdos"
+                android:drawableStart="@drawable/ic_book"
+                android:drawableTint="@color/white"
+                android:paddingStart="@dimen/_50dp"
+                android:paddingRight="@dimen/_30dp"
+                android:text="@string/ver"
+
+                android:textColor="@color/white" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardToolbar"
+                style="@style/CardView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/_5dp"
+                android:layout_marginRight="@dimen/_5dp"
+                android:layout_marginBottom="@dimen/_30dp"
+                android:outlineSpotShadowColor="@color/primary"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/btn20dp"
+                app:cardElevation="@dimen/_5dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/btnHome"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/fondo">
+
+                        <ImageView
+                            android:id="@+id/imgHome"
+                            android:layout_width="@dimen/_20dp"
+                            android:layout_height="@dimen/_20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_home"
+                            app:tint="@color/white" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/btnSaved"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/imgSaved"
+                            style="@style/ImageButtons"
+                            android:layout_width="@dimen/_15dp"
+                            android:layout_height="@dimen/_20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_tag" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/btnSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/imgSearch"
+                            style="@style/ImageButtons"
+                            android:layout_width="@dimen/_20dp"
+                            android:layout_height="@dimen/_20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_search" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/btnSettings"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/imgSettings"
+                            style="@style/ImageButtons"
+                            android:layout_width="@dimen/_20dp"
+                            android:layout_height="@dimen/_20dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_ajustes" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="12" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/dialogDownloading"
+        android:visibility="gone"
+        layout="@layout/dialog_downloading" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/count"/>
+</RelativeLayout>

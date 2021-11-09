@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_fragment_saved"
+    app:startDestination="@id/savedFragment2">
+
+    <fragment
+        android:id="@+id/savedFragment2"
+        android:name="com.example.mybooks.View.Saved.SavedFragment"
+        android:label="fragment_saved"
+        tools:layout="@layout/fragment_saved" >
+        <action
+            android:id="@+id/action_savedFragment_to_nav_book"
+            app:destination="@id/nav_book"
+            app:enterAnim="@anim/anim_scale_tocenter" />
+    </fragment>
+    <include app:graph="@navigation/nav_book" />
+</navigation>

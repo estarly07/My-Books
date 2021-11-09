@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="marginsmall">20dp</dimen>
+    <dimen name="margintop">15dp</dimen>
+    <dimen name="_50dp">70dp</dimen>
+    <dimen name="_15dp">20dp</dimen>
+    <dimen name="_20dp">25dp</dimen>
+    <dimen name="_25dp">30dp</dimen>
+    <dimen name="_5dp">15dp</dimen>
+    <dimen name="_8dp">24dp</dimen>
+    <dimen name="_3dp">9dp</dimen>
+    <dimen name="_1dp">2dp</dimen>
+    <dimen name="_30dp">50dp</dimen>
+    <dimen name="linea">8dp</dimen>
+    <dimen name="boton">60dp</dimen>
+
+    <dimen name="_45dp">60dp</dimen>
+
+    <!--TEXTO-->
+    <dimen name="title">35sp</dimen>
+    <dimen name="subtitles">25sp</dimen>
+    <dimen name="textSecondary">25sp</dimen>
+    <dimen name="text10">20sp</dimen>
+    <dimen name="text15">20sp</dimen>
+
+    <dimen name="textprimary">35sp</dimen>
+    <dimen name="txtBotones">30sp</dimen>
+    <dimen name="_25sp">30sp</dimen>
+
+    <!--BOTONES-->
+    <dimen name="btn20dp">30dp</dimen>
+    <dimen name="btn30dp">40dp</dimen>
+    <dimen name="btn40dp">50dp</dimen>
+    <!--BOOK-->
+    <dimen name="imageBook">200dp</dimen>
+    <dimen name="imageBookWidth">150dp</dimen>
+    <dimen name="imageBookH">350dp</dimen>
+    <dimen name="imageBookHComplemento">218dp</dimen>
+    <dimen name="imageBookWidthH">240dp</dimen>
+    <dimen name="imageBookB">400dp</dimen>
+    <dimen name="imageBookWidthB">270dp</dimen>
+    <dimen name="cardStick">300dp</dimen>
+    <!--TABLERO-->
+    <dimen name="tableroWidth">310dp</dimen>
+    <dimen name="tableroHeight">200dp</dimen>
+    <dimen name="imageBookSaveHeight">240dp</dimen>
+    <dimen name="imageBookSaveWidth">180dp</dimen>
+</resources>
