@@ -17,35 +17,42 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
-    private lateinit var useCase: UseCase
-    val isLogin = MutableLiveData<EnumValidate>()
-    var user: User = User.getInstance()
-    val sharedPreferences = SharedPreferences.getInstance()
+    private lateinit var useCase : UseCase
+    private val isLogin                     = MutableLiveData<EnumValidate>()
+    private var user:User                   = User.getInstance()
+    private val sharedPreferences           = SharedPreferences.getInstance()
 
+    /**
+     * REGISTRAR UN USUARIO
+     * @param context
+     * @param name     nombre del usuario
+     * @param pass     contraseña del usuario
+     * */
     fun registerUser(context: Context, name: String, pass: String) {
         if (!(listOf(name, pass).validateStrings())) {
             isLogin.postValue(EnumValidate.EMPTY_VAL)
             return
         }
-        useCase = UseCase(context)
+        useCase  = UseCase(context)
         val user =
-            UserEntity(0, name, pass, photo = context.resources.getString(R.string.photoDefault))
-        println(user.name)
+            UserEntity(
+                id      = 0,
+                name    = name,
+                pass    = pass,
+                photo   = context.resources.getString(R.string.photoDefault))
 
         GlobalScope.launch(Dispatchers.Main) {
             val sucess = useCase.createUser(user)
 
             useCase.login(listOf(name, pass))?.let { data ->
-                User.getInstance().id = data.id
-                User.getInstance().name = data.name
-                User.getInstance().pass = data.pass
-                println(data.photo)
-                User.getInstance().photo = data.photo
+                User.getInstance().id       = data.id
+                User.getInstance().name     = data.name
+                User.getInstance().pass     = data.pass
+                User.getInstance().photo    = data.photo
 
                 sharedPreferences.savaDataUser(context, data = data)
             }
             if (sucess != null)
-
                 isLogin.postValue(EnumValidate.SUCESS)
             else
                 isLogin.postValue(EnumValidate.ERROR)
@@ -54,7 +61,11 @@ class LoginViewModel : ViewModel() {
 
     }
 
-    @DelicateCoroutinesApi
+    /**
+     * @param context
+     * @param name     nombre del usuario
+     * @param pass     contraseña del usuario
+     * */
     fun login(context: Context, name: String, pass: String) {
         if (!(listOf(name, pass).validateStrings())) {
             isLogin.postValue(EnumValidate.EMPTY_VAL)
@@ -64,13 +75,13 @@ class LoginViewModel : ViewModel() {
 
         GlobalScope.launch(Dispatchers.Main) {
             val data = useCase.login(listOf(name, pass))?.let { data ->
-                user.id = data.id
-                user.name = data.name
-                user.pass = data.pass
-                user.photo = data.photo
+                user.id     = data.id
+                user.name   = data.name
+                user.pass   = data.pass
+                user.photo  = data.photo
                 sharedPreferences.savaDataUser(context, data = data)
-
             }
+
             if (data != null) {
                 isLogin.postValue(EnumValidate.SUCESS)
             } else
@@ -80,6 +91,9 @@ class LoginViewModel : ViewModel() {
 
     }
 
+    /**
+     * @return Devuelve una lista de strings (user,pass)
+     * */
     fun isLogin(context: Context): List<String> {
         val data=SharedPreferences.getInstance().getDataUser(context)
         return  data
