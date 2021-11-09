@@ -20,6 +20,9 @@ class SaveViewModel : ViewModel() {
         }
     }
 
+    /**
+     * OBTENER TODOS LOS LIBROS Y SE GUARDA EN UNA VARIABLE LIVEDATA
+     * */
     fun getAllBooksSaved() {
         GlobalScope.launch(Dispatchers.Main) {
             list.value = useCase?.getAllBooksSaved()

@@ -12,11 +12,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SearchViewModel : ViewModel() {
-    var listSearch = MutableLiveData<List<Map<String, String>>>()
-    var listSearchBooks = MutableLiveData<List<BookEntity>>()
-    var listSearchThemes = MutableLiveData<List<ThemeEntity>>()
     private var listMapResult: MutableList<Map<String, String>> = mutableListOf()
-    val user = User.getInstance()
+
+    var listSearch          = MutableLiveData<List<Map<String, String>>>()
+    var listSearchBooks     = MutableLiveData<List<BookEntity>>()
+    var listSearchThemes    = MutableLiveData<List<ThemeEntity>>()
+    val user                = User.getInstance()
 
     companion object {
         private var useCase: UseCase? = null
@@ -27,16 +28,20 @@ class SearchViewModel : ViewModel() {
         }
     }
 
+    /**
+     * BUSCAR TEMAS Y LIBROS (SON GUARDADOS EN UNA VARIABLE LIVEDATA)
+     *
+     * @param name Texto a buscar
+     * */
     fun searchAll(name: String) {
-
         GlobalScope.launch(Dispatchers.Main) {
             if (!name.isEmpty()) {
                 val response = useCase?.searchBooks(user.id, name = name)
                 if (response != null) {
                     for (data in response) {
                         val map = mapOf(
-                            "id" to data.id_book.toString(),
-                            "name" to data.name.toString()
+                            "id"   to data.id_book.toString(),
+                            "name" to data.name
                         )
                         listMapResult.add(map)
                     }
@@ -49,8 +54,8 @@ class SearchViewModel : ViewModel() {
                         if (responsethemes != null) {
                             for (data in responsethemes) {
                                 val map = mapOf(
-                                    "id" to data.idTheme.toString(),
-                                    "name" to data.name
+                                    "id"    to data.idTheme.toString(),
+                                    "name"  to data.name
                                 )
                                 listMapResult.add(map)
                             }
@@ -64,11 +69,15 @@ class SearchViewModel : ViewModel() {
         }
     }
 
+    /**
+     * BUSCAR LIBROS (SON GUARDADOS EN UNA VARIABLE LIVEDATA)
+     *
+     * @param name Libro a buscar
+     * */
     fun searchBooks(name: String) {
         GlobalScope.launch(Dispatchers.Main) {
             if (!name.isEmpty()) {
                 val list = useCase?.searchBooks(name = name, idUser = user.id)
-                println(list)
                 listSearchBooks.value = list!!
             } else {
                 listSearchBooks.value = listOf()
@@ -76,6 +85,11 @@ class SearchViewModel : ViewModel() {
         }
     }
 
+    /**
+     * BUSCAR TEMAS (SON GUARDADOS EN UNA VARIABLE LIVEDATA)
+     *
+     * @param name Tema a buscar
+     * */
     fun searchThemes(name: String) {
         GlobalScope.launch(Dispatchers.Main) {
             if (!name.isEmpty()) {
@@ -84,7 +98,6 @@ class SearchViewModel : ViewModel() {
                     var listThemes = mutableListOf<List<ThemeEntity>>()
                     for (book in books) {
                         val list = useCase?.searchThemes(idBook = book.id_book, name = name)
-                        println(list)
                         listThemes.add(list ?: listOf())
                     }
                     val listThemeTotal = mutableListOf<ThemeEntity>()
