@@ -291,8 +291,8 @@ class Firebase {
                         val map = value as HashMap<*, *>
                         val text = TextEntity(
                             id_text         = (map[ID_TEXT.getName()] as Long).toInt(),
-                            type            = map[CONTENT.getName()].toString(),
-                            content         = map[TYPE_TEXT.getName()].toString(),
+                            content         = map[CONTENT.getName()].toString(),
+                            type            = map[TYPE_TEXT.getName()].toString(),
                             fk_id_content   = (map[FK_ID_CONTENT.getName()] as Long).toInt()
                         )
                         listText.add(text)
