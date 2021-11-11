@@ -68,6 +68,7 @@ class FormsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         formType = arguments?.getString("type").toString()
 
+        //TIPO DE FORMULARIO A MOSTRAR
         when (formType) {
             "book" -> {
                 binding.formBook.root.visibility = View.VISIBLE
@@ -93,7 +94,7 @@ class FormsFragment : Fragment() {
             }
             "contenido" -> {
                 binding.contenedorContents.visibility = View.GONE
-                binding.formContent.root.visibility = View.VISIBLE
+                binding.formContent.root.visibility   = View.VISIBLE
                 global?.fragment = NameFragments.FORMSCONTENT
                 adapter.setClic(object : AdapterContentText.Clic {
                     override fun clic(textEntity: TextEntity, position: Int, view: View) {
@@ -120,7 +121,7 @@ class FormsFragment : Fragment() {
             }
             "contenidosearch" -> {
                 binding.contenedorContents.visibility = View.GONE
-                binding.formContent.root.visibility = View.VISIBLE
+                binding.formContent.root.visibility   = View.VISIBLE
                 global?.fragment = NameFragments.FORMSCONTENTASEARCH
                 adapter.setClic(object : AdapterContentText.Clic {
                     override fun clic(textEntity: TextEntity, position: Int, view: View) {
