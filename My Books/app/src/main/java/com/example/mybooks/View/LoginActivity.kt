@@ -18,7 +18,9 @@ import com.example.mybooks.ViewModel.Enums.EnumValidate
 import com.example.mybooks.ViewModel.LoginViewModel
 import com.example.mybooks.databinding.ActivityMainBinding
 import com.example.mybooks.showToast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val loginViewModel: LoginViewModel by viewModels()

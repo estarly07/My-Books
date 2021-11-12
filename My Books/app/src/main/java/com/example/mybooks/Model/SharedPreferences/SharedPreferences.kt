@@ -3,8 +3,9 @@ package com.example.mybooks.Model.SharedPreferences
 import android.app.Activity
 import android.content.Context
 import com.example.mybooks.Models.User
+import javax.inject.Inject
 
-class SharedPreferences {
+class SharedPreferences @Inject constructor(){
     private val KEY             = "preferences"
     private val KEY_SINCRONIZED = "sincronized"
     private val KEY_ID          = "id"
