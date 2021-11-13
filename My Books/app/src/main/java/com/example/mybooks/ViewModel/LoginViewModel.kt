@@ -11,6 +11,7 @@ import com.example.mybooks.R
 import com.example.mybooks.ViewModel.Enums.EnumValidate
 import com.example.mybooks.validateStrings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     val sharedPreferences           : SharedPreferences,
+    val useCase                     : UseCase
 ): ViewModel() {
-    private lateinit var useCase : UseCase
+    //private lateinit var useCase : UseCase
     val isLogin                     = MutableLiveData<EnumValidate>()
     var user:User                   = User.getInstance()
 
@@ -37,7 +39,6 @@ class LoginViewModel @Inject constructor(
             isLogin.postValue(EnumValidate.EMPTY_VAL)
             return
         }
-        useCase  = UseCase(context)
         val user =
             UserEntity(
                 id      = 0,
@@ -75,7 +76,6 @@ class LoginViewModel @Inject constructor(
             isLogin.postValue(EnumValidate.EMPTY_VAL)
             return
         }
-        useCase = UseCase(context)
 
         GlobalScope.launch(Dispatchers.Main) {
             val data = useCase.login(listOf(name, pass))?.let { data ->
