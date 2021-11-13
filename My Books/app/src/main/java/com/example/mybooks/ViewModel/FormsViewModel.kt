@@ -15,23 +15,19 @@ import com.example.mybooks.Models.User
 import com.example.mybooks.R
 import com.example.mybooks.showToast
 import com.example.mybooks.validateStrings
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
+@HiltViewModel
+class FormsViewModel @Inject constructor(
+            var useCase : UseCase
+): ViewModel() {
+    private val user    = User.getInstance()
 
-class FormsViewModel : ViewModel() {
-    private val user = User.getInstance()
-
-    companion object {
-        private var useCase: UseCase? = null
-
-        fun initUseCase(context: Context) {
-            if (useCase == null)
-                useCase = UseCase(context)
-        }
-    }
 
     /**INSERTAR UN LIBRO
      *
@@ -57,7 +53,7 @@ class FormsViewModel : ViewModel() {
 
         println(user.id)
         GlobalScope.launch(Dispatchers.Main) {
-            useCase?.insertBook(book)
+            useCase.insertBook(book)
             "Registro realizado!!".showToast(context, Toast.LENGTH_SHORT, R.layout.toast_login)
         }
 
@@ -79,7 +75,7 @@ class FormsViewModel : ViewModel() {
         bookOld.description     = data[2]
 
         GlobalScope.launch(Dispatchers.Main) {
-            useCase?.updateBook(bookOld)
+            useCase.updateBook(bookOld)
         }
 
     }
@@ -102,7 +98,7 @@ class FormsViewModel : ViewModel() {
         )
         useCase = UseCase(context)
         GlobalScope.launch(Dispatchers.Main) {
-            useCase?.insertTheme(theme)
+            useCase.insertTheme(theme)
             "Registro realizado!!".showToast(context, Toast.LENGTH_SHORT, R.layout.toast_login)
         }
 
@@ -123,7 +119,7 @@ class FormsViewModel : ViewModel() {
 
         useCase = UseCase(context)
         GlobalScope.launch(Dispatchers.Main) {
-            useCase?.updateTheme(themeOld)
+            useCase.updateTheme(themeOld)
             "Registro realizado!!".showToast(context, Toast.LENGTH_SHORT, R.layout.toast_login)
         }
 
@@ -167,13 +163,13 @@ class FormsViewModel : ViewModel() {
 
 
         GlobalScope.launch(Dispatchers.Main) {
-            val idContent = useCase?.insertContent(content)
+            val idContent = useCase.insertContent(content)
             data.forEach { data ->
                 if (idContent != null) {
                     if (data.content != "") {
                         data.fk_id_content  = idContent.toInt()
                         data.id_text        = 0
-                        useCase?.insertTextData(data)
+                        useCase.insertTextData(data)
                     }
                 }
 

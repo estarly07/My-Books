@@ -11,8 +11,6 @@ import com.example.mybooks.R
 import com.example.mybooks.ViewModel.Enums.EnumValidate
 import com.example.mybooks.validateStrings
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.DelicateCoroutinesApi
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -21,12 +19,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    val sharedPreferences           : SharedPreferences,
-    val useCase                     : UseCase
+    val sharedPreferences   : SharedPreferences,
+    val useCase             : UseCase
 ): ViewModel() {
     //private lateinit var useCase : UseCase
-    val isLogin                     = MutableLiveData<EnumValidate>()
-    var user:User                   = User.getInstance()
+    val isLogin             = MutableLiveData<EnumValidate>()
+    var user:User           = User.getInstance()
 
     /**
      * REGISTRAR UN USUARIO

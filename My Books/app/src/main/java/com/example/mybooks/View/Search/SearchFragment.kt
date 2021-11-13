@@ -26,8 +26,9 @@ import com.example.mybooks.ViewModel.MenuViewModel
 import com.example.mybooks.ViewModel.SearchViewModel
 import com.example.mybooks.databinding.FragmentSearchBinding
 import com.example.mybooks.textChange
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     lateinit var _binding: FragmentSearchBinding
     val binding get()    = _binding
@@ -61,7 +62,6 @@ class SearchFragment : Fragment() {
         global?.view     = view
         MenuActivity.getOnScroll()?.showButtonBook(show = false)
         MenuActivity.getOnScroll()?.showToolbar   (show = true)
-        SearchViewModel.initUseCase(view.context)
         binding.edtSearch.textChange { text ->
             txtInput = text
             when (filter) {

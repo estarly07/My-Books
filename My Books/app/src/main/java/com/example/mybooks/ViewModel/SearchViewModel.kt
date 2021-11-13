@@ -1,32 +1,27 @@
 package com.example.mybooks.ViewModel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Models.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    var useCase           : UseCase
+): ViewModel() {
     private var listMapResult: MutableList<Map<String, String>> = mutableListOf()
 
-    var listSearch          = MutableLiveData<List<Map<String, String>>>()
-    var listSearchBooks     = MutableLiveData<List<BookEntity>>()
-    var listSearchThemes    = MutableLiveData<List<ThemeEntity>>()
-    val user                = User.getInstance()
-
-    companion object {
-        private var useCase: UseCase? = null
-        fun initUseCase(context: Context) {
-            if (useCase == null) {
-                useCase = UseCase(context)
-            }
-        }
-    }
+    var listSearch        = MutableLiveData<List<Map<String, String>>>()
+    var listSearchBooks   = MutableLiveData<List<BookEntity>>()
+    var listSearchThemes  = MutableLiveData<List<ThemeEntity>>()
+    val user              = User.getInstance()
 
     /**
      * BUSCAR TEMAS Y LIBROS (SON GUARDADOS EN UNA VARIABLE LIVEDATA)
@@ -36,7 +31,7 @@ class SearchViewModel : ViewModel() {
     fun searchAll(name: String) {
         GlobalScope.launch(Dispatchers.Main) {
             if (!name.isEmpty()) {
-                val response = useCase?.searchBooks(user.id, name = name)
+                val response = useCase.searchBooks(user.id, name = name)
                 if (response != null) {
                     for (data in response) {
                         val map = mapOf(
@@ -46,11 +41,11 @@ class SearchViewModel : ViewModel() {
                         listMapResult.add(map)
                     }
                 }
-                val books = useCase?.getAllBooks(user.id)
+                val books = useCase.getAllBooks(user.id)
                 if (books != null) {
                     for (book in books) {
                         val responsethemes =
-                            useCase?.searchThemes(idBook = book.id_book, name = name)
+                            useCase.searchThemes(idBook = book.id_book, name = name)
                         if (responsethemes != null) {
                             for (data in responsethemes) {
                                 val map = mapOf(
@@ -77,7 +72,7 @@ class SearchViewModel : ViewModel() {
     fun searchBooks(name: String) {
         GlobalScope.launch(Dispatchers.Main) {
             if (!name.isEmpty()) {
-                val list = useCase?.searchBooks(name = name, idUser = user.id)
+                val list = useCase.searchBooks(name = name, idUser = user.id)
                 listSearchBooks.value = list!!
             } else {
                 listSearchBooks.value = listOf()
@@ -93,11 +88,11 @@ class SearchViewModel : ViewModel() {
     fun searchThemes(name: String) {
         GlobalScope.launch(Dispatchers.Main) {
             if (!name.isEmpty()) {
-                val books = useCase?.getAllBooks(user.id)
+                val books = useCase.getAllBooks(user.id)
                 if (books != null) {
                     var listThemes = mutableListOf<List<ThemeEntity>>()
                     for (book in books) {
-                        val list = useCase?.searchThemes(idBook = book.id_book, name = name)
+                        val list = useCase.searchThemes(idBook = book.id_book, name = name)
                         listThemes.add(list ?: listOf())
                     }
                     val listThemeTotal = mutableListOf<ThemeEntity>()

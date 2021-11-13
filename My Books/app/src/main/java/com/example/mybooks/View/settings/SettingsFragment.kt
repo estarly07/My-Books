@@ -3,7 +3,6 @@ package com.example.mybooks.View.settings
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,9 +22,9 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
-import java.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
     lateinit var _binding: FragmentSettingsBinding
     val binding get()   = _binding
@@ -91,7 +90,6 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        settingViewModel.setUse(context = view.context)
         binding.switchSave.isChecked=settingViewModel.getActiveSincronized(view.context)
         settingViewModel.getEstaditicas()
         val adapter = AdapterImgUser(view.context)

@@ -28,8 +28,9 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.View.forms.FormsFragment
 import com.example.mybooks.ViewModel.BookViewModel
 import com.example.mybooks.databinding.FragmentBookBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class BookFragment : Fragment() {
 
     private lateinit var _binding: FragmentBookBinding
@@ -163,7 +164,6 @@ class BookFragment : Fragment() {
 
         })
         bookViewModel.getThemes(
-            view.context,
             book.id_book
         )
         binding.btnDeselectAll.setOnClickListener { view ->
@@ -184,14 +184,12 @@ class BookFragment : Fragment() {
         binding.btnAllThemes.setOnClickListener { view ->
             adapterThemesBook.setTypeList(isSavedList = false)
             bookViewModel.getThemes(
-                view.context,
                 book.id_book
             )
         }
         binding.btnListSavedThemes.setOnClickListener { view ->
             adapterThemesBook.setTypeList(isSavedList = true)
             bookViewModel.getSavedThemes(
-                view.context,
                 book.id_book
             )
         }
@@ -208,7 +206,6 @@ class BookFragment : Fragment() {
         )
         binding.includeDialog.btnAcept.setOnClickListener {
             bookViewModel.deleteBook(
-                context    = it.context,
                 bookEntity = book
             )
             binding.includeDialog.root.animVanish(

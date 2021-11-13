@@ -25,8 +25,9 @@ import com.example.mybooks.View.Book.BookFragment
 import com.example.mybooks.View.forms.FormsFragment
 import com.example.mybooks.ViewModel.MenuViewModel
 import com.example.mybooks.databinding.FragmentMenuBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MenuFragment : Fragment() {
     private lateinit var _binding : FragmentMenuBinding
     private val binding get()     = _binding
@@ -86,8 +87,6 @@ class MenuFragment : Fragment() {
 
 
     fun getAllBooks(context: Context) {
-        MenuViewModel.initUseCase(context)
-
         callBack = object : CallBack {
             override fun getData() {
                 menuViewModel.getAllBooks()

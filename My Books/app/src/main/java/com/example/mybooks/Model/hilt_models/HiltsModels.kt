@@ -3,7 +3,6 @@ package com.example.mybooks.Model.hilt_models
 import android.content.Context
 import com.example.mybooks.Model.SharedPreferences.SharedPreferences
 import com.example.mybooks.Model.UseCase
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

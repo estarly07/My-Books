@@ -84,7 +84,6 @@ class AdapterBooksVertical() :
                 holder.binding.btnBookQuitarGuardar.visibility  = View.VISIBLE
                 holder.binding.btnBookGuardar.visibility        = View.GONE
                 menuViewModel!!.updateStateBook(
-                    context = view.context,
                     isSaved = true,
                     idBook  = list[position].id_book
                 )
@@ -96,7 +95,6 @@ class AdapterBooksVertical() :
                 holder.binding.btnBookGuardar.visibility        = View.VISIBLE
 
                 menuViewModel!!.updateStateBook(
-                    context = view.context,
                     isSaved = false,
                     idBook  = list[position].id_book
                 )

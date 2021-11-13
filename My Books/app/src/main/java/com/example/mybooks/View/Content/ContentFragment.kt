@@ -25,8 +25,9 @@ import com.example.mybooks.View.forms.FormsFragment
 import com.example.mybooks.ViewModel.ContentViewModel
 import com.example.mybooks.databinding.FragmentContentBinding
 import com.example.mybooks.showToast
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ContentFragment : Fragment() {
     lateinit var _binding: FragmentContentBinding
     val binding get()    = _binding
@@ -64,7 +65,6 @@ class ContentFragment : Fragment() {
         else
             global?.fragment = NameFragments.CONTENTS
         super.onViewCreated(view, savedInstanceState)
-        ContentViewModel.initUsecase(view.context)
 
         scroll?.showButtonBook(show = false)
 

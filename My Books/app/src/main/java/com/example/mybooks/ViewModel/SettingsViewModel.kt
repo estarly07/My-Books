@@ -16,23 +16,23 @@ import com.example.mybooks.R
 import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.validateEmail
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    var useCase         : UseCase
+): ViewModel() {
     val countBook       = MutableLiveData<Int>()
     val countBookSave   = MutableLiveData<Int>()
     val countTheme      = MutableLiveData<Int>()
     val countThemeSave  = MutableLiveData<Int>()
     val user            = User.getInstance()
-
-    lateinit var useCase: UseCase
-    fun setUse(context: Context) {
-        useCase = UseCase(context)
-    }
 
     /**
      * CALLBACK PARA EJECUTAR LOS METODOS DE INSERTAR LIBROS,TEMAS, TEXTOS Y CONTENIDOS

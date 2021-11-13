@@ -7,19 +7,17 @@ import com.example.mybooks.Model.Entities.ContentEntity
 import com.example.mybooks.Model.Entities.TextEntity
 import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Models.Content
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ContentViewModel : ViewModel() {
+@HiltViewModel
+class ContentViewModel @Inject constructor(
+    var useCase     : UseCase
+) : ViewModel() {
     var listContent = MutableLiveData<MutableList<Content>>()
-
-    companion object {
-        private lateinit var useCase: UseCase
-        fun initUsecase(context: Context) {
-            useCase = UseCase(context)
-        }
-    }
 
     /**
      * OBTENER EL CONTENIDO POR TEMA (Lo obtenido se almacena en una variable livedata)
@@ -33,9 +31,9 @@ class ContentViewModel : ViewModel() {
             for (content in contents) {
                 val newContent = Content()
                 newContent.fk_idTheme = content.fk_idTheme
-                newContent.subTitle = content.subTitle
-                newContent.idContent = content.idContent
-                newContent.arrayText = useCase.getDataContent(content.idContent)
+                newContent.subTitle   = content.subTitle
+                newContent.idContent  = content.idContent
+                newContent.arrayText  = useCase.getDataContent(content.idContent)
 
                 arrayData.add(newContent)
                 listContent.postValue(arrayData)
@@ -64,11 +62,11 @@ class ContentViewModel : ViewModel() {
      * @param content  El contenido que se quiere actualizar
      * */
     fun updateSubtitle(subtitle: String, content: Content) {
-        content.subTitle = subtitle
+        content.subTitle  = subtitle
         val contentEntity = ContentEntity(
-            idContent   = content.idContent,
-            subTitle    = content.subTitle,
-            fk_idTheme  = content.fk_idTheme
+            idContent     = content.idContent,
+            subTitle      = content.subTitle,
+            fk_idTheme    = content.fk_idTheme
         )
         GlobalScope.launch(Dispatchers.Main) {
             useCase.updateContent(content = contentEntity)

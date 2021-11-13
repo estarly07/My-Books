@@ -22,8 +22,9 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.FormsViewModel
 import com.example.mybooks.databinding.FragmentFormsBinding
 import com.example.mybooks.showToast
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FormsFragment : Fragment() {
     lateinit var _binding : FragmentFormsBinding
     val binding get()     = _binding
@@ -147,8 +148,6 @@ class FormsFragment : Fragment() {
 
             }
         }
-
-        FormsViewModel.initUseCase(view.context)
 
         global?.view = view
         MenuActivity.getOnScroll()?.showButtonBook(show = false)

@@ -83,7 +83,6 @@ class AdapterThemesBook() :
 
         override fun deleteSelect(context: Context, bookViewModel: BookViewModel, fk_idBook: Int) {
             bookViewModel.deleteTheme(
-                context     = context,
                 ids         = listThemesSelect,
                 fk_idBook   = fk_idBook,
                 isListSaved = isSavedList

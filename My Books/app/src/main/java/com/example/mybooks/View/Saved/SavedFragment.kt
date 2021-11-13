@@ -22,8 +22,9 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.MenuViewModel
 import com.example.mybooks.ViewModel.SaveViewModel
 import com.example.mybooks.databinding.FragmentSavedBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SavedFragment : Fragment() {
     private lateinit var _binding: FragmentSavedBinding
     private val binding get()    = _binding
@@ -59,7 +60,6 @@ class SavedFragment : Fragment() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(binding.img)
 
-        SaveViewModel.initUseCase(view.context)
         global?.fragment = NameFragments.MENU
         data = object : GetDataCallBack {
             override fun getData() {
