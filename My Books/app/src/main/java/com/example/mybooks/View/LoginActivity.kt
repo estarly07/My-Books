@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun getInfoUser() {
-  val data=loginViewModel.isLogin(this)
+        val data=loginViewModel.isLogin(this)
         Handler().postDelayed({
             if (data[0]=="") {
                 binding.splash.root.animVanish(this,300)

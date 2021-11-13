@@ -20,13 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    val sharedPreferences           : SharedPreferences
-
+    val sharedPreferences           : SharedPreferences,
 ): ViewModel() {
     private lateinit var useCase : UseCase
     val isLogin                     = MutableLiveData<EnumValidate>()
     var user:User                   = User.getInstance()
-    //val sharedPreferences           = SharedPreferences.getInstance()
 
     /**
      * REGISTRAR UN USUARIO
