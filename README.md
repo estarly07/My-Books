@@ -9,7 +9,8 @@ Book  es un proyecto que permite guardar tus libros de estudio para tener un acc
   - Arquitectura MVVM.
   - Binding.
   - Servicios.
-  - Cloud Firestore.
+  - Cloud Firestore.☁️
+  - Dagger Hilt.💉
 
 <h3>Login</h3>
  
