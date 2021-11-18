@@ -13,7 +13,7 @@ import com.example.mybooks.databinding.ItemContenttextBinding
 import com.example.mybooks.selectTypeTextOrImage
 
 class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
-    private var list = mutableListOf<TextEntity>()
+    private var list            = mutableListOf<TextEntity>()
     private var listSelectItems = mutableListOf<Int>()
 
     interface Clic {
@@ -65,7 +65,12 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return Holder(ItemContenttextBinding.inflate(layoutInflater, parent, false))
+        return Holder(ItemContenttextBinding.inflate(
+            layoutInflater,
+            parent,
+            false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -75,14 +80,13 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             if (!listSelectItems.isEmpty()) {
                 holder.binding.edit.selectTypeTextOrImage(
                     context = holder.binding.root.context,
-                    select = false
+                    select  = false
                 )
                 listSelectItems.forEachIndexed { i, data ->
                     if (data == list[position].id_text) {
-                        println(data)
                         holder.binding.edit.selectTypeTextOrImage(
                             context = holder.binding.root.context,
-                            select = true
+                            select  = true
                         )
                         return@forEachIndexed
                     }
@@ -90,28 +94,32 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             } else {
                 holder.binding.edit.selectTypeTextOrImage(
                     context = holder.binding.root.context,
-                    select = false
+                    select  = false
                 )
             }
             holder.binding.containerEdit.visibility = View.VISIBLE
-            holder.binding.containerImg.visibility = View.GONE
+            holder.binding.containerImg.visibility  = View.GONE
             holder.binding.edtContent.setText(list[position].content)
 
             holder.binding.edtContent.setOnClickListener {
-                clic?.clic(textEntity = list[position], position = position, view = it)
+                clic?.clic(
+                    textEntity  = list[position],
+                    position    = position,
+                    view        = it
+                )
             }
         } else {
             if (!listSelectItems.isEmpty()) {
                 holder.binding.img.selectTypeTextOrImage(
                     context = holder.binding.root.context,
-                    select = false
+                    select  = false
                 )
                 listSelectItems.forEachIndexed { i, data ->
                     if (data == list[position].id_text) {
                         println(data)
                         holder.binding.img.selectTypeTextOrImage(
                             context = holder.binding.root.context,
-                            select = true
+                            select  = true
                         )
                         return@forEachIndexed
                     }
@@ -119,7 +127,7 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             } else {
                 holder.binding.img.selectTypeTextOrImage(
                     context = holder.binding.root.context,
-                    select = false
+                    select  = false
                 )
             }
             Glide.with(holder.binding.root.context)
@@ -130,21 +138,25 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             holder.binding.containerEdit.visibility = View.GONE
 
             holder.binding.imgContent.setOnClickListener {
-                clic?.clic(textEntity = list[position], position = position, view = it)
+                clic?.clic(
+                    textEntity  = list[position],
+                    position    = position,
+                    view        = it
+                )
             }
         }
         holder.binding.btnSelectEdit.setOnClickListener {
             seletcItem(
                 context = holder.binding.root.context,
-                item = list[position],
-                view = holder.binding.edit
+                item    = list[position],
+                view    = holder.binding.edit
             )
         }
         holder.binding.btnSelectImg.setOnClickListener {
             seletcItem(
                 context = it.context,
-                item = list[position],
-                view = holder.binding.img
+                item    = list[position],
+                view    = holder.binding.img
             )
         }
     }
@@ -170,9 +182,6 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             }
 
         }
-        println(listSelectItems)
-        println(list)
-
 
     }
 

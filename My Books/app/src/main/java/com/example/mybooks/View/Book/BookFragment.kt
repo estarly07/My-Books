@@ -28,28 +28,29 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.View.forms.FormsFragment
 import com.example.mybooks.ViewModel.BookViewModel
 import com.example.mybooks.databinding.FragmentBookBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class BookFragment : Fragment() {
 
     private lateinit var _binding: FragmentBookBinding
-    private val binding get() = _binding
-    private val bookViewModel: BookViewModel by viewModels()
-    private var adapterThemesBook: AdapterThemesBook = AdapterThemesBook()
-    private var sizeListThemes = 0
-    private val global = Global.getInstance()
+    private val binding get()     = _binding
+    private val bookViewModel     : BookViewModel by viewModels()
+    private var adapterThemesBook : AdapterThemesBook = AdapterThemesBook()
+    private var sizeListThemes    = 0
+    private val global            = Global.getInstance()
 
 
+    /**listener para mostrar las opciones al seleccionar un tema**/
     interface Select {
         fun showOptionsSelect(show: Boolean)
     }
 
     companion object {
-        private lateinit var book: BookEntity
-        private var select: Select? = null
-        private var globalLocal: NameFragments? = null
+        private lateinit var book : BookEntity
+        private var select        : Select?        = null
+        private var globalLocal   : NameFragments? = null
 
-        /**listener para mostrar las opciones al seleccionar un tema**/
 
         fun setBook(book: BookEntity) {
             this.book = book
@@ -59,7 +60,7 @@ class BookFragment : Fragment() {
             return select
         }
 
-        /**PARA SABER DE QUE FRAGMENTE PROVIENE (Book,Saved,Search)
+        /**PARA SABER DE QUE FRAGMENT PROVIENE (Book,Saved,Search)
          *@param page =El nombre de la pagina el cual esta en el numerado NameFragments
          *  */
         fun setGlobal(page: NameFragments) {
@@ -84,7 +85,7 @@ class BookFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println(globalLocal.toString())
+
         select = object : Select {
             override fun showOptionsSelect(show: Boolean) {
                 if (show)
@@ -97,14 +98,16 @@ class BookFragment : Fragment() {
         global?.view = view
 
         Glide.with(view.context)
-            .load(book.image)
+            .load (book.image)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(binding.imgBook)
-        binding.txtDateBook.text = book.creation_date
+            .into (binding.imgBook)
+
+        binding.txtDateBook.text        = book.creation_date
         binding.txtDescriptionBook.text = book.description
-        binding.txtTitleBook.text = book.name
+        binding.txtTitleBook.text       = book.name
+
         MenuActivity.getOnScroll()?.showButtonBook(show = true)
-        MenuActivity.getOnScroll()?.showToolbar(show = false)
+        MenuActivity.getOnScroll()?.showToolbar   (show = false)
 
         binding.scrollBook.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (scrollY < oldScrollY)
@@ -114,14 +117,13 @@ class BookFragment : Fragment() {
         })
 
         binding.btnInsertTheme.setOnClickListener { view ->
-            val type = "tema"
+            val type   = "tema"
 
             val bundle = bundleOf("type" to type)
             FormsFragment.setBook(book)
 
             Navigation.findNavController(view)
                 .navigate(R.id.action_bookFragment_to_formsFragment, bundle)
-
         }
 
         binding.reciclerTemas.layoutManager =
@@ -140,7 +142,7 @@ class BookFragment : Fragment() {
             }
 
             override fun onClicEdit(theme: ThemeEntity, position: Int, view: View) {
-                val type = "temaedit"
+                val type   = "temaedit"
 
                 val bundle = bundleOf("type" to type)
                 FormsFragment.setThema(theme)
@@ -161,13 +163,19 @@ class BookFragment : Fragment() {
             }
 
         })
-        bookViewModel.getThemes(view.context, book.id_book)
+        bookViewModel.getThemes(
+            book.id_book
+        )
         binding.btnDeselectAll.setOnClickListener { view ->
             adapterThemesBook.getEventSelect().deselect()
         }
         binding.btnDelete.setOnClickListener { view ->
             adapterThemesBook.getEventSelect()
-                .deleteSelect(view.context, bookViewModel, book.id_book)
+                .deleteSelect(
+                    view.context,
+                    bookViewModel,
+                    book.id_book
+                )
         }
         bookViewModel.theme.observe(viewLifecycleOwner, { theme ->
             adapterThemesBook.setList(theme)
@@ -175,30 +183,40 @@ class BookFragment : Fragment() {
         })
         binding.btnAllThemes.setOnClickListener { view ->
             adapterThemesBook.setTypeList(isSavedList = false)
-            bookViewModel.getThemes(view.context, book.id_book)
+            bookViewModel.getThemes(
+                book.id_book
+            )
         }
         binding.btnListSavedThemes.setOnClickListener { view ->
             adapterThemesBook.setTypeList(isSavedList = true)
-            bookViewModel.getSavedThemes(view.context, book.id_book)
+            bookViewModel.getSavedThemes(
+                book.id_book
+            )
         }
         binding.btnDeleteBook.setOnClickListener {
             showDialog(it.context)
         }
     }
 
+    /**MOSTRAR UN DIALOGO PARA ELIMINAR UN LIBRO*/
     fun showDialog(context: Context) {
-        binding.includeDialog.root.animAppear(context = context, 1000)
+        binding.includeDialog.root.animAppear(
+            context  = context,
+            duration = 1000
+        )
         binding.includeDialog.btnAcept.setOnClickListener {
-            bookViewModel.deleteBook(context = it.context, bookEntity = book)
+            bookViewModel.deleteBook(
+                bookEntity = book
+            )
             binding.includeDialog.root.animVanish(
-                context = it.context,
+                context  = it.context,
                 duration = 200
             )
             activity?.onBackPressed()
         }
         binding.includeDialog.btnCancel.setOnClickListener {
             binding.includeDialog.root.animVanish(
-                context = it.context,
+                context  = it.context,
                 duration = 200
             )
 

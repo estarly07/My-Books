@@ -16,7 +16,7 @@ import com.example.mybooks.databinding.ItemBooksavedBinding
 class AdapterSavedBooks(val context: Context) :
     RecyclerView.Adapter<AdapterSavedBooks.ViewHolder>() {
     private var list = listOf<BookEntity>()
-    val listColors = listOf(
+    val listColors   = listOf(
         R.color.Pink,
         R.color.morado,
         R.color.moradoclaro,
@@ -44,8 +44,8 @@ class AdapterSavedBooks(val context: Context) :
     class ViewHolder(val binding: ItemBooksavedBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent   : ViewGroup,
+        viewType : Int
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return ViewHolder(ItemBooksavedBinding.inflate(layoutInflater, parent, false))
@@ -57,9 +57,9 @@ class AdapterSavedBooks(val context: Context) :
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.binding.root.context)
-            .load(list[position].image)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(holder.binding.imgBook)
+            .load               (list[position].image)
+            .diskCacheStrategy  (DiskCacheStrategy.ALL)
+            .into               (holder.binding.imgBook)
 
         holder.binding.txtDateBookH.setText(list[position].creation_date)
         holder.binding.txtNameBookH.setText(list[position].name)
@@ -71,7 +71,10 @@ class AdapterSavedBooks(val context: Context) :
             indice = 0
         holder.binding.root.setOnClickListener { view ->
             if (clic != null)
-                clic.clic(book = list[position], position = position, view = view)
+                clic.clic(
+                    book     = list[position],
+                    position = position,
+                    view     = view)
         }
 
     }

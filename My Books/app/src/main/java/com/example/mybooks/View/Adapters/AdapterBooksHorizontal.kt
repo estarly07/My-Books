@@ -12,6 +12,7 @@ import com.example.mybooks.databinding.ItemBookHotizontalBinding
 
 class AdapterBooksHorizontal :
     RecyclerView.Adapter<AdapterBooksHorizontal.ViewHolder>() {
+
     interface Clic {
         fun clic(book: BookEntity, position: Int, view: View)
     }
@@ -31,7 +32,7 @@ class AdapterBooksHorizontal :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AdapterBooksHorizontal.ViewHolder {
+    ):  ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return ViewHolder(ItemBookHotizontalBinding.inflate(layoutInflater, parent, false))
     }
@@ -45,6 +46,7 @@ class AdapterBooksHorizontal :
             if (clic != null)
                 clic.clic(book = list[position], position, view)
         }
+
         holder.binding.txtDateBookH.setText(list[position].creation_date)
         holder.binding.txtNameBookH.setText(list[position].name)
     }

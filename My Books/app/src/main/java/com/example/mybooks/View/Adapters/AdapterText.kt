@@ -38,7 +38,10 @@ class AdapterText : RecyclerView.Adapter<AdapterText.Holder>() {
             holder.binding.txtContent.setText(list[position].content)
             holder.binding.txtContent.visibility = View.VISIBLE
             holder.binding.txtContent.setOnClickListener {
-                clic?.clic(textEntity = list[position], positionText = position, view = it)
+                clic?.clic(
+                    textEntity   = list[position],
+                    positionText = position,
+                    view         = it)
             }
 
         } else {
@@ -48,7 +51,10 @@ class AdapterText : RecyclerView.Adapter<AdapterText.Holder>() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.binding.imgContent)
             holder.binding.imgContent.setOnClickListener {
-                clic?.clic(textEntity = list[position], positionText = position, view = it)
+                clic?.clic(
+                    textEntity   = list[position],
+                    positionText = position,
+                    view         = it)
             }
         }
     }

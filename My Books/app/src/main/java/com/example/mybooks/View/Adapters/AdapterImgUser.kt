@@ -24,9 +24,9 @@ class AdapterImgUser(val context: Context) : RecyclerView.Adapter<AdapterImgUser
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.binding.root.context)
-            .load(list[position])
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(holder.binding.imgUser)
+            .load               (list[position])
+            .diskCacheStrategy  (DiskCacheStrategy.ALL)
+            .into               (holder.binding.imgUser)
 
         holder.binding.imgUser.setOnClickListener {
             clic?.clic(list[position],view = it)

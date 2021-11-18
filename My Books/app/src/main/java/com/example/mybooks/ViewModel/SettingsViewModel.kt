@@ -2,7 +2,6 @@ package com.example.mybooks.ViewModel
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mybooks.Model.Entities.BookEntity
@@ -17,42 +16,42 @@ import com.example.mybooks.R
 import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.validateEmail
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
-    val countBook = MutableLiveData<Int>()
-    val countBookSave = MutableLiveData<Int>()
-    val countTheme = MutableLiveData<Int>()
-    val countThemeSave = MutableLiveData<Int>()
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    var useCase         : UseCase
+): ViewModel() {
+    val countBook       = MutableLiveData<Int>()
+    val countBookSave   = MutableLiveData<Int>()
+    val countTheme      = MutableLiveData<Int>()
+    val countThemeSave  = MutableLiveData<Int>()
+    val user            = User.getInstance()
 
-    val user = User.getInstance()
-    lateinit var useCase: UseCase
-    fun setUse(context: Context) {
-        useCase = UseCase(context)
-    }
-
+    /**
+     * CALLBACK PARA EJECUTAR LOS METODOS DE INSERTAR LIBROS,TEMAS, TEXTOS Y CONTENIDOS
+     * */
     interface CallBack {
-        fun insertBooks(context: Context, list: List<BookEntity>)
-        fun insertThemes(context: Context,list: List<ThemeEntity>)
-        fun insertContents(context: Context,list: List<ContentEntity>)
-        fun insertTexts(list: List<TextEntity>)
+        fun insertBooks     (context: Context, list: List<BookEntity>)
+        fun insertThemes    (context: Context,list: List<ThemeEntity>)
+        fun insertContents  (context: Context,list: List<ContentEntity>)
+        fun insertTexts     (list: List<TextEntity>)
     }
 
     private val callBack = object : CallBack {
         override fun insertBooks(context: Context, list: List<BookEntity>) {
-            Log.w("TAG", "LOOOOOOOOO")
-
             MenuActivity.getShowDialogListener()
                 .setMensajeDialog(context.resources.getString(R.string.InsertandoData))
 
             GlobalScope.launch(Dispatchers.Main) {
                 list.forEach { book ->
                     useCase.insertBook(book)
-                    println(book.name)
                 }
                 delay(300)
                 getThemesFirebase(context)
@@ -71,10 +70,8 @@ class SettingsViewModel : ViewModel() {
         override fun insertContents(context: Context,list: List<ContentEntity>) {
             GlobalScope.launch(Dispatchers.Main) {
                 list.forEach { content ->
-                    println(content.subTitle)
                     useCase.insertContent(content)
                 }
-
                 delay(300)
                 getTextFirebase(context = context)
             }
@@ -93,28 +90,38 @@ class SettingsViewModel : ViewModel() {
 
     }
 
+    /**
+     * OBTENER LOS TEXTOS DE FIREBASE
+     * */
     private fun getTextFirebase(context: Context) {
         GlobalScope.launch(Dispatchers.Main) {
             useCase.getTextFirebase(context,callBack)
         }
     }
 
+    /**
+     * OBTENER EL CONTENIDO DE FIREBASE
+     * */
     private fun getContentsFirebase(context: Context) {
         GlobalScope.launch(Dispatchers.Main) {
             useCase.getContentFirebase(context,callBack)
         }
     }
 
+    /**
+     * OBTENER LA CANTIDAD DE LIBROS Y TEMAS (GUARDADOS Y SIN GUARDAR)
+     * */
     fun getEstaditicas() {
-        countTheme.value = 0
-        countThemeSave.value = 0
+        countTheme.value        = 0
+        countThemeSave.value    = 0
         GlobalScope.launch(Dispatchers.Main) {
-            countBook.value = useCase.getCountBook(user.id)
+            countBook.value     = useCase.getCountBook(user.id)
             countBookSave.value = useCase.getCountBookSave(user.id)
-            val books = useCase.getAllBooks(user.id)
+            val books           = useCase.getAllBooks(user.id)
 
             books.forEach { book ->
-                countTheme.value = countTheme.value!!.plus(useCase.getCountTheme(book.id_book))
+                countTheme.value     =
+                    countTheme.value!!.plus(useCase.getCountTheme(book.id_book))
             }
             books.forEach { book ->
                 countThemeSave.value =
@@ -123,6 +130,10 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
+    /**
+     * ACTUALIZAR FOTO DEL USER
+     * @param photo Foto a actualizar
+     * */
     fun updatePhoto(photo: String) {
         user.photo = photo
         GlobalScope.launch(Dispatchers.Main) {
@@ -130,6 +141,12 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
+    /**
+     * ACTUALIZAR NOMBRE DEL USER
+     * @param  name     Nombre nuevo
+     * @param  context
+     * @return Boolean  true=>Si se actualizo false=>Si no se actualizo
+     * */
     fun updateNameUser(context: Context,name: String): Boolean {
         if (name == "") {
             return false
@@ -139,17 +156,26 @@ class SettingsViewModel : ViewModel() {
             user.name = name
             SharedPreferences.getInstance().savaDataName(context, name = name)
         }
-
         return true
     }
 
+    /**
+     * OBTENER LOS TEMAS
+     * @param  context
+     * */
     fun getThemesFirebase(context: Context) {
         GlobalScope.launch(Dispatchers.Main) {
-
-            useCase.getThemesFirebase(context,this@SettingsViewModel.callBack)
+            useCase.getThemesFirebase(
+                context  = context,
+                callBack = this@SettingsViewModel.callBack
+            )
         }
     }
 
+    /**
+     * DESCARGAR TODA LA INFORMACION SUBIDA EN FIREBASE
+     * @param  context
+     * */
     fun sincronizarData(context: Context) {
         GlobalScope.launch(Dispatchers.Main) {
             MenuActivity.getStateDowloand().setState(isSucessDowloand = false)
@@ -161,28 +187,48 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun saveStateDowloand(activity: Activity, isSucessDowloand: Boolean) {
-        useCase.saveStateDowloand(activity = activity, isSucessDowloand = isSucessDowloand)
+    /**
+     * GUARDAR EL ESTADO DE LA DESCARGA POR SI HAY UN FALLO DE PARTE DEL USUARIO
+     * @param  activity
+     * @param  isSuccessDownload Si se termino la sincronizacion (true) y si hubo algún fallo(false)
+     * */
+    fun saveStateDowloand(activity: Activity, isSuccessDownload: Boolean) {
+        useCase.saveStateDowloand(activity = activity, isSuccessDownload = isSuccessDownload)
     }
 
+    /**
+     * OBTENER EL ESTADO DE LA DESCARGA
+     * */
     fun getStateDowloand(activity: Activity): Boolean {
-
         return useCase.getStateDowloand(activity = activity)
     }
 
-    fun setService(context: Context, activity: Activity, isActiveSincronized: Boolean) {
-        if (isActiveSincronized) {
-            println(System.currentTimeMillis())
-
+    /**
+     * ACTIVAR EL SERVICIO DE GUARDADO EN LA NUBE CADA 24H
+     * @param  context
+     * @param  activity
+     * @param  isActiveSynchronized Si se quiere activar(True) o desactivar(false)
+     * */
+    fun setService(
+        context              : Context,
+        activity             : Activity,
+        isActiveSynchronized : Boolean
+    ) {
+        if (isActiveSynchronized) {
             val today: Calendar = Calendar.getInstance()
             today.set(Calendar.HOUR_OF_DAY, 8)
-            today.set(Calendar.MINUTE, 0)
-            today.set(Calendar.SECOND, 0)
-            println("${today.timeInMillis} ${today.get(Calendar.DAY_OF_MONTH)}")
+            today.set(Calendar.MINUTE,      0)
+            today.set(Calendar.SECOND,      0)
 
-            AlarmService.getInstance().setAlarm(context, today.timeInMillis, 1)
+            AlarmService.getInstance().setAlarm(
+                context = context,
+                times   = today.timeInMillis,
+                codeId  = 1)
         }
-        useCase.activeSincronized(activity = activity, isActiveSincronized = isActiveSincronized)
+        useCase.activeSincronized(
+            activity             = activity,
+            isActiveSynchronized = isActiveSynchronized
+        )
     }
 
     fun getActiveSincronized(context: Context): Boolean {
@@ -194,12 +240,16 @@ class SettingsViewModel : ViewModel() {
     }
 
     /**
-     *@param data array que contenga el email y la password del usuario
+     * REGISTRAR UN USUARIO O LOGUEARLO
+     *
+     * @param data     array que contenga el email y la password del usuario
+     * @param isLogin  Loguearse(true) registrarse(false)
+     * @param listener Callback para ejecutar el metodo de registrar o loguearse dependiendo de isLogin
      * */
     fun registerOrLoginEmail(
-        isLogin: Boolean,
-        data:List<String>,
-        listener: SettingsFragment.RegisterEmail
+        isLogin  : Boolean,
+        data     : List<String>,
+        listener : SettingsFragment.RegisterEmail
     ) {
         if (data[0].isEmpty() || data[1].isEmpty()) {
             listener.alert(message = "Llena los campos")
@@ -216,13 +266,17 @@ class SettingsViewModel : ViewModel() {
         }
         GlobalScope.launch(Dispatchers.Main) {
             if (isLogin)
-                useCase.loginUserFirebase(email = data[0], pass = data[1], lister = listener)
+                useCase.loginUserFirebase   (email = data[0], pass = data[1], lister = listener)
             else
                 useCase.registerUserFirebase(email = data[0], pass = data[1], lister = listener)
         }
 
 
     }
+
+    /**
+     * OBTENER EL TOKEN DE AUTENTIFICACION
+     * */
     fun getToken(context: Context):String{
         return useCase.getToken(context)
     }

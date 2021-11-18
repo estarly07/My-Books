@@ -13,13 +13,13 @@ import com.example.mybooks.ViewModel.SettingsViewModel
 
 class UseCase(context: Context) {
 
-    private var userDao: UserDao = SqliteDb.getInstance(context)?.userDao()!!
-    private var bookDao: BookDao = SqliteDb.getInstance(context)?.BookDao()!!
-    private var themeDao: ThemeDao = SqliteDb.getInstance(context)?.ThemeDao()!!
-    private var contentDao: ContentDao = SqliteDb.getInstance(context)?.contentDao()!!
-    private var textDao: TextDao = SqliteDb.getInstance(context)?.textDao()!!
-    private var firebase = Firebase.getInstance()
-    private var prefereces = SharedPreferences.getInstance()
+    private var userDao     : UserDao    = SqliteDb.getInstance(context)?.userDao()!!
+    private var bookDao     : BookDao    = SqliteDb.getInstance(context)?.BookDao()!!
+    private var themeDao    : ThemeDao   = SqliteDb.getInstance(context)?.ThemeDao()!!
+    private var contentDao  : ContentDao = SqliteDb.getInstance(context)?.contentDao()!!
+    private var textDao     : TextDao    = SqliteDb.getInstance(context)?.textDao()!!
+    private var firebase                 = Firebase.getInstance()
+    private var prefereces               = SharedPreferences.getInstance()
 
 
     suspend fun createUser(user: UserEntity): Boolean {
@@ -45,19 +45,19 @@ class UseCase(context: Context) {
         return bookDao.getAllBooksSaved()
     }
 
-    suspend fun insertTheme(theme: ThemeEntity): Long {
+    fun insertTheme(theme: ThemeEntity): Long {
         return themeDao.insertTheme(theme)
     }
 
-    suspend fun getThemes(fk_idBook: Int): List<ThemeEntity> {
+    fun getThemes(fk_idBook: Int): List<ThemeEntity> {
         return themeDao.getThemes(fk_idBook)
     }
 
-    suspend fun deleteTheme(idTheme: Int) {
+    fun deleteTheme(idTheme: Int) {
         themeDao.deletTheme(idTheme)
     }
 
-    suspend fun getSavedThemes(fk_idBook: Int): List<ThemeEntity> {
+    fun getSavedThemes(fk_idBook: Int): List<ThemeEntity> {
         return themeDao.getSavedThemes(fk_idBook)
     }
 
@@ -81,11 +81,11 @@ class UseCase(context: Context) {
         return themeDao.searchThemes(idBook = idBook, name = name)
     }
 
-    suspend fun getContentById(idTheme: Int): List<ContentEntity> {
+    fun getContentById(idTheme: Int): List<ContentEntity> {
         return contentDao.getContentById(idTheme)
     }
 
-    suspend fun insertContent(contentEntity: ContentEntity): Long {
+    fun insertContent(contentEntity: ContentEntity): Long {
         return contentDao.insertContent(contentEntity)
     }
 
@@ -117,7 +117,7 @@ class UseCase(context: Context) {
         themeDao.savedTheme(idTheme, save)
     }
 
-    suspend fun updateContent(content: ContentEntity) {
+    fun updateContent(content: ContentEntity) {
         contentDao.updateContent(content)
     }
 
@@ -146,7 +146,7 @@ class UseCase(context: Context) {
     }
 
     fun registerUserFirebase(email: String, pass: String, lister: SettingsFragment.RegisterEmail) {
-        firebase.registerUser(email = email, pass = pass, lister = lister)
+        firebase.registerUser(email   = email, pass = pass, lister = lister)
     }
     fun loginUserFirebase(email: String, pass: String, lister: SettingsFragment.RegisterEmail) {
         firebase.loginUserEmail(email = email, pass = pass, lister = lister)
@@ -189,16 +189,16 @@ class UseCase(context: Context) {
         bookDao.deletAll()
     }
 
-    fun saveStateDowloand(activity: Activity, isSucessDowloand: Boolean) {
-        prefereces.saveStateDescarga(activity, isSucessDowloand = isSucessDowloand)
+    fun saveStateDowloand(activity: Activity, isSuccessDownload: Boolean) {
+        prefereces.saveStateDescarga(activity, isSuccessDownload = isSuccessDownload)
     }
 
     fun getStateDowloand(activity: Activity): Boolean {
         return prefereces.getStateDowloand(activity)
     }
 
-    fun activeSincronized(activity: Activity, isActiveSincronized: Boolean) {
-        prefereces.activeSincronized(activity = activity, isActiveSincronized = isActiveSincronized)
+    fun activeSincronized(activity: Activity, isActiveSynchronized: Boolean) {
+        prefereces.activeSincronized(activity = activity, isActiveSynchronized = isActiveSynchronized)
     }
 
     fun getActiveSincronized(context: Context): Boolean {

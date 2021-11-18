@@ -19,11 +19,13 @@ import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.ActivityMenuBinding
 import com.example.mybooks.pressedButtonsToolbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MenuActivity : AppCompatActivity() {
     lateinit var binding: ActivityMenuBinding
     lateinit var buttonsToolbar: List<List<View?>>
@@ -89,7 +91,6 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        settingsViewModel.setUse(this)
         binding.count.setText(
             "${settingsViewModel.getCountSincronized(this)}"
         )
@@ -144,7 +145,7 @@ class MenuActivity : AppCompatActivity() {
                 settingsViewModel.setService(
                     context = this@MenuActivity,
                     activity = this@MenuActivity,
-                    isActiveSincronized = isActiveSincronized
+                    isActiveSynchronized = isActiveSincronized
                 )
             }
 

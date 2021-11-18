@@ -3,7 +3,6 @@ package com.example.mybooks.View.settings
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,15 +22,15 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
-import java.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
     lateinit var _binding: FragmentSettingsBinding
-    val binding get() = _binding
+    val binding get()   = _binding
+    var isEditName      = false//SABER SI ESTA EDITANDO EL NOMBRE
+    var isSincronized   =false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
     val settingViewModel: SettingsViewModel by viewModels()
-    var isEditName = false//SABER SI ESTA EDITANDO EL NOMBRE
-    var isSincronized=false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +42,13 @@ class SettingsFragment : Fragment() {
     }
 
     interface CallBack {
+        /** OBTENER LA INFORMACION DEL CADA VEZ QUE ENTRA A LOS SETTINGS*/
         fun getData()
     }
 
+    /**CALLBACK PARA MOSTRAR EL DIALOGO DE INGRESAR EL CORREO ELECTRONICO*/
     interface RegisterEmail {
+        /**CERRAR EL DIALOGO DE INGRESAR EL CORREO ELECTRONICO*/
         fun dimissDialog(token: String)
         fun alert(message: String)
 
@@ -54,7 +56,7 @@ class SettingsFragment : Fragment() {
 
     val callRegisterEmail = object : RegisterEmail {
         override fun dimissDialog(token: String) {
-            settingViewModel.saveToken(context!!, token = token)
+            settingViewModel.saveToken              (context!!, token = token)
             binding.dialogoRegistrar.root.animVanish(context!!, duration = 200)
             if (isSincronized){
                 MenuActivity.getShowDialogListener().showDialog(context!!)
@@ -63,12 +65,12 @@ class SettingsFragment : Fragment() {
                 settingViewModel.sincronizarData(context!!)
                 isSincronized=false
             }else{
-            MenuActivity.getActiveSincronized().activeSincronized(true)
+                MenuActivity.getActiveSincronized().activeSincronized(true)
             }
         }
 
         override fun alert(message: String) {
-            binding.dialogoRegistrar.progress.animVanish(context!!, duration = 200)
+            binding.dialogoRegistrar.progress.animVanish     (context!!, duration = 200)
             binding.dialogoRegistrar.layoutButtons.animAppear(context!!, duration = 200)
             message.showToast(
                 context!!,
@@ -88,7 +90,6 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        settingViewModel.setUse(context = view.context)
         binding.switchSave.isChecked=settingViewModel.getActiveSincronized(view.context)
         settingViewModel.getEstaditicas()
         val adapter = AdapterImgUser(view.context)
@@ -150,15 +151,14 @@ class SettingsFragment : Fragment() {
 
         }
         binding.dialogoRegistrar.btnAcept.setOnClickListener {
-            binding.dialogoRegistrar.progress.animAppear(it.context, duration = 200)
+            binding.dialogoRegistrar.progress.animAppear     (it.context, duration = 200)
             binding.dialogoRegistrar.layoutButtons.animVanish(it.context, duration = 200)
 
             settingViewModel.registerOrLoginEmail(
-                isLogin = binding.dialogoRegistrar.btnAcept.text == view.context.resources.getText(
+                isLogin  = binding.dialogoRegistrar.btnAcept.text == view.context.resources.getText(
                     R.string.loginE
                 ),
-                data = listOf(
-
+                data     = listOf(
                     binding.dialogoRegistrar.edtEmail.text.trim().toString(),
                     binding.dialogoRegistrar.edtPass.text.trim().toString(),
                 ),
@@ -200,7 +200,7 @@ class SettingsFragment : Fragment() {
 
 
         binding.img.setOnClickListener {
-            binding.dialogo.animAppear(it.context, duration = 1000)
+            binding.dialogo.animAppear   (it.context, duration = 1000)
         }
         binding.fondo.setOnClickListener {
             if (binding.dialogo.isVisible)
@@ -222,8 +222,9 @@ class SettingsFragment : Fragment() {
         })
     }
 
+    /**MOSTRAR UN DIALOGO PARA PREGUNTAR SI QUIERE ELIMINAR LOS LIBROS AL MOMENTO DE SINCRONIZAR CON LA NUBE*/
     fun showDialog(context: Context) {
-        isSincronized=true
+        isSincronized = true
         val dialog = Dialog(context, R.style.Theme_AppCompat_Dialog)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_accepdownloand)
@@ -235,17 +236,16 @@ class SettingsFragment : Fragment() {
 
             dialog.dismiss()
             if (settingViewModel.getToken(view.context) == "") {
-                binding.dialogoRegistrar.root.animAppear(view.context, duration = 1000)
-
+                binding.dialogoRegistrar.root.animAppear             (view.context, duration = 1000)
                 binding.dialogoRegistrar.btnAcept.setOnClickListener {
-                    binding.dialogoRegistrar.progress.animAppear(it.context, duration = 200)
-                    binding.dialogoRegistrar.layoutButtons.animVanish(it.context, duration = 200)
+                    binding.dialogoRegistrar.progress.animAppear     (it.context,   duration = 200)
+                    binding.dialogoRegistrar.layoutButtons.animVanish(it.context,   duration = 200)
 
                     settingViewModel.registerOrLoginEmail(
-                        isLogin = binding.dialogoRegistrar.btnAcept.text == view.context.resources.getText(
+                        isLogin  = binding.dialogoRegistrar.btnAcept.text == view.context.resources.getText(
                             R.string.loginE
                         ),
-                        data = listOf(
+                        data     = listOf(
 
                             binding.dialogoRegistrar.edtEmail.text.trim().toString(),
                             binding.dialogoRegistrar.edtPass.text.trim().toString(),

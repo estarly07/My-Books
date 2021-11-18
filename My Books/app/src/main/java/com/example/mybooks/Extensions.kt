@@ -18,12 +18,12 @@ import java.util.regex.Pattern
  * @param resource layout que tendra el mensaje
  * */
 fun String.showToast(context: Context, duration: Int, resource: Int): Unit {
-    val toast = Toast(context)
-    toast.duration = duration
-    val view = LayoutInflater.from(context).inflate(resource, null, false)
+    val toast       = Toast(context)
+    toast.duration  = duration
+    val view        = LayoutInflater.from(context).inflate(resource, null, false)
     val txtMensage: TextView = view.findViewById(R.id.txtMensageToast)
     txtMensage.text = this
-    toast.view = view
+    toast.view      = view
     toast.show()
 }
 /** VALIDAR DE QUE UNA LISTA DE STRINGS NO ESTE VACIA O TENGA STRINGS VACIOS
@@ -82,13 +82,9 @@ fun List<View>.selectTheme(context: Context, isSelect: Boolean) {
 /**EXTENSION CON LISTENER AL EDITTEXT PARA CUANDO ESCRIBA*/
 fun EditText.textChange(listener: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int){}
 
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
         override fun afterTextChanged(txt: Editable?) {
             listener(txt.toString())

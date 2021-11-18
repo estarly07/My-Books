@@ -15,9 +15,9 @@ import com.example.mybooks.Model.firebase.NamesFirestore.*
 
 
 class Firebase {
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var firebase = FirebaseFirestore.getInstance()
-    private val preferences = SharedPreferences.getInstance()
+    private var auth: FirebaseAuth   = FirebaseAuth.getInstance()
+    private var firebase             = FirebaseFirestore.getInstance()
+    private val preferences          = SharedPreferences.getInstance()
 
     companion object {
         private var INSTANCE: Firebase? = null
@@ -34,7 +34,11 @@ class Firebase {
      * @param pass
      * @param lister callback que nos permite quitar el dialogo de ingreso del correo y mostrar un mensaje (si es incorrecto solo se mostrara un mensaje)
      * */
-    fun registerUser(email: String, pass: String, lister: SettingsFragment.RegisterEmail) {
+    fun registerUser(
+        email: String,
+        pass: String,
+        lister: SettingsFragment.RegisterEmail
+    ) {
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             println(auth.currentUser?.uid)
             if (task.isSuccessful) {
@@ -52,7 +56,11 @@ class Firebase {
      * @param pass
      * @param lister callback que nos permite quitar el dialogo de ingreso del correo y mostrar un mensaje (si es incorrecto solo se mostrara un mensaje)
      * */
-    fun loginUserEmail(email: String, pass: String, lister: SettingsFragment.RegisterEmail) {
+    fun loginUserEmail(
+        email   : String,
+        pass    : String,
+        lister  : SettingsFragment.RegisterEmail
+    ) {
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 lister.alert("Inicio de sesión realizado")
@@ -130,7 +138,7 @@ class Firebase {
             val map = HashMap<String, Any>()
             map[ID_CONTENT.getName()]       = content.idContent
             map[SUBTITLE.getName()]         = content.subTitle
-            map[FK_ID_THEME.getName()]    = content.fk_idTheme
+            map[FK_ID_THEME.getName()]      = content.fk_idTheme
 
             array.add(map)
 
@@ -283,8 +291,8 @@ class Firebase {
                         val map = value as HashMap<*, *>
                         val text = TextEntity(
                             id_text         = (map[ID_TEXT.getName()] as Long).toInt(),
-                            type            = map[CONTENT.getName()].toString(),
-                            content         = map[TYPE_TEXT.getName()].toString(),
+                            content         = map[CONTENT.getName()].toString(),
+                            type            = map[TYPE_TEXT.getName()].toString(),
                             fk_id_content   = (map[FK_ID_CONTENT.getName()] as Long).toInt()
                         )
                         listText.add(text)

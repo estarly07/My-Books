@@ -13,8 +13,8 @@ import com.example.mybooks.databinding.ItemBookVerticalBinding
 
 class AdapterBooksVertical() :
     RecyclerView.Adapter<AdapterBooksVertical.ViewHolder>() {
-    private var menuViewModel: MenuViewModel? = null
-    private var list: MutableList<BookEntity> = mutableListOf()
+    private var menuViewModel  : MenuViewModel?          = null
+    private var list           : MutableList<BookEntity> = mutableListOf()
 
     @SuppressLint("NotifyDataSetChanged")
     fun setlist(list: List<BookEntity>) {
@@ -34,8 +34,8 @@ class AdapterBooksVertical() :
     }
 
     interface OnClick {
-        fun onClick(book: BookEntity, position: Int, view: View)
-        fun onEditClick(book: BookEntity, position: Int, view: View)
+        fun onClick     (book: BookEntity, position: Int, view: View)
+        fun onEditClick (book: BookEntity, position: Int, view: View)
     }
 
     private var clic: OnClick? = null
@@ -45,8 +45,8 @@ class AdapterBooksVertical() :
     }
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent   : ViewGroup,
+        viewType : Int
     ): ViewHolder {
         val LayoutInflater =
             LayoutInflater.from(parent.context)
@@ -71,32 +71,32 @@ class AdapterBooksVertical() :
             }
         }
         if (list[position].saved) {
-            holder.binding.btnBookQuitarGuardar.visibility = View.VISIBLE
-            holder.binding.btnBookGuardar.visibility = View.GONE
+            holder.binding.btnBookQuitarGuardar.visibility  = View.VISIBLE
+            holder.binding.btnBookGuardar.visibility        = View.GONE
         } else {
-            holder.binding.btnBookQuitarGuardar.visibility = View.GONE
-            holder.binding.btnBookGuardar.visibility = View.VISIBLE
+            holder.binding.btnBookQuitarGuardar.visibility  = View.GONE
+            holder.binding.btnBookGuardar.visibility        = View.VISIBLE
         }
 
         holder.binding.btnBookGuardar.setOnClickListener { view ->
             if (menuViewModel != null) {
                 holder.binding.btnBookQuitarGuardar.playAnimation()
-                holder.binding.btnBookQuitarGuardar.visibility = View.VISIBLE
-                holder.binding.btnBookGuardar.visibility = View.GONE
+                holder.binding.btnBookQuitarGuardar.visibility  = View.VISIBLE
+                holder.binding.btnBookGuardar.visibility        = View.GONE
                 menuViewModel!!.updateStateBook(
-                    context = view.context,
                     isSaved = true,
-                    idBook = list[position].id_book
+                    idBook  = list[position].id_book
                 )
             }
         }
         holder.binding.btnBookQuitarGuardar.setOnClickListener { view ->
             if (menuViewModel != null) {
-                holder.binding.btnBookQuitarGuardar.visibility = View.GONE
-                holder.binding.btnBookGuardar.visibility = View.VISIBLE
+                holder.binding.btnBookQuitarGuardar.visibility  = View.GONE
+                holder.binding.btnBookGuardar.visibility        = View.VISIBLE
+
                 menuViewModel!!.updateStateBook(
-                    context = view.context, isSaved = false,
-                    idBook = list[position].id_book
+                    isSaved = false,
+                    idBook  = list[position].id_book
                 )
             }
         }
