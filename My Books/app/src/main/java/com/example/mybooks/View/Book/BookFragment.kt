@@ -33,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class BookFragment : Fragment() {
 
-    private lateinit var _binding: FragmentBookBinding
+    private lateinit var _binding : FragmentBookBinding
     private val binding get()     = _binding
     private val bookViewModel     : BookViewModel by viewModels()
     private var adapterThemesBook : AdapterThemesBook = AdapterThemesBook()
