@@ -29,4 +29,9 @@
     <style name="CardView" parent="Theme.AppCompat.NoActionBar">
         <item name="cardBackgroundColor">@color/white</item>
     </style>
+
+
+    <style name="SplasTheme" parent="Theme.MyBooks">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
 </resources>
