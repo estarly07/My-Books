@@ -10,13 +10,16 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name=".View.aplication.MyBooks"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".View.aplication.MyBooks"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyBooks">
+        <activity
+            android:name=".View.allBook.AllBookActivity"
+            android:exported="true" />
         <activity
             android:name=".View.Menu.MenuActivity"
             android:exported="true" />
