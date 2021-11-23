@@ -1,6 +1,7 @@
 package com.example.mybooks.View.Book
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -25,6 +26,7 @@ import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animVanish
 import com.example.mybooks.View.Content.ContentFragment
 import com.example.mybooks.View.Menu.MenuActivity
+import com.example.mybooks.View.allBook.AllBookActivity
 import com.example.mybooks.View.forms.FormsFragment
 import com.example.mybooks.ViewModel.BookViewModel
 import com.example.mybooks.databinding.FragmentBookBinding
@@ -54,6 +56,9 @@ class BookFragment : Fragment() {
 
         fun setBook(book: BookEntity) {
             this.book = book
+        }
+        fun getBook():BookEntity{
+            return book
         }
 
         fun getSelect(): Select? {

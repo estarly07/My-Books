@@ -1,6 +1,8 @@
 package com.example.mybooks.View.Menu
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +11,16 @@ import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import com.example.mybooks.Global
+import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.NameFragments
 import com.example.mybooks.R
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToBottomOrUp
 import com.example.mybooks.View.Animations.animVanish
+import com.example.mybooks.View.Book.BookFragment
 import com.example.mybooks.View.Saved.SavedFragment
+import com.example.mybooks.View.allBook.AllBookActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.ActivityMenuBinding
@@ -64,6 +70,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     companion object {
+
         private var showDialog: ShowDialog? = null
 
         fun getShowDialogListener(): ShowDialog {
@@ -94,6 +101,13 @@ class MenuActivity : AppCompatActivity() {
         binding.count.setText(
             "${settingsViewModel.getCountSincronized(this)}"
         )
+
+      binding.btnShowBook.setOnClickListener {
+          val intent = Intent()
+          intent.setClass(this@MenuActivity, AllBookActivity::class.java)
+          AllBookActivity.setBook(book = BookFragment.getBook())
+          startActivity(intent)
+      }
 
         buttonsToolbar = listOf(
             listOf(binding.btnHome, binding.imgHome),
