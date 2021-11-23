@@ -34,15 +34,12 @@ class SavedFragment : Fragment() {
     private val user             = User.getInstance()
 
     companion object {
-        private lateinit var data: GetDataCallBack
-        fun getDataCallBack(): GetDataCallBack {
-            return data
+     private var data: (() -> Unit)? =null
+        fun getDataCallBack(): ()->Unit {
+            return data!!
         }
     }
 
-    interface GetDataCallBack {
-        fun getData()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,18 +58,15 @@ class SavedFragment : Fragment() {
             .into(binding.img)
 
         global?.fragment = NameFragments.MENU
-        data = object : GetDataCallBack {
-            override fun getData() {
-                Glide.with(view.context)
-                    .load(user.photo)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(binding.img)
-                saveViewModel.getAllBooksSaved()
-                binding.txtNameUser.text =
-                    ("${view.context.resources.getString(R.string.Hello)}, ${user.name}!!")
-            }
+        data = {
+            Glide.with(view.context)
+                .load(user.photo)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.img)
+            saveViewModel.getAllBooksSaved()
+            binding.txtNameUser.text =
+                ("${view.context.resources.getString(R.string.Hello)}, ${user.name}!!")
         }
-
         val scrollListener = MenuActivity.getOnScroll()
         binding.scrollAllBooks.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (scrollY < oldScrollY)

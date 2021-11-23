@@ -183,7 +183,7 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
             binding.cardToolbar.animTraslateToBottomOrUp(isUp = true, duration = 200L)
-            SavedFragment.getDataCallBack().getData()
+            SavedFragment.getDataCallBack().invoke()
             invisibleFragments()
             binding.fragmentContainerSaved.animAppear(context = view.context, 1000)
         }
@@ -260,7 +260,7 @@ class MenuActivity : AppCompatActivity() {
                 binding.cardToolbar.animTraslateToBottomOrUp(isUp = true, duration = 200L)
                 GlobalScope.launch(Dispatchers.Main) {
                     delay(50)
-                    SavedFragment.getDataCallBack().getData()
+                    SavedFragment.getDataCallBack().invoke()
                 }
             }
             NameFragments.BOOKSEARCH -> {
