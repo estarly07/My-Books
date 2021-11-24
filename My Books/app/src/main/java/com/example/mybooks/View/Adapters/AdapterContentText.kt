@@ -27,23 +27,19 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
 
 
     init {
-        FormsFragment.listenDelectEvent(object : FormsFragment.DeleteSelect {
-            override fun deleteSelect() {
-                listSelectItems.forEachIndexed { index, id ->
-                    list.forEach { text ->
-                        if (id == text.id_text) {
-                            list.remove(text)
-                            return@forEachIndexed
-                        }
+        FormsFragment.listenDelectEvent{
+            listSelectItems.forEachIndexed { index, id ->
+                list.forEach { text ->
+                    if (id == text.id_text) {
+                        list.remove(text)
+                        return@forEachIndexed
                     }
-
                 }
-                listSelectItems.clear()
-                this@AdapterContentText.notifyDataSetChanged()
 
             }
-
-        })
+            listSelectItems.clear()
+            this@AdapterContentText.notifyDataSetChanged()
+        }
     }
 
     fun setList(dato: TextEntity) {

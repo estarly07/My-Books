@@ -33,10 +33,6 @@ class FormsFragment : Fragment() {
     val adapter           = AdapterContentText()
     var cont              = 0
 
-    interface DeleteSelect {
-        fun deleteSelect()
-    }
-
     companion object {
         private var book: BookEntity? = null
         fun setBook(book: BookEntity) {
@@ -48,8 +44,8 @@ class FormsFragment : Fragment() {
             this.theme = theme
         }
 
-        private var deleteEvent: DeleteSelect? = null
-        fun listenDelectEvent(deleteEvent: DeleteSelect) {
+        private var deleteEvent: (()->Unit)? = null
+        fun listenDelectEvent(deleteEvent: ()->Unit) {
             this.deleteEvent = deleteEvent
         }
     }
@@ -237,7 +233,7 @@ class FormsFragment : Fragment() {
 
         }
         binding.formContent.btnDeleteContent.setOnClickListener {
-            deleteEvent?.deleteSelect()
+            deleteEvent?.invoke()
             if (adapter.getList().isEmpty())
                 binding.formContent.containerEmpty.visibility = View.VISIBLE
         }
