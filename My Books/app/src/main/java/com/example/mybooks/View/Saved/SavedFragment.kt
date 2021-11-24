@@ -89,20 +89,17 @@ class SavedFragment : Fragment() {
         MenuActivity.getOnScroll()?.showButtonBook(show = false)
         MenuActivity.getOnScroll()?.showToolbar   (show = true)
 
-        adapterSavedBooks.setClick(object : AdapterSavedBooks.Click {
-            override fun clic(book: BookEntity, position: Int, view: View) {
-                BookFragment.setBook(book)
+        adapterSavedBooks.setClick{book, position, view->
+            BookFragment.setBook(book)
 
-                /**INDICAR QUE ESTAMOS EN LA PANTALLA BOOK PERO QUE VENIMOS DEL FRAGMENT SAVED*/
-                BookFragment.setGlobal(NameFragments.BOOKSAVED)
-                Navigation.findNavController(view)
-                    .navigate(R.id.action_savedFragment_to_nav_book)
+            /**INDICAR QUE ESTAMOS EN LA PANTALLA BOOK PERO QUE VENIMOS DEL FRAGMENT SAVED*/
+            BookFragment.setGlobal(NameFragments.BOOKSAVED)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_savedFragment_to_nav_book)
 
-                menuViewModel.updateDateOpenBook(book.id_book)
-                menuViewModel.getRecentsBooks()
-            }
-
-        })
+            menuViewModel.updateDateOpenBook(book.id_book)
+            menuViewModel.getRecentsBooks()
+        }
 
         saveViewModel.list.observe(viewLifecycleOwner, { list ->
             visibleWait(list.isEmpty())

@@ -104,7 +104,7 @@ class AdapterThemesBook() :
     class ViewHolder(var binding: ItemThemeBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
+        parent  : ViewGroup,
         viewType: Int
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

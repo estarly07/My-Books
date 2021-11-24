@@ -133,15 +133,13 @@ class MenuFragment : Fragment() {
         binding.reciclerLibrosMasVistos.setHasFixedSize(true)
         val adapterBooksMoreViews = AdapterBooksHorizontal()
         binding.reciclerLibrosMasVistos.adapter = adapterBooksMoreViews
-        adapterBooksMoreViews.setClic(object : AdapterBooksHorizontal.Clic {
-            override fun clic(book: BookEntity, position: Int, view: View) {
+        adapterBooksMoreViews.setClick { book, position, view->
                 BookFragment.setBook(book)
+
                 /**INDICAR QUE ESTAMOS EN LA PANTALLA BOOK PERO QUE VENIMOS DEL FRAGMENT MENU*/
                 BookFragment.setGlobal(NameFragments.BOOKMENU)
                 Navigation.findNavController(view).navigate(R.id.action_menuFragment_to_nav_book)
-            }
-
-        })
+        }
         menuViewModel.listBookRecents.observe(viewLifecycleOwner, { list ->
             adapterBooksMoreViews.setlist(list)
         })

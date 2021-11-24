@@ -16,15 +16,10 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
     private var list            = mutableListOf<TextEntity>()
     private var listSelectItems = mutableListOf<Int>()
 
-    interface Clic {
-        fun clic(textEntity: TextEntity, position: Int, view: View)
-    }
-
-    private var clic: Clic? = null
-    fun setClic(clic: Clic) {
+    private var clic: ((textEntity: TextEntity, position: Int, view: View)->Unit)? = null
+    fun setClic(clic: ( textEntity: TextEntity, position: Int, view: View)->Unit) {
         this.clic = clic
     }
-
 
     init {
         FormsFragment.listenDelectEvent{
@@ -98,10 +93,10 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             holder.binding.edtContent.setText(list[position].content)
 
             holder.binding.edtContent.setOnClickListener {
-                clic?.clic(
-                    textEntity  = list[position],
-                    position    = position,
-                    view        = it
+                clic?.invoke(
+                    list[position],
+                    position,
+                    it
                 )
             }
         } else {
@@ -134,10 +129,10 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             holder.binding.containerEdit.visibility = View.GONE
 
             holder.binding.imgContent.setOnClickListener {
-                clic?.clic(
-                    textEntity  = list[position],
-                    position    = position,
-                    view        = it
+                clic?.invoke(
+                    list[position],
+                    position,
+                    it
                 )
             }
         }
