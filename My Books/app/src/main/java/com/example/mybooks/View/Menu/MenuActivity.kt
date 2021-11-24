@@ -27,14 +27,14 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MenuActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMenuBinding
-    lateinit var buttonsToolbar: List<List<View?>>
-    private val global = Global.getInstance()
-    private val settingsViewModel: SettingsViewModel by viewModels()
+    lateinit var binding          : ActivityMenuBinding
+    lateinit var buttonsToolbar   : List<List<View?>>
+    private  val global           = Global.getInstance()
+    private  val settingsViewModel: SettingsViewModel by viewModels()
 
     interface ShowDialog {
-        fun showDialog(context: Context)
-        fun dimissDialog()
+        fun showDialog      (context: Context)
+        fun dimissDialog    ()
         fun setMensajeDialog(msg: String)
     }
 
@@ -54,12 +54,12 @@ class MenuActivity : AppCompatActivity() {
 
     /**CALLBACK PARA GUARADAR Y OBTENER EL ESTADO DE LA DESCARGA DE LA NUBE*/
     interface StateDowloand {
-        fun setState(isSucessDowloand: Boolean)
+        fun setState        (isSucessDowloand: Boolean)
         fun getStateDowloand()
     }
 
     interface StateSincronized {
-        fun activeSincronized(isActiveSincronized: Boolean)
+        fun activeSincronized   (isActiveSincronized: Boolean)
         fun getActiveSincronized(): Boolean
     }
 
@@ -96,9 +96,9 @@ class MenuActivity : AppCompatActivity() {
         )
 
         buttonsToolbar = listOf(
-            listOf(binding.btnHome, binding.imgHome),
-            listOf(binding.btnSaved, binding.imgSaved),
-            listOf(binding.btnSearch, binding.imgSearch),
+            listOf(binding.btnHome,     binding.imgHome),
+            listOf(binding.btnSaved,    binding.imgSaved),
+            listOf(binding.btnSearch,   binding.imgSearch),
             listOf(binding.btnSettings, binding.imgSettings)
 
         )
@@ -115,7 +115,7 @@ class MenuActivity : AppCompatActivity() {
                         context = binding.dialogDownloading.root.context,
                         duration = 1000
                     )
-                    MenuFragment.getCallBack().getData()
+                    MenuFragment.getCallBack().invoke()
                 }
             }
 
@@ -143,7 +143,7 @@ class MenuActivity : AppCompatActivity() {
         activeSincronized = object : StateSincronized {
             override fun activeSincronized(isActiveSincronized: Boolean) {
                 settingsViewModel.setService(
-                    context = this@MenuActivity,
+                    context  = this@MenuActivity,
                     activity = this@MenuActivity,
                     isActiveSynchronized = isActiveSincronized
                 )
@@ -168,7 +168,7 @@ class MenuActivity : AppCompatActivity() {
             binding.cardToolbar.animTraslateToBottomOrUp(isUp = true, duration = 200L)
             invisibleFragments()
 
-            MenuFragment.getCallBack().getData()
+            MenuFragment.getCallBack().invoke()
 
             binding.fragmentContainerMenu.animAppear(context = view.context, 1000)
 
@@ -196,7 +196,7 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
             invisibleFragments()
-            binding.fragmentContainerSearch?.animAppear(view.context, 1000)
+            binding.fragmentContainerSearch.animAppear(view.context, 1000)
         }
         binding.btnSettings.setOnClickListener { view ->
             buttonsToolbar.forEach { views ->
@@ -239,9 +239,9 @@ class MenuActivity : AppCompatActivity() {
     }
 
     fun invisibleFragments() {
-        binding.fragmentContainerMenu.visibility = View.INVISIBLE
-        binding.fragmentContainerSearch.visibility = View.INVISIBLE
-        binding.fragmentContainerSaved.visibility = View.INVISIBLE
+        binding.fragmentContainerMenu.visibility     = View.INVISIBLE
+        binding.fragmentContainerSearch.visibility   = View.INVISIBLE
+        binding.fragmentContainerSaved.visibility    = View.INVISIBLE
         binding.fragmentContainerSettings.visibility = View.INVISIBLE
     }
 

@@ -36,21 +36,17 @@ class MenuFragment : Fragment() {
     private val global            = Global.getInstance()
     private val user              = User.getInstance()
 
-    interface CallBack {
-        fun getData()
-    }
-
     companion object {
-        private lateinit var callBack: CallBack
-        fun getCallBack(): CallBack {
-            return callBack
+        private  var callBack: (()->Unit)?=null
+        fun getCallBack(): ()->Unit {
+            return callBack!!
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         return binding.root
@@ -87,8 +83,7 @@ class MenuFragment : Fragment() {
 
 
     fun getAllBooks(context: Context) {
-        callBack = object : CallBack {
-            override fun getData() {
+        callBack =  {
                 menuViewModel.getAllBooks()
                 menuViewModel.getRecentsBooks()
                 Glide.with(context)
@@ -97,7 +92,6 @@ class MenuFragment : Fragment() {
                     .into(binding.img)
                 binding.txtNameUser.text =
                     ("${context.resources.getString(R.string.Hello)}, ${user.name}!!")
-            }
 
         }
         menuViewModel.getAllBooks()
