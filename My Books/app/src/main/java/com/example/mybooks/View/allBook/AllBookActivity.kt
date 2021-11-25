@@ -2,11 +2,14 @@ package com.example.mybooks.View.allBook
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.viewpager.widget.ViewPager
 import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Models.Content
+import com.example.mybooks.View.Animations.animAppear
+import com.example.mybooks.View.Animations.animVanish
 import com.example.mybooks.ViewModel.BookViewModel
 import com.example.mybooks.ViewModel.ContentViewModel
 import com.example.mybooks.changePager
@@ -18,16 +21,21 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AllBookActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAllBookBinding
-    private val bookViewModel: BookViewModel by viewModels()
-    private val contentViewModel: ContentViewModel by viewModels()
-    val map = mutableMapOf<String, List<Content>>()
-    private var cantThemes = 0
-    private var totalThemes = 0
-    private var list = listOf<ThemeEntity>()
+    private lateinit var binding           : ActivityAllBookBinding
+    private          val bookViewModel     : BookViewModel by viewModels()
+    private          val contentViewModel  : ContentViewModel by viewModels()
+                     val map               = mutableMapOf<String, List<Content>>()
+    private          var cantThemes        = 0
+    private          var totalThemes       = 0
+    private          var list              = listOf<ThemeEntity>()
 
 
     companion object {
+        private lateinit var hidePage: (show:Boolean)->Unit
+
+        fun getHidePag():(show:Boolean)->Unit{
+            return hidePage
+        }
         private lateinit var book: BookEntity
 
         fun setBook(book: BookEntity) {
@@ -35,21 +43,30 @@ class AllBookActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAllBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        hidePage={ show->
+//            if (show && binding.pag.visibility== View.INVISIBLE){
+//                binding.pag.animAppear(
+//                    context  = this,
+//                    duration = 500)
+//            }else if (binding.pag.visibility== View.VISIBLE){
+//                binding.pag.animVanish(
+//                    context  = this,
+//                    duration = 500)
+//            }
+//        }
         val adapter = AdapterAllBook()
         bookViewModel.getThemes(book.id_book)
         contentViewModel.getContentByID(1)
-        binding.viewPager.changePager { position ->
-            if (position != Integer.parseInt(binding.txtnumPag.text.toString())) {
+        binding.viewPager.changePager {position->
+            if (position!=Integer.parseInt(binding.txtnumPag.text.toString())){
                 binding.txtnumPag.text="$position"
             }
         }
-
 
         //CALLBACK PARA MODIFICAR EL ADAPTER DEL PAGERADAPTER
         val callBack = {
@@ -63,7 +80,7 @@ class AllBookActivity : AppCompatActivity() {
 
         bookViewModel.list.observe(this@AllBookActivity, { list ->
             adapter.setThemes(list)
-            this.list = list
+            this.list   = list
             totalThemes = list.size
 
             println(list.size)

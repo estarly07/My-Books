@@ -88,8 +88,8 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
                     select  = false
                 )
             }
-            holder.binding.containerEdit.visibility = View.VISIBLE
-            holder.binding.containerImg.visibility  = View.GONE
+            holder.binding.containerEdit.visibility  = View.VISIBLE
+            holder.binding.containerImg .visibility  = View.GONE
             holder.binding.edtContent.setText(list[position].content)
 
             holder.binding.edtContent.setOnClickListener {

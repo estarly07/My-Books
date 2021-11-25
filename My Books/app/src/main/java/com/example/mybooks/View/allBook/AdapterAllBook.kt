@@ -1,5 +1,6 @@
 package com.example.mybooks.View.allBook
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,11 @@ class AdapterAllBook : PagerAdapter() {
             recyclerContent.setHasFixedSize(true)
             recyclerContent.adapter = adapter
         }
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            recyclerContent.setOnScrollChangeListener { view, x, y, oldX, oldY ->
+//                AllBookActivity.getHidePag().invoke(y < oldY)
+//            }
+//        }
         container.addView(view)
         return view
     }
