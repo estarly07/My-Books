@@ -12,16 +12,12 @@ import com.example.mybooks.databinding.ItemTextBinding
 class AdapterText : RecyclerView.Adapter<AdapterText.Holder>() {
     private var list = listOf<TextEntity>()
 
-    fun setList(list: List<TextEntity>) {
-        this.list = list
+    fun setList(list : List<TextEntity>) {
+        this.list    = list
     }
 
-    interface Clic {
-        fun clic(textEntity: TextEntity, positionText: Int, view: View)
-    }
-
-    private var clic: Clic? = null
-    fun setClic(clic: Clic) {
+    private var clic: ((textEntity: TextEntity, positionText: Int, view: View)->Unit)? = null
+    fun setClic(clic: ( textEntity: TextEntity, positionText: Int, view: View)->Unit) {
         this.clic = clic
     }
 
@@ -38,23 +34,23 @@ class AdapterText : RecyclerView.Adapter<AdapterText.Holder>() {
             holder.binding.txtContent.setText(list[position].content)
             holder.binding.txtContent.visibility = View.VISIBLE
             holder.binding.txtContent.setOnClickListener {
-                clic?.clic(
-                    textEntity   = list[position],
-                    positionText = position,
-                    view         = it)
+                clic?.invoke(
+                    list[position],
+                    position,
+                    it)
             }
 
         } else {
             holder.binding.imgContent.visibility = View.VISIBLE
-            Glide.with(holder.binding.root.context)
-                .load(list[position].content)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.binding.imgContent)
+            Glide .with(holder.binding.root.context)
+                  .load(list[position].content)
+                  .diskCacheStrategy(DiskCacheStrategy.ALL)
+                  .into(holder.binding.imgContent)
             holder.binding.imgContent.setOnClickListener {
-                clic?.clic(
-                    textEntity   = list[position],
-                    positionText = position,
-                    view         = it)
+                clic?.invoke(
+                    list[position],
+                    position,
+                    it)
             }
         }
     }

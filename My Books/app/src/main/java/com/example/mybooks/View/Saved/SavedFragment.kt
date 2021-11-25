@@ -34,15 +34,12 @@ class SavedFragment : Fragment() {
     private val user             = User.getInstance()
 
     companion object {
-        private lateinit var data: GetDataCallBack
-        fun getDataCallBack(): GetDataCallBack {
-            return data
+     private var data: (() -> Unit)? =null
+        fun getDataCallBack(): ()->Unit {
+            return data!!
         }
     }
 
-    interface GetDataCallBack {
-        fun getData()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,18 +58,15 @@ class SavedFragment : Fragment() {
             .into(binding.img)
 
         global?.fragment = NameFragments.MENU
-        data = object : GetDataCallBack {
-            override fun getData() {
-                Glide.with(view.context)
-                    .load(user.photo)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(binding.img)
-                saveViewModel.getAllBooksSaved()
-                binding.txtNameUser.text =
-                    ("${view.context.resources.getString(R.string.Hello)}, ${user.name}!!")
-            }
+        data = {
+            Glide.with(view.context)
+                .load(user.photo)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.img)
+            saveViewModel.getAllBooksSaved()
+            binding.txtNameUser.text =
+                ("${view.context.resources.getString(R.string.Hello)}, ${user.name}!!")
         }
-
         val scrollListener = MenuActivity.getOnScroll()
         binding.scrollAllBooks.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (scrollY < oldScrollY)
@@ -95,20 +89,17 @@ class SavedFragment : Fragment() {
         MenuActivity.getOnScroll()?.showButtonBook(show = false)
         MenuActivity.getOnScroll()?.showToolbar   (show = true)
 
-        adapterSavedBooks.setClick(object : AdapterSavedBooks.Click {
-            override fun clic(book: BookEntity, position: Int, view: View) {
-                BookFragment.setBook(book)
+        adapterSavedBooks.setClick{book, position, view->
+            BookFragment.setBook(book)
 
-                /**INDICAR QUE ESTAMOS EN LA PANTALLA BOOK PERO QUE VENIMOS DEL FRAGMENT SAVED*/
-                BookFragment.setGlobal(NameFragments.BOOKSAVED)
-                Navigation.findNavController(view)
-                    .navigate(R.id.action_savedFragment_to_nav_book)
+            /**INDICAR QUE ESTAMOS EN LA PANTALLA BOOK PERO QUE VENIMOS DEL FRAGMENT SAVED*/
+            BookFragment.setGlobal(NameFragments.BOOKSAVED)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_savedFragment_to_nav_book)
 
-                menuViewModel.updateDateOpenBook(book.id_book)
-                menuViewModel.getRecentsBooks()
-            }
-
-        })
+            menuViewModel.updateDateOpenBook(book.id_book)
+            menuViewModel.getRecentsBooks()
+        }
 
         saveViewModel.list.observe(viewLifecycleOwner, { list ->
             visibleWait(list.isEmpty())

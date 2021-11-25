@@ -33,10 +33,6 @@ class FormsFragment : Fragment() {
     val adapter           = AdapterContentText()
     var cont              = 0
 
-    interface DeleteSelect {
-        fun deleteSelect()
-    }
-
     companion object {
         private var book: BookEntity? = null
         fun setBook(book: BookEntity) {
@@ -48,8 +44,8 @@ class FormsFragment : Fragment() {
             this.theme = theme
         }
 
-        private var deleteEvent: DeleteSelect? = null
-        fun listenDelectEvent(deleteEvent: DeleteSelect) {
+        private var deleteEvent: (()->Unit)? = null
+        fun listenDelectEvent(deleteEvent: ()->Unit) {
             this.deleteEvent = deleteEvent
         }
     }
@@ -58,7 +54,7 @@ class FormsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentFormsBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -80,7 +76,7 @@ class FormsFragment : Fragment() {
                 binding.formBook.edtUrlBook.setText(book?.image)
                 binding.formBook.edtDescriptionBook.setText(book?.description)
                 binding.formBook.edtNameBook.setText(book?.name)
-                binding.formBook.btnAddBook.setText("Modificar libro")
+                binding.formBook.btnAddBook.text = "Modificar libro"
                 global?.fragment = NameFragments.FORMSBOOK
             }
             "tema" -> {
@@ -90,62 +86,52 @@ class FormsFragment : Fragment() {
             "temaedit" -> {
                 binding.formTheme.root.visibility = View.VISIBLE
                 binding.formTheme.edtNameBook.setText(theme.name)
-                binding.formTheme.btnAddBook.setText("Modificar tema")
+                binding.formTheme.btnAddBook.text = "Modificar tema"
                 global?.fragment = NameFragments.FORMSTHEME
             }
             "contenido" -> {
                 binding.contenedorContents.visibility = View.GONE
                 binding.formContent.root.visibility   = View.VISIBLE
                 global?.fragment = NameFragments.FORMSCONTENT
-                adapter.setClic(object : AdapterContentText.Clic {
-                    override fun clic(textEntity: TextEntity, position: Int, view: View) {
-                        if (textEntity.type == "TEXT") {
-                            showDialogText(
-                                context  = view.context,
-                                text     = textEntity.content,
-                                isModify = true,
-                                position = position
-                            )
-                        } else {
-                            showDialogImage(
-                                context  = view.context,
-                                img      = textEntity.content,
-                                isModify = true,
-                                position = position
-                            )
-                        }
-
+                adapter.setClic{textEntity , position , view->
+                    if (textEntity.type == "TEXT") {
+                        showDialogText(
+                            context  = view.context,
+                            text     = textEntity.content,
+                            isModify = true,
+                            position = position
+                        )
+                    } else {
+                        showDialogImage(
+                            context  = view.context,
+                            img      = textEntity.content,
+                            isModify = true,
+                            position = position
+                        )
                     }
-
-                })
-
+                }
             }
             "contenidosearch" -> {
                 binding.contenedorContents.visibility = View.GONE
                 binding.formContent.root.visibility   = View.VISIBLE
                 global?.fragment = NameFragments.FORMSCONTENTASEARCH
-                adapter.setClic(object : AdapterContentText.Clic {
-                    override fun clic(textEntity: TextEntity, position: Int, view: View) {
-                        if (textEntity.type == "TEXT") {
-                            showDialogText(
-                                context  = view.context,
-                                text     = textEntity.content,
-                                isModify = true,
-                                position = position
-                            )
-                        } else {
-                            showDialogImage(
-                                context  = view.context,
-                                img      = textEntity.content,
-                                isModify = true,
-                                position = position
-                            )
-                        }
-
+                adapter.setClic{textEntity , position , view->
+                    if (textEntity.type == "TEXT") {
+                        showDialogText(
+                            context  = view.context,
+                            text     = textEntity.content,
+                            isModify = true,
+                            position = position
+                        )
+                    } else {
+                        showDialogImage(
+                            context  = view.context,
+                            img      = textEntity.content,
+                            isModify = true,
+                            position = position
+                        )
                     }
-
-                })
-
+                }
             }
         }
 
@@ -237,7 +223,7 @@ class FormsFragment : Fragment() {
 
         }
         binding.formContent.btnDeleteContent.setOnClickListener {
-            deleteEvent?.deleteSelect()
+            deleteEvent?.invoke()
             if (adapter.getList().isEmpty())
                 binding.formContent.containerEmpty.visibility = View.VISIBLE
         }

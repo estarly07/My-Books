@@ -28,16 +28,12 @@ class AdapterSavedBooks(val context: Context) :
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<BookEntity>) {
         this.list = list
-        indice = 0
+        indice    = 0
         this.notifyDataSetChanged()
     }
 
-    interface Click {
-        fun clic(book: BookEntity, position: Int, view: View)
-    }
-
-    private lateinit var clic: Click
-    fun setClick(click: Click) {
+    private lateinit var clic: ((book: BookEntity, position: Int, view: View)->Unit)
+    fun setClick(click: ((book: BookEntity, position: Int, view: View)->Unit)) {
         this.clic = click
     }
 
@@ -70,11 +66,10 @@ class AdapterSavedBooks(val context: Context) :
         if (indice == listColors.size)
             indice = 0
         holder.binding.root.setOnClickListener { view ->
-            if (clic != null)
-                clic.clic(
-                    book     = list[position],
-                    position = position,
-                    view     = view)
+            clic.invoke(
+                list[position],
+                position,
+                view)
         }
 
     }

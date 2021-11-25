@@ -7,9 +7,9 @@ import com.example.mybooks.databinding.ItemThemeBinding
 
 class AdapterSearch : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
     private var listResultSearch = mutableListOf<Map<String, String>>()
-    fun setList(listResultSearch: MutableList<Map<String, String>>) {
+    fun setList(listResultSearch : MutableList<Map<String, String>>) {
         this.notifyDataSetChanged()
-        this.listResultSearch = listResultSearch
+        this.listResultSearch    = listResultSearch
     }
 
     class ViewHolder(val binding: ItemThemeBinding) : RecyclerView.ViewHolder(binding.root)

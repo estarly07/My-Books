@@ -13,10 +13,7 @@ import com.example.mybooks.databinding.ItemBookHotizontalBinding
 class AdapterBooksHorizontal :
     RecyclerView.Adapter<AdapterBooksHorizontal.ViewHolder>() {
 
-    interface Clic {
-        fun clic(book: BookEntity, position: Int, view: View)
-    }
-     var  list: List<BookEntity> = listOf()
+    var  list: List<BookEntity> = listOf()
     @SuppressLint("NotifyDataSetChanged")
     fun setlist(list: List<BookEntity>) {
         this.notifyDataSetChanged()
@@ -24,9 +21,9 @@ class AdapterBooksHorizontal :
     }
 
 
-    private lateinit var clic: Clic
-    fun setClic(clic: Clic) {
-        this.clic = clic
+    private lateinit var click: (book: BookEntity, position: Int, view: View)->Unit
+    fun setClick(clic: (book: BookEntity, position: Int, view: View)->Unit) {
+        this.click = clic
     }
 
     override fun onCreateViewHolder(
@@ -43,12 +40,12 @@ class AdapterBooksHorizontal :
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.binding.imgBook)
         holder.binding.root.setOnClickListener { view ->
-            if (clic != null)
-                clic.clic(book = list[position], position, view)
+            click.invoke(list[position], position, view)
+
         }
 
-        holder.binding.txtDateBookH.setText(list[position].creation_date)
-        holder.binding.txtNameBookH.setText(list[position].name)
+        holder.binding.txtDateBookH.text = list[position].creation_date
+        holder.binding.txtNameBookH.text = list[position].name
     }
 
     override fun getItemCount(): Int {

@@ -12,7 +12,7 @@ import com.example.mybooks.databinding.ItemContentBinding
 
 class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
 
-    private var list: MutableList<Content> = mutableListOf()
+    private var list  : MutableList<Content> = mutableListOf()
     private var clean = false
 
     /**LIMPIAR LA VISTA PARA QUE NO SE REPITAN ITEMS*/
@@ -36,7 +36,7 @@ class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
 
     private var clic: Clic? = null
     fun setClic(clic: Clic) {
-        this.clic = clic
+        this.clic   = clic
     }
 
     fun setObject(
@@ -68,20 +68,17 @@ class AdapterContent : RecyclerView.Adapter<AdapterContent.ViewHolder>() {
                 view        = it)
         }
         val adapter = AdapterText()
-        adapter.setClic(object : AdapterText.Clic {
-            override fun clic(textEntity: TextEntity, positionText: Int, view: View) {
-                clic?.clic(
-                    textEntity          = textEntity,
-                    positionText        = positionText,
-                    positionContenido   = position,
-                    view                = view
-                )
-            }
-
-        })
+        adapter.setClic{textEntity, positionText, view->
+            clic?.clic(
+                textEntity          = textEntity,
+                positionText        = positionText,
+                positionContenido   = position,
+                view                = view
+            )
+        }
         adapter.setList(list[position].arrayText)
-        holder.binding.reciclerText.setHasFixedSize(true)
-        holder.binding.reciclerText.layoutManager = LinearLayoutManager(
+        holder .binding.reciclerText.setHasFixedSize(true)
+        holder .binding.reciclerText.layoutManager = LinearLayoutManager(
             holder.binding.root.context,
             LinearLayoutManager.VERTICAL,
             false

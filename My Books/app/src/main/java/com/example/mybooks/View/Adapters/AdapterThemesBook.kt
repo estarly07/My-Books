@@ -68,7 +68,7 @@ class AdapterThemesBook() :
                     isSelect = false
                 )
             }
-            BookFragment.getSelect()?.showOptionsSelect(show = false)
+            BookFragment.getSelect().invoke( false)
             isStartSelection = false
             listThemesSelect.clear()
             listAllViews.clear()
@@ -87,7 +87,7 @@ class AdapterThemesBook() :
                 fk_idBook   = fk_idBook,
                 isListSaved = isSavedList
             )
-            BookFragment.getSelect()?.showOptionsSelect(show = false)
+            BookFragment.getSelect().invoke( false)
             isStartSelection = false
             listAllViews.clear()
 
@@ -104,7 +104,7 @@ class AdapterThemesBook() :
     class ViewHolder(var binding: ItemThemeBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
+        parent  : ViewGroup,
         viewType: Int
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -189,7 +189,7 @@ class AdapterThemesBook() :
     fun selectTheme(idTheme: Int, holder: ViewHolder) {
         if (!isStartSelection) {
             isStartSelection = true
-            BookFragment.getSelect()?.showOptionsSelect(show = true)
+            BookFragment.getSelect().invoke( true)
         }
         val views = listOf(
             holder.binding.fondo,
@@ -209,7 +209,7 @@ class AdapterThemesBook() :
                     )
                     if (listThemesSelect.size == 0) {
                         isStartSelection = false
-                        BookFragment.getSelect()?.showOptionsSelect(show = false)
+                        BookFragment.getSelect().invoke( false)
                     }
 
                     return
