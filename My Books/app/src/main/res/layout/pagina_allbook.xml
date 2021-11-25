@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/txtNameThemeContent"
+        style="@style/TextPrimary"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/_5dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/app_name"
+        android:textSize="@dimen/title"
+        android:textStyle="" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reciclerContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5dp"
+         />
+</LinearLayout>

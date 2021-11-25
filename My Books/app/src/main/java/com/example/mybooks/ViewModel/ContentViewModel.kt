@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContentViewModel @Inject constructor(
-    var useCase     : UseCase
+    var useCase: UseCase
 ) : ViewModel() {
     var listContent = MutableLiveData<MutableList<Content>>()
 
@@ -31,13 +31,37 @@ class ContentViewModel @Inject constructor(
             for (content in contents) {
                 val newContent = Content()
                 newContent.fk_idTheme = content.fk_idTheme
-                newContent.subTitle   = content.subTitle
-                newContent.idContent  = content.idContent
-                newContent.arrayText  = useCase.getDataContent(content.idContent)
+                newContent.subTitle = content.subTitle
+                newContent.idContent = content.idContent
+                newContent.arrayText = useCase.getDataContent(content.idContent)
 
                 arrayData.add(newContent)
                 listContent.postValue(arrayData)
             }
+
+        }
+    }
+
+    /**
+     * OBTENER EL CONTENIDO POR TEMA
+     *
+     * @param idTheme id del tema que contiene el contenido
+     * @return MutableList<Content> devuelve el listado encontrado
+     * */
+    fun getContentByIdTheme(idTheme: Int, callback: (MutableList<Content>) -> Unit) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val contents = useCase.getContentById(idTheme)
+            val arrayData: MutableList<Content> = mutableListOf()
+            for (content in contents) {
+                val newContent = Content()
+                newContent.fk_idTheme = content.fk_idTheme
+                newContent.subTitle = content.subTitle
+                newContent.idContent = content.idContent
+                newContent.arrayText = useCase.getDataContent(content.idContent)
+
+                arrayData.add(newContent)
+            }
+            callback.invoke(arrayData)
 
         }
     }
@@ -62,16 +86,17 @@ class ContentViewModel @Inject constructor(
      * @param content  El contenido que se quiere actualizar
      * */
     fun updateSubtitle(subtitle: String, content: Content) {
-        content.subTitle  = subtitle
+        content.subTitle = subtitle
         val contentEntity = ContentEntity(
-            idContent     = content.idContent,
-            subTitle      = content.subTitle,
-            fk_idTheme    = content.fk_idTheme
+            idContent = content.idContent,
+            subTitle = content.subTitle,
+            fk_idTheme = content.fk_idTheme
         )
         GlobalScope.launch(Dispatchers.Main) {
             useCase.updateContent(content = contentEntity)
         }
     }
+
     /**
      * PONER UN TEMA EN UNA CATEGORIA (GUARDADO O NO GUARDADO), DEPENDIENDO DEL PARAMETRO BOOLEANO
      *
