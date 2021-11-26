@@ -56,3 +56,11 @@ Book  es un proyecto que permite guardar tus libros de estudio para tener un acc
     <img  src="https://raw.githubusercontent.com/estarly07/My-Books/develop/screenshots/Screenshot_20211104_103607_com.example.mybooks.jpg" width="200" height="400"  title="hover text"> 
   
 </p>
+
+<h3>Mostrar todo el libro</h3>
+  - Está función nos permite ver todo el libro por navegación de páginas
+
+<p align="start"> 
+  <img  src="https://github.com/estarly07/My-Books/blob/develop/screenshots/Screenshot_20211126_104252_com.example.mybooks.jpg?raw=true" width="200" height="400"  title="hover text"> 
+   <img  src="https://github.com/estarly07/My-Books/blob/develop/screenshots/Screenshot_20211126_104256_com.example.mybooks.jpg?raw=true" width="200" height="400"  title="hover text"> 
+</p>
