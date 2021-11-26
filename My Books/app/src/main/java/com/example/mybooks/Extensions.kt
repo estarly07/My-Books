@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import java.util.regex.Pattern
 
 /**
@@ -113,4 +115,25 @@ fun String.validateEmail(): Boolean {
     )
     val matcher = pattern.matcher(this)
     return matcher.find()
+}
+
+/**EXTENSION PARA SABER QUE PAGINA VA EN EL VIEW PAGER
+ *@param listener para obtener la posicion
+ * */
+fun ViewPager.changePager(listener:(Int)->Unit){
+    this.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            listener.invoke(position+1)
+        }
+
+        override fun onPageSelected(position: Int) {
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+        }
+    })
 }

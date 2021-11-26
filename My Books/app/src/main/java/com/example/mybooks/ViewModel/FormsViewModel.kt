@@ -153,6 +153,7 @@ class FormsViewModel @Inject constructor(
                 Toast.LENGTH_SHORT,
                 R.layout.toast_login
             )
+            return
         }
 
         val content     = ContentEntity(

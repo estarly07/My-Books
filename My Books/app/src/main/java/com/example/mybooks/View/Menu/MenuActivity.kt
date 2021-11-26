@@ -1,6 +1,8 @@
 package com.example.mybooks.View.Menu
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +11,16 @@ import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import com.example.mybooks.Global
+import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.NameFragments
 import com.example.mybooks.R
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToBottomOrUp
 import com.example.mybooks.View.Animations.animVanish
+import com.example.mybooks.View.Book.BookFragment
 import com.example.mybooks.View.Saved.SavedFragment
+import com.example.mybooks.View.allBook.AllBookActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.ActivityMenuBinding
@@ -27,14 +33,14 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MenuActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMenuBinding
-    lateinit var buttonsToolbar: List<List<View?>>
-    private val global = Global.getInstance()
-    private val settingsViewModel: SettingsViewModel by viewModels()
+    lateinit var binding          : ActivityMenuBinding
+    lateinit var buttonsToolbar   : List<List<View?>>
+    private  val global           = Global.getInstance()
+    private  val settingsViewModel: SettingsViewModel by viewModels()
 
     interface ShowDialog {
-        fun showDialog(context: Context)
-        fun dimissDialog()
+        fun showDialog      (context: Context)
+        fun dimissDialog    ()
         fun setMensajeDialog(msg: String)
     }
 
@@ -54,16 +60,17 @@ class MenuActivity : AppCompatActivity() {
 
     /**CALLBACK PARA GUARADAR Y OBTENER EL ESTADO DE LA DESCARGA DE LA NUBE*/
     interface StateDowloand {
-        fun setState(isSucessDowloand: Boolean)
+        fun setState        (isSucessDowloand: Boolean)
         fun getStateDowloand()
     }
 
     interface StateSincronized {
-        fun activeSincronized(isActiveSincronized: Boolean)
+        fun activeSincronized   (isActiveSincronized: Boolean)
         fun getActiveSincronized(): Boolean
     }
 
     companion object {
+
         private var showDialog: ShowDialog? = null
 
         fun getShowDialogListener(): ShowDialog {
@@ -95,10 +102,17 @@ class MenuActivity : AppCompatActivity() {
             "${settingsViewModel.getCountSincronized(this)}"
         )
 
+      binding.btnShowBook.setOnClickListener {
+          val intent = Intent()
+          intent.setClass(this@MenuActivity, AllBookActivity::class.java)
+          AllBookActivity.setBook(book = BookFragment.getBook())
+          startActivity(intent)
+      }
+
         buttonsToolbar = listOf(
-            listOf(binding.btnHome, binding.imgHome),
-            listOf(binding.btnSaved, binding.imgSaved),
-            listOf(binding.btnSearch, binding.imgSearch),
+            listOf(binding.btnHome,     binding.imgHome),
+            listOf(binding.btnSaved,    binding.imgSaved),
+            listOf(binding.btnSearch,   binding.imgSearch),
             listOf(binding.btnSettings, binding.imgSettings)
 
         )
@@ -115,7 +129,7 @@ class MenuActivity : AppCompatActivity() {
                         context = binding.dialogDownloading.root.context,
                         duration = 1000
                     )
-                    MenuFragment.getCallBack().getData()
+                    MenuFragment.getCallBack().invoke()
                 }
             }
 
@@ -143,7 +157,7 @@ class MenuActivity : AppCompatActivity() {
         activeSincronized = object : StateSincronized {
             override fun activeSincronized(isActiveSincronized: Boolean) {
                 settingsViewModel.setService(
-                    context = this@MenuActivity,
+                    context  = this@MenuActivity,
                     activity = this@MenuActivity,
                     isActiveSynchronized = isActiveSincronized
                 )
@@ -168,7 +182,7 @@ class MenuActivity : AppCompatActivity() {
             binding.cardToolbar.animTraslateToBottomOrUp(isUp = true, duration = 200L)
             invisibleFragments()
 
-            MenuFragment.getCallBack().getData()
+            MenuFragment.getCallBack().invoke()
 
             binding.fragmentContainerMenu.animAppear(context = view.context, 1000)
 
@@ -183,7 +197,7 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
             binding.cardToolbar.animTraslateToBottomOrUp(isUp = true, duration = 200L)
-            SavedFragment.getDataCallBack().getData()
+            SavedFragment.getDataCallBack().invoke()
             invisibleFragments()
             binding.fragmentContainerSaved.animAppear(context = view.context, 1000)
         }
@@ -196,7 +210,7 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
             invisibleFragments()
-            binding.fragmentContainerSearch?.animAppear(view.context, 1000)
+            binding.fragmentContainerSearch.animAppear(view.context, 1000)
         }
         binding.btnSettings.setOnClickListener { view ->
             buttonsToolbar.forEach { views ->
@@ -239,9 +253,9 @@ class MenuActivity : AppCompatActivity() {
     }
 
     fun invisibleFragments() {
-        binding.fragmentContainerMenu.visibility = View.INVISIBLE
-        binding.fragmentContainerSearch.visibility = View.INVISIBLE
-        binding.fragmentContainerSaved.visibility = View.INVISIBLE
+        binding.fragmentContainerMenu.visibility     = View.INVISIBLE
+        binding.fragmentContainerSearch.visibility   = View.INVISIBLE
+        binding.fragmentContainerSaved.visibility    = View.INVISIBLE
         binding.fragmentContainerSettings.visibility = View.INVISIBLE
     }
 
@@ -260,7 +274,7 @@ class MenuActivity : AppCompatActivity() {
                 binding.cardToolbar.animTraslateToBottomOrUp(isUp = true, duration = 200L)
                 GlobalScope.launch(Dispatchers.Main) {
                     delay(50)
-                    SavedFragment.getDataCallBack().getData()
+                    SavedFragment.getDataCallBack().invoke()
                 }
             }
             NameFragments.BOOKSEARCH -> {

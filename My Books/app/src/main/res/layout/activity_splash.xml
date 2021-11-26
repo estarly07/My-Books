@@ -42,6 +42,15 @@
             android:layout_marginBottom="@dimen/_50dp" />
 
     </LinearLayout>
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Estarly"
+    android:layout_margin="@dimen/_5dp"
+    android:gravity="center"
+    android:textColor="@color/white"
+    android:fontFamily="@font/hanoman"
+    android:layout_alignParentBottom="true"
+    android:textSize="@dimen/_25sp"/>
 
 </RelativeLayout>

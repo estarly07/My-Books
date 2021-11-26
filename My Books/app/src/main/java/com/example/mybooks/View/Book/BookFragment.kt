@@ -40,24 +40,21 @@ class BookFragment : Fragment() {
     private var sizeListThemes    = 0
     private val global            = Global.getInstance()
 
-
-    /**listener para mostrar las opciones al seleccionar un tema**/
-    interface Select {
-        fun showOptionsSelect(show: Boolean)
-    }
-
     companion object {
         private lateinit var book : BookEntity
-        private var select        : Select?        = null
-        private var globalLocal   : NameFragments? = null
-
+        private var select        : ((Boolean)->Unit)?  = null
+        private var globalLocal   : NameFragments?      = null
 
         fun setBook(book: BookEntity) {
             this.book = book
         }
+        fun getBook():BookEntity{
+            return book
+        }
 
-        fun getSelect(): Select? {
-            return select
+        /**listener para mostrar las opciones al seleccionar un tema**/
+        fun getSelect(): (show:Boolean)->Unit {
+            return select!!
         }
 
         /**PARA SABER DE QUE FRAGMENT PROVIENE (Book,Saved,Search)
@@ -86,14 +83,11 @@ class BookFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        select = object : Select {
-            override fun showOptionsSelect(show: Boolean) {
-                if (show)
-                    binding.contenedorSelect.animAppear(view.context, 800)
-                else
-                    binding.contenedorSelect.animVanish(view.context, 200)
-            }
-
+        select =  {show->
+            if (show)
+                binding.contenedorSelect.animAppear(view.context, 800)
+            else
+                binding.contenedorSelect.animVanish(view.context, 200)
         }
         global?.view = view
 

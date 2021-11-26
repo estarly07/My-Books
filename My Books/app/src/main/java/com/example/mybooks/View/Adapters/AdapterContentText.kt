@@ -16,34 +16,25 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
     private var list            = mutableListOf<TextEntity>()
     private var listSelectItems = mutableListOf<Int>()
 
-    interface Clic {
-        fun clic(textEntity: TextEntity, position: Int, view: View)
-    }
-
-    private var clic: Clic? = null
-    fun setClic(clic: Clic) {
+    private var clic: ((textEntity: TextEntity, position: Int, view: View)->Unit)? = null
+    fun setClic(clic: ( textEntity: TextEntity, position: Int, view: View)->Unit) {
         this.clic = clic
     }
 
-
     init {
-        FormsFragment.listenDelectEvent(object : FormsFragment.DeleteSelect {
-            override fun deleteSelect() {
-                listSelectItems.forEachIndexed { index, id ->
-                    list.forEach { text ->
-                        if (id == text.id_text) {
-                            list.remove(text)
-                            return@forEachIndexed
-                        }
+        FormsFragment.listenDelectEvent{
+            listSelectItems.forEachIndexed { index, id ->
+                list.forEach { text ->
+                    if (id == text.id_text) {
+                        list.remove(text)
+                        return@forEachIndexed
                     }
-
                 }
-                listSelectItems.clear()
-                this@AdapterContentText.notifyDataSetChanged()
 
             }
-
-        })
+            listSelectItems.clear()
+            this@AdapterContentText.notifyDataSetChanged()
+        }
     }
 
     fun setList(dato: TextEntity) {
@@ -97,15 +88,15 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
                     select  = false
                 )
             }
-            holder.binding.containerEdit.visibility = View.VISIBLE
-            holder.binding.containerImg.visibility  = View.GONE
+            holder.binding.containerEdit.visibility  = View.VISIBLE
+            holder.binding.containerImg .visibility  = View.GONE
             holder.binding.edtContent.setText(list[position].content)
 
             holder.binding.edtContent.setOnClickListener {
-                clic?.clic(
-                    textEntity  = list[position],
-                    position    = position,
-                    view        = it
+                clic?.invoke(
+                    list[position],
+                    position,
+                    it
                 )
             }
         } else {
@@ -138,10 +129,10 @@ class AdapterContentText : RecyclerView.Adapter<AdapterContentText.Holder>() {
             holder.binding.containerEdit.visibility = View.GONE
 
             holder.binding.imgContent.setOnClickListener {
-                clic?.clic(
-                    textEntity  = list[position],
-                    position    = position,
-                    view        = it
+                clic?.invoke(
+                    list[position],
+                    position,
+                    it
                 )
             }
         }
