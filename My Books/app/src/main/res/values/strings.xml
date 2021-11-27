@@ -33,6 +33,7 @@
     <string name="subir">Guardar en la nube</string>
     <string name="sincronizar">Sincronizar con la nube</string>
     <string name="qr">Generar Qr</string>
+    <string name="qrscan">Escanea el código Qr</string>
     <string name="rqr">Leer Qr</string>
 
     <string name="bookname">Ingresa el nombre del libro</string>
@@ -44,8 +45,9 @@
 
     <string name="themename">Ingresa el nombre del tema</string>
     <string name="themeadd">Añadir tema</string>
+    <string name="infoqr">Escanea el código Qr para compartir tu información</string>
 
-    <string name="contentname">Ingresa el titulo del contenido</string>
+    <string name="contentname">Ingresa el titulo del contenido.</string>
     <string name="content">Escribe contenido</string>
     <string name="contentadd">Agregar</string>
     <string name="contentimgae">Ingresa la url de la imagen</string>

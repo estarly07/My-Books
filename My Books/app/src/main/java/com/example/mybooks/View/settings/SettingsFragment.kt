@@ -2,6 +2,8 @@ package com.example.mybooks.View.settings
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,8 +24,11 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
+import com.google.zxing.BarcodeFormat
 import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.HashMap
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -172,6 +177,22 @@ class SettingsFragment : Fragment() {
         }
         binding.btnReadQr.setOnClickListener {
             MenuActivity.getQrLector().invoke()
+        }
+        binding.btnQr.setOnClickListener {
+           val data = mapOf(
+               "name" to "sdfsdf"
+           )
+            val writer=QRCodeWriter()
+            val bitMatrix=writer.encode(data.toString(),BarcodeFormat.QR_CODE,350,350)
+            val  width=bitMatrix.width
+            val  heigth=bitMatrix.height
+            val bitmap=Bitmap.createBitmap(width,heigth,Bitmap.Config.RGB_565)
+            for (x in 0 until width){
+                for (y in 0 until heigth){
+                    bitmap.setPixel(x,y,if(bitMatrix[x,y]) Color.BLACK else Color.WHITE)
+                }
+            }
+            MenuActivity.generateQr().invoke(bitmap)
         }
 
         Glide.with(view.context)

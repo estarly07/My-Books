@@ -3,6 +3,7 @@ package com.example.mybooks.View.Menu
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import com.example.mybooks.View.Animations.animVanish
 import com.example.mybooks.View.Book.BookFragment
 import com.example.mybooks.View.Saved.SavedFragment
 import com.example.mybooks.View.allBook.AllBookActivity
+import com.example.mybooks.View.qr.QrActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.ActivityMenuBinding
@@ -69,9 +71,15 @@ class MenuActivity : AppCompatActivity() {
     }
 
     companion object {
+
         private lateinit var readQr:(()->Unit)
         fun getQrLector():()->Unit{
             return  readQr
+        }
+
+        private lateinit var generateQr:((Bitmap)->Unit)
+        fun generateQr():(Bitmap)->Unit{
+            return  generateQr
         }
 
         private var showDialog: ShowDialog? = null
@@ -124,6 +132,13 @@ class MenuActivity : AppCompatActivity() {
             intent.setPrompt("Lee el código Qr para obtener la información")
             intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
             intent.initiateScan()
+
+        }
+       generateQr={bitmap->
+           val intent =Intent()
+           intent.setClass   (this,QrActivity::class.java)
+           intent.putExtra("qr",bitmap)
+           startActivity     (intent)
 
         }
 
