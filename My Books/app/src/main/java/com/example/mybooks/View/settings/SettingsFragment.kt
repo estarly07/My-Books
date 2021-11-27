@@ -22,6 +22,7 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
+import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -168,6 +169,9 @@ class SettingsFragment : Fragment() {
 
         binding.btnDescargar.setOnClickListener {
             showDialog(it.context)
+        }
+        binding.btnReadQr.setOnClickListener {
+            MenuActivity.getQrLector().invoke()
         }
 
         Glide.with(view.context)

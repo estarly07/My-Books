@@ -32,6 +32,8 @@
     <string name="settings">Ajustes</string>
     <string name="subir">Guardar en la nube</string>
     <string name="sincronizar">Sincronizar con la nube</string>
+    <string name="qr">Generar Qr</string>
+    <string name="rqr">Leer Qr</string>
 
     <string name="bookname">Ingresa el nombre del libro</string>
     <string name="bookimage">Ingresa el url de la imagen del libro</string>

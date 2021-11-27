@@ -337,6 +337,70 @@
                         android:rotation="180"
                         android:src="@drawable/ic_back" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/btnReadQr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_15dp"
+                    android:orientation="horizontal">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="@dimen/_30dp"
+                        android:layout_height="@dimen/_30dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_qr"
+                        app:riv_corner_radius="@dimen/_3dp" />
+
+                    <TextView
+                        style="@style/TextSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_5dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="@string/rqr"
+                        android:textColor="@color/gris2"
+                        android:textSize="@dimen/text15" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_20dp"
+                        android:layout_height="match_parent"
+                        android:rotation="180"
+                        android:src="@drawable/ic_back" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/btnQr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_15dp"
+                    android:orientation="horizontal">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="@dimen/_30dp"
+                        android:layout_height="@dimen/_30dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_rqr"
+                        app:riv_corner_radius="@dimen/_3dp" />
+
+                    <TextView
+                        style="@style/TextSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_5dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="@string/qr"
+                        android:textColor="@color/gris2"
+                        android:textSize="@dimen/text15" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_20dp"
+                        android:layout_height="match_parent"
+                        android:rotation="180"
+                        android:src="@drawable/ic_back" />
+                </LinearLayout>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

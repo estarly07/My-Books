@@ -7,14 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
-import com.example.mybooks.Global
+import com.example.mybooks.*
 import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.Model.Entities.ThemeEntity
-import com.example.mybooks.NameFragments
-import com.example.mybooks.R
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToBottomOrUp
 import com.example.mybooks.View.Animations.animVanish
@@ -24,7 +23,7 @@ import com.example.mybooks.View.allBook.AllBookActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.ActivityMenuBinding
-import com.example.mybooks.pressedButtonsToolbar
+import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -70,6 +69,10 @@ class MenuActivity : AppCompatActivity() {
     }
 
     companion object {
+        private lateinit var readQr:(()->Unit)
+        fun getQrLector():()->Unit{
+            return  readQr
+        }
 
         private var showDialog: ShowDialog? = null
 
@@ -94,6 +97,21 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                "Cancelado".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+            } else {
+                "El valor escaneado es: " + result.contents.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
@@ -101,8 +119,15 @@ class MenuActivity : AppCompatActivity() {
         binding.count.setText(
             "${settingsViewModel.getCountSincronized(this)}"
         )
+       readQr={
+            val intent=IntentIntegrator(this)
+            intent.setPrompt("Lee el código Qr para obtener la información")
+            intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            intent.initiateScan()
 
-      binding.btnShowBook.setOnClickListener {
+        }
+
+        binding.btnShowBook.setOnClickListener {
           val intent = Intent()
           intent.setClass(this@MenuActivity, AllBookActivity::class.java)
           AllBookActivity.setBook(book = BookFragment.getBook())
