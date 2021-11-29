@@ -18,6 +18,7 @@ class QrActivity : AppCompatActivity() {
             if (it != null)
                 binding.qr.setImageBitmap(it as Bitmap)
         }
+
     }
 
 

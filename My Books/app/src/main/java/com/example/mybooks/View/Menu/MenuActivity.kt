@@ -1,8 +1,10 @@
 package com.example.mybooks.View.Menu
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,11 +12,10 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import com.example.mybooks.*
-import com.example.mybooks.Model.Entities.BookEntity
-import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToBottomOrUp
 import com.example.mybooks.View.Animations.animVanish
@@ -38,6 +39,7 @@ class MenuActivity : AppCompatActivity() {
     lateinit var buttonsToolbar   : List<List<View?>>
     private  val global           = Global.getInstance()
     private  val settingsViewModel: SettingsViewModel by viewModels()
+    private  val CODE_LOCATION    = 1
 
     interface ShowDialog {
         fun showDialog      (context: Context)
@@ -76,6 +78,13 @@ class MenuActivity : AppCompatActivity() {
         fun getQrLector():()->Unit{
             return  readQr
         }
+
+        private lateinit var validateLocationPermission:()->Unit
+        /**VALIDAR SI TIENE EL PERMISO DE LOCALIZACION*/
+        fun validateLocationPermission():()->Unit{
+            return validateLocationPermission
+        }
+
 
         private lateinit var generateQr:((Bitmap)->Unit)
         fun generateQr():(Bitmap)->Unit{
@@ -124,15 +133,23 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.count.setText(
-            "${settingsViewModel.getCountSincronized(this)}"
-        )
+        binding.count.text = "${settingsViewModel.getCountSincronized(this)}"
        readQr={
-            val intent=IntentIntegrator(this)
+            val intent = IntentIntegrator(this)
             intent.setPrompt("Lee el código Qr para obtener la información")
             intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
             intent.initiateScan()
 
+        }
+        validateLocationPermission={
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),  /* Este codigo es para identificar tu request */
+                CODE_LOCATION
+            )
         }
        generateQr={bitmap->
            val intent =Intent()
@@ -358,6 +375,29 @@ class MenuActivity : AppCompatActivity() {
             }
             else -> finishAffinity()
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+             CODE_LOCATION ->{
+                 // If request is cancelled, the result arrays are empty.
+                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SettingsFragment.generateInfoQr().invoke(this)
+                 } else {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
+                        validateLocationPermission.invoke()
+                    else "Debes dar permiso de localización \npara usar esta función".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+
+                 }
+             }
+        }
+
     }
 }
 

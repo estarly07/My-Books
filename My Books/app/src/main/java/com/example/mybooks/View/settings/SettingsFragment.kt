@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.mybooks.Model.socket.ServerSocket
 import com.example.mybooks.R
 import com.example.mybooks.View.Adapters.AdapterImgUser
 import com.example.mybooks.View.Animations.animAppear
@@ -29,14 +30,18 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.HashMap
+import androidx.core.app.ActivityCompat
+
+
+
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     lateinit var _binding: FragmentSettingsBinding
-    val binding get()   = _binding
-    var isEditName      = false//SABER SI ESTA EDITANDO EL NOMBRE
-    var isSincronized   =false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
-    val settingViewModel: SettingsViewModel by viewModels()
+    val binding get()    = _binding
+    var isEditName       = false//SABER SI ESTA EDITANDO EL NOMBRE
+    var isSincronized    =false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
+    val settingViewModel : SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,6 +97,11 @@ class SettingsFragment : Fragment() {
         fun getCallBack(): CallBack {
             return callBack
         }
+        private lateinit var generateInfoQr:(Context)->Unit
+        fun generateInfoQr():(Context)->Unit{
+            return generateInfoQr
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -179,14 +189,16 @@ class SettingsFragment : Fragment() {
             MenuActivity.getQrLector().invoke()
         }
         binding.btnQr.setOnClickListener {
-           val data = mapOf(
-               "name" to "sdfsdf"
-           )
-            val writer=QRCodeWriter()
-            val bitMatrix=writer.encode(data.toString(),BarcodeFormat.QR_CODE,350,350)
-            val  width=bitMatrix.width
-            val  heigth=bitMatrix.height
-            val bitmap=Bitmap.createBitmap(width,heigth,Bitmap.Config.RGB_565)
+            MenuActivity.validateLocationPermission().invoke()
+        }
+
+        generateInfoQr={context->
+            val data      = settingViewModel.getInfoSocket(context=context)
+            val writer    = QRCodeWriter ()
+            val bitMatrix = writer.encode(data.toString(),BarcodeFormat.QR_CODE,350,350)
+            val  width    = bitMatrix.width
+            val  heigth   = bitMatrix.height
+            val bitmap    = Bitmap.createBitmap(width,heigth,Bitmap.Config.RGB_565)
             for (x in 0 until width){
                 for (y in 0 until heigth){
                     bitmap.setPixel(x,y,if(bitMatrix[x,y]) Color.BLACK else Color.WHITE)
@@ -194,6 +206,7 @@ class SettingsFragment : Fragment() {
             }
             MenuActivity.generateQr().invoke(bitmap)
         }
+
 
         Glide.with(view.context)
             .load(settingViewModel.user.photo)

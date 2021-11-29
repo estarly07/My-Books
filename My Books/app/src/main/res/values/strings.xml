@@ -46,6 +46,7 @@
     <string name="themename">Ingresa el nombre del tema</string>
     <string name="themeadd">Añadir tema</string>
     <string name="infoqr">Escanea el código Qr para compartir tu información</string>
+    <string name="noSend">No se está compartiendo</string>
 
     <string name="contentname">Ingresa el titulo del contenido.</string>
     <string name="content">Escribe contenido</string>

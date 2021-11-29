@@ -11,6 +11,7 @@ import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.Service.AlarmService
 import com.example.mybooks.Model.SharedPreferences.SharedPreferences
 import com.example.mybooks.Model.UseCase
+import com.example.mybooks.Model.socket.ServerSocket
 import com.example.mybooks.Models.User
 import com.example.mybooks.R
 import com.example.mybooks.View.Menu.MenuActivity
@@ -283,4 +284,8 @@ class SettingsViewModel @Inject constructor(
     fun saveToken(context: Context,token:String){
         useCase.saveToken(context, token)
     }
+    fun getInfoSocket(context: Context):Map<String,Any>{
+        return ServerSocket.getInfoSocket(context)
+    }
+
 }
