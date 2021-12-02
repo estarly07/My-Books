@@ -11,6 +11,9 @@ import java.net.Socket
 
 import android.net.wifi.WifiManager
 import android.text.format.Formatter
+import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.Model.UseCase
+import com.example.mybooks.Models.User
 import java.io.IOException
 
 
@@ -22,7 +25,7 @@ class ServerSocket {
     private lateinit var out          : DataOutputStream
 
 
-    fun initServer() {
+    fun initServer(usernameConnected:(String)->Unit,useCase: UseCase) {
         //SERVIDOR INICIADO
         serverSocket = ServerSocket(PORT)
 
@@ -37,10 +40,19 @@ class ServerSocket {
                 println("cliente connect")
                 var mensaje = ""
                 try {
-                    mensaje = input.readUTF()
+                    mensaje = input.read().toString()
+
+                    usernameConnected.invoke(mensaje)
+                    var books= listOf<BookEntity>()
+                    val getBooks= GlobalScope.launch(Dispatchers.IO) { books = useCase.getAllBooks(User.getInstance().id) }
+                    //ESPERAR A QUE TERMINE LA COURRUTINA
+                    getBooks.join()
+                    val mapBook=convertListToMap(books)
+
                     println("cliente desconnect")
+
                     println(mensaje)
-                    out.writeUTF("Hola")
+                    out.writeUTF(mapBook.toString())
 
                 } catch (e: IOException) {
                     println("cliente desconnect")
@@ -52,6 +64,9 @@ class ServerSocket {
 
     }
 
+    private fun convertListToMap(books: List<BookEntity>):Map<String,BookEntity> = books.map {book-> "${book.id_book}" to book}.toMap()
+
+
     companion object {
         fun getInfoSocket(context: Context): Map<String, Any> {
             val wm       = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -60,7 +75,7 @@ class ServerSocket {
             var nameRed  = wifiInfo.ssid
             //QUITARLE LAS COMILLAS QUE TRAE POR DEFECTO EL NOMBRE ("NAME")
             nameRed      = nameRed.substring(1, nameRed.length - 1)
-
+            println(ip)
             return mapOf<String, Any>(
                 "HOST"     to ip,
                 "PORT"     to 5000,

@@ -12,16 +12,14 @@ import com.example.mybooks.Model.Service.AlarmService
 import com.example.mybooks.Model.SharedPreferences.SharedPreferences
 import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Model.socket.ServerSocket
+import com.example.mybooks.Model.socket.SocketClient
 import com.example.mybooks.Models.User
 import com.example.mybooks.R
 import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.validateEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
 
@@ -29,11 +27,12 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     var useCase         : UseCase
 ): ViewModel() {
-    val countBook       = MutableLiveData<Int>()
-    val countBookSave   = MutableLiveData<Int>()
-    val countTheme      = MutableLiveData<Int>()
-    val countThemeSave  = MutableLiveData<Int>()
-    val user            = User.getInstance()
+    val countBook       = MutableLiveData<Int>   ()
+    val countBookSave   = MutableLiveData<Int>   ()
+    val countTheme      = MutableLiveData<Int>   ()
+    val countThemeSave  = MutableLiveData<Int>   ()
+    val user            = User.getInstance       ()
+    var userConnected   = MutableLiveData<String>()
 
     /**
      * CALLBACK PARA EJECUTAR LOS METODOS DE INSERTAR LIBROS,TEMAS, TEXTOS Y CONTENIDOS
@@ -286,6 +285,44 @@ class SettingsViewModel @Inject constructor(
     }
     fun getInfoSocket(context: Context):Map<String,Any>{
         return ServerSocket.getInfoSocket(context)
+    }
+
+    fun validateNameRed(context: Context, info: Map<String, Any>): Boolean {
+
+        println(ServerSocket.getInfoSocket(context).toString())
+        return info["NAME_RED"] == ServerSocket.getInfoSocket(context)["NAME_RED"]
+    }
+    fun convertToMap(info: String):Map<String, Any>{
+        var data = info
+        data = data.substring(1, data.length - 1)   //eliminar los corchetes
+
+        val keyValuePairs = data.split(",") //Eliminar las " , "
+
+        val map: MutableMap<String, Any> = mutableMapOf()
+
+        for (pair in keyValuePairs)
+        {
+            val entry = pair.split("=").toTypedArray() //split the pairs to get key and value
+            map[entry[0].trim { it <= ' ' }] =
+                entry[1].trim { it <= ' ' } //add them to the hashmap and trim whitespaces
+        }
+        return  map
+    }
+
+    fun initComunicationWithServer(host: String, port: Int) {
+        SocketClient().initComunicationWithServer(host = host, port = port)
+
+    }
+    fun initServer(){
+        val usernameConnected:(String)->Unit={ user ->
+            userConnected.postValue(user)
+        }
+
+        ServerSocket().initServer(
+            usernameConnected = usernameConnected,
+            useCase           = useCase)
+
+
     }
 
 }

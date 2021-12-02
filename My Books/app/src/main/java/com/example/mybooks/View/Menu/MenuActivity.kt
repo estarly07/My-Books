@@ -119,8 +119,20 @@ class MenuActivity : AppCompatActivity() {
         if (result != null) {
             if (result.contents == null) {
                 "Cancelado".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+                val intent =Intent()
+                intent.setClass   (this,QrActivity::class.java)
+                startActivity     (intent)
             } else {
-                "El valor escaneado es: " + result.contents.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+                //"El valor escaneado es: " + result.contents.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+                val map=settingsViewModel.convertToMap(info = result.contents)
+                if( settingsViewModel.validateNameRed(this, info = map)){
+                    val intent =Intent()
+                    intent.setClass   (this,QrActivity::class.java)
+                    startActivity     (intent)}
+                else{
+                    "Estas en una diferente red \nque la del servidor".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+               }
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -134,11 +146,11 @@ class MenuActivity : AppCompatActivity() {
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.count.text = "${settingsViewModel.getCountSincronized(this)}"
-       readQr={
-            val intent = IntentIntegrator(this)
-            intent.setPrompt("Lee el código Qr para obtener la información")
-            intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-            intent.initiateScan()
+        readQr={
+             val intent = IntentIntegrator(this)
+             intent.setPrompt("Lee el código Qr para obtener la información")
+             intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+             intent.initiateScan()
 
         }
         validateLocationPermission={
@@ -151,7 +163,7 @@ class MenuActivity : AppCompatActivity() {
                 CODE_LOCATION
             )
         }
-       generateQr={bitmap->
+        generateQr={bitmap->
            val intent =Intent()
            intent.setClass   (this,QrActivity::class.java)
            intent.putExtra("qr",bitmap)
@@ -160,11 +172,11 @@ class MenuActivity : AppCompatActivity() {
         }
 
         binding.btnShowBook.setOnClickListener {
-          val intent = Intent()
-          intent.setClass(this@MenuActivity, AllBookActivity::class.java)
-          AllBookActivity.setBook(book = BookFragment.getBook())
-          startActivity(intent)
-      }
+           val intent = Intent()
+           intent.setClass(this@MenuActivity, AllBookActivity::class.java)
+           AllBookActivity.setBook(book = BookFragment.getBook())
+           startActivity(intent)
+        }
 
         buttonsToolbar = listOf(
             listOf(binding.btnHome,     binding.imgHome),

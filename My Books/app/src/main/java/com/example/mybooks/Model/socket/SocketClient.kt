@@ -1,5 +1,6 @@
 package com.example.mybooks.Model.socket
 
+import com.example.mybooks.Models.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,26 +15,26 @@ class SocketClient {
     private lateinit var out: DataOutputStream
 
 
-    fun initComunicationWithServer(host:String,port : Int) {
+    fun initComunicationWithServer(host: String, port: Int) {
         //IO Ejecturar en background
         GlobalScope.launch(Dispatchers.IO) {
-            val socketClient = Socket(host,port)
+            val socketClient = Socket(host, port)
+            try {
                 input = DataInputStream(socketClient.getInputStream())
                 out = DataOutputStream(socketClient.getOutputStream())
                 println("connect")
-                var mensaje = ""
-                try {
+                var mensaje = User.getInstance().name
 //                    mensaje = input.readUTF()
 //                    println("cliente desconnect")
-//                    println(mensaje)
-                    out.writeUTF("Hola")
+                println(mensaje)
+                out.writeUTF(mensaje)
 
-                } catch (e: IOException) {
-                    println("cliente desconnect")
+            } catch (e: IOException) {
+                println("cliente desconnect")
 
-                }
+            }
 
-                socketClient.close()
+            socketClient.close()
         }
 
     }

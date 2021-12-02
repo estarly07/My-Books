@@ -32,16 +32,20 @@
             tools:replace="screenOrientation" />
         <activity
             android:name=".View.qr.QrActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".View.allBook.AllBookActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".View.Menu.MenuActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".View.LoginActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/SplasTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
