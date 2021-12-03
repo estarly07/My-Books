@@ -119,7 +119,9 @@ class MenuActivity : AppCompatActivity() {
         if (result != null) {
             if (result.contents == null) {
                 "Cancelado".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
-
+                val intent =Intent()
+                intent.setClass   (this,QrActivity::class.java)
+                startActivity     (intent)
             } else {
                 //"El valor escaneado es: " + result.contents.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
                 val map=settingsViewModel.convertToMap(info = result.contents)

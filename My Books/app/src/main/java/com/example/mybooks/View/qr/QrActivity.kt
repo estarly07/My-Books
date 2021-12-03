@@ -7,8 +7,11 @@ import android.os.CountDownTimer
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.mybooks.Model.Entities.BookEntity
 import com.example.mybooks.Model.socket.ServerSocket
 import com.example.mybooks.Model.socket.SocketClient
+import com.example.mybooks.View.Adapters.AdapterSelectBooks
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animVanish
 import com.example.mybooks.ViewModel.SettingsViewModel
@@ -40,6 +43,19 @@ class QrActivity : AppCompatActivity() {
             }
         }
 
+        val showListBook:(List<BookEntity>) -> Unit={
+            runOnUiThread{
+
+                val adapter =AdapterSelectBooks(listBooks = it, context = this)
+                binding.layoutSelectBooks.progress.animVanish(context = this, duration = 500);
+                binding.layoutSelectBooks.reciclerLibros.layoutManager= GridLayoutManager(applicationContext,2)
+                binding.layoutSelectBooks.reciclerLibros.setHasFixedSize(true)
+                binding.layoutSelectBooks.reciclerLibros.adapter=adapter
+                adapter.notifyDataSetChanged()
+            }
+        }
+
+
         setContentView(binding.root)
         (intent.extras?.get("qr")).let {
             if (it != null) {
@@ -54,7 +70,10 @@ class QrActivity : AppCompatActivity() {
                     binding.btnConnect.text = "Usuario conectado : $name"
                 })
             } else {
-                settingsViewModel.initComunicationWithServer(host    = "192.168.1.1"  , port     = 5000)
+                settingsViewModel.initComunicationWithServer(
+                    host         = "192.168.1.1",
+                    port         = 5000,
+                    showListBook = showListBook)
                 binding.layoutSelectBooks.root.animAppear   (context = this@QrActivity, duration = 500 )
             }
 

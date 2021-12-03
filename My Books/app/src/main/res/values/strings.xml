@@ -10,6 +10,7 @@
     <string name="Hello">Hola</string>
     <string name="todos">Todos tus libros</string>
     <string name="todossaved">Tus libros guardados</string>
+    <string name="booksread">Selecciona los libros a obtener</string>
     <string name="search">Dato no encontrado</string>
     <string name="retry">Intenta con otro valor</string>
     <string name="nobooks">No tienes ningun libro</string>

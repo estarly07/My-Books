@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5dp"
+    android:background="@drawable/selectbook_backgroun"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/tablero"
+                android:layout_width="@dimen/tableroWidth"
+                android:layout_height="@dimen/tableroHeight"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/_3dp"
+                android:layout_marginTop="@dimen/_50dp"
+                android:layout_marginRight="@dimen/_3dp"
+                android:background="@drawable/tablero"
+
+                app:riv_corner_radius="@dimen/_15dp" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imgBook"
+                android:layout_width="@dimen/imageBookSaveWidth"
+                android:layout_height="@dimen/imageBookSaveHeight"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/seta"
+                app:riv_corner_radius="@dimen/_5dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text15" />
+
+        <TextView
+            android:id="@+id/txtNameBookH"
+            style="@style/TextPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+            android:layout_marginBottom="@dimen/_20dp"
+            android:gravity="center"
+            android:text="Libro de prueba sobre sdafj"
+            android:textSize="@dimen/textSecondary"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</RelativeLayout>

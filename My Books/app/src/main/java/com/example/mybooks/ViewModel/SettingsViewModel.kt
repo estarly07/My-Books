@@ -310,8 +310,11 @@ class SettingsViewModel @Inject constructor(
         return  map
     }
 
-    fun initComunicationWithServer(host: String, port: Int) {
-        SocketClient().initComunicationWithServer(host = host, port = port)
+    fun initComunicationWithServer(host: String, port: Int,showListBook:(List<BookEntity>) -> Unit) {
+        SocketClient().initComunicationWithServer(
+            host         = host,
+            port         = port,
+            showListBook = showListBook)
 
     }
     fun initServer(changeView:(Boolean,String) -> Unit){
