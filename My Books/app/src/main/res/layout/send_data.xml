@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-  android:scaleType="centerCrop"
+                android:scaleType="centerCrop"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/moon2" />
@@ -101,6 +101,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -109,12 +110,13 @@
             android:layout_height="@dimen/imageBookSaveWidth"
             android:layout_margin="@dimen/_15dp"
             android:layout_weight="1"
-            android:padding="@dimen/_5dp"
-            android:background="@drawable/ic_nube">
+            android:background="@drawable/ic_nube"
+            android:padding="@dimen/_5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtWaitData"
                 android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"

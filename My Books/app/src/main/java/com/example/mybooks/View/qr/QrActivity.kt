@@ -14,7 +14,11 @@ import com.example.mybooks.View.Animations.animVanish
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.ActivityQrBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.concurrent.CountDownLatch
 
 @AndroidEntryPoint
 class QrActivity : AppCompatActivity() {
@@ -25,33 +29,33 @@ class QrActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQrBinding.inflate(layoutInflater)
+        val changeView:(Boolean,String) -> Unit = { isChangeText,text ->
+            runOnUiThread {
+                if (isChangeText) {
+                    binding.layoutSendData.txtWaitData.text = text
+                } else {
+                    binding.layoutQr.animVanish(this@QrActivity, duration = 500)
+                    binding.layoutSendData.root.animAppear(this@QrActivity, duration = 700)
+                }
+            }
+        }
 
         setContentView(binding.root)
         (intent.extras?.get("qr")).let {
             if (it != null) {
                 binding.qr.setImageBitmap(it as Bitmap)
                 binding.layoutQr.visibility = View.VISIBLE
-                settingsViewModel.initServer()
+                settingsViewModel.initServer(changeView = changeView)
 
+                settingsViewModel.dataChange.observe(this,{data->
+                    binding.layoutSendData.txtWaitData.text=data
+                })
                 settingsViewModel.userConnected.observe(this, { name ->
                     binding.btnConnect.text = "Usuario conectado : $name"
-                    val timer = object : CountDownTimer(1000, 2000) {
-                        override fun onTick(p0: Long) {
-
-                        }
-
-                        override fun onFinish() {
-                            binding.layoutQr           .animVanish(this@QrActivity, duration = 500)
-                            binding.layoutSendData.root.animAppear(this@QrActivity, duration = 700)
-                        }
-
-                    }
-                    timer.start()
-
                 })
             } else {
-                settingsViewModel.initComunicationWithServer(host = "192.168.1.1", port = 5000)
-                binding.layoutSelectBooks.root.animAppear(this@QrActivity, duration = 500)
+                settingsViewModel.initComunicationWithServer(host    = "192.168.1.1"  , port     = 5000)
+                binding.layoutSelectBooks.root.animAppear   (context = this@QrActivity, duration = 500 )
             }
 
         }

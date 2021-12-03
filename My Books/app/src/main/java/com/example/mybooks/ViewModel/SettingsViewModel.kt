@@ -33,6 +33,7 @@ class SettingsViewModel @Inject constructor(
     val countThemeSave  = MutableLiveData<Int>   ()
     val user            = User.getInstance       ()
     var userConnected   = MutableLiveData<String>()
+    var dataChange      = MutableLiveData<String>()
 
     /**
      * CALLBACK PARA EJECUTAR LOS METODOS DE INSERTAR LIBROS,TEMAS, TEXTOS Y CONTENIDOS
@@ -313,16 +314,20 @@ class SettingsViewModel @Inject constructor(
         SocketClient().initComunicationWithServer(host = host, port = port)
 
     }
-    fun initServer(){
+    fun initServer(changeView:(Boolean,String) -> Unit){
         val usernameConnected:(String)->Unit={ user ->
             userConnected.postValue(user)
         }
 
+        val changeDataInformation:(String)->Unit={data->
+
+        }
+
         ServerSocket().initServer(
             usernameConnected = usernameConnected,
-            useCase           = useCase)
-
-
+            useCase           = useCase,
+            changeView        = changeView
+        )
     }
 
 }

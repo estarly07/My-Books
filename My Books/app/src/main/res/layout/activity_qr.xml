@@ -120,6 +120,7 @@
     <include
         android:id="@+id/layoutSendData"
         layout="@layout/send_data"
-       />
+        android:visibility="gone"
+        />
 
 </LinearLayout>
