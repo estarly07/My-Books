@@ -288,11 +288,8 @@ class SettingsViewModel @Inject constructor(
         return ServerSocket.getInfoSocket(context)
     }
 
-    fun validateNameRed(context: Context, info: Map<String, Any>): Boolean {
+    fun validateNameRed(context: Context, info: Map<String, Any>) = info["NAME_RED"] == ServerSocket.getInfoSocket(context)["NAME_RED"]
 
-        println(ServerSocket.getInfoSocket(context).toString())
-        return info["NAME_RED"] == ServerSocket.getInfoSocket(context)["NAME_RED"]
-    }
     fun convertToMap(info: String):Map<String, Any>{
         var data = info
         data = data.substring(1, data.length - 1)   //eliminar los corchetes
@@ -310,20 +307,23 @@ class SettingsViewModel @Inject constructor(
         return  map
     }
 
-    fun initComunicationWithServer(host: String, port: Int,showListBook:(List<BookEntity>) -> Unit) {
+    fun initComunicationWithServer(
+        host: String,
+        port: Int,
+        showListBook:(List<BookEntity>,callback:(List<String>) -> Unit) -> Unit,
+        changeView:(Boolean,String) -> Unit
+    ) {
         SocketClient().initComunicationWithServer(
             host         = host,
             port         = port,
-            showListBook = showListBook)
+            showListBook = showListBook,
+            changeView   = changeView
+        )
 
     }
     fun initServer(changeView:(Boolean,String) -> Unit){
         val usernameConnected:(String)->Unit={ user ->
             userConnected.postValue(user)
-        }
-
-        val changeDataInformation:(String)->Unit={data->
-
         }
 
         ServerSocket().initServer(

@@ -4,10 +4,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/_5dp"
-    android:background="@drawable/selectbook_backgroun"
     android:gravity="center">
 
     <LinearLayout
+        android:id="@+id/fondo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -60,4 +60,12 @@
 
     </LinearLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/background"
+        android:layout_width="@dimen/tableroWidth"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+
+        app:lottie_rawRes="@raw/check" />
 </RelativeLayout>

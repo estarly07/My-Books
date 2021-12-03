@@ -43,15 +43,24 @@ class QrActivity : AppCompatActivity() {
             }
         }
 
-        val showListBook:(List<BookEntity>) -> Unit={
+        val showListBook:(List<BookEntity>,callback:(List<String>) -> Unit) -> Unit={list,callback->
             runOnUiThread{
 
-                val adapter =AdapterSelectBooks(listBooks = it, context = this)
+                val adapter =AdapterSelectBooks(listBooks = list, context = this)
                 binding.layoutSelectBooks.progress.animVanish(context = this, duration = 500);
                 binding.layoutSelectBooks.reciclerLibros.layoutManager= GridLayoutManager(applicationContext,2)
                 binding.layoutSelectBooks.reciclerLibros.setHasFixedSize(true)
                 binding.layoutSelectBooks.reciclerLibros.adapter=adapter
                 adapter.notifyDataSetChanged()
+
+
+                binding.layoutSelectBooks.all .setOnClickListener{
+                    showlayoutSendData(list = adapter.getBooksSelect(), callback = callback)
+                }
+                binding.layoutSelectBooks.only.setOnClickListener{
+                    showlayoutSendData(list = adapter.getBooksSelect(), callback = callback)
+                }
+
             }
         }
 
@@ -73,14 +82,30 @@ class QrActivity : AppCompatActivity() {
                 settingsViewModel.initComunicationWithServer(
                     host         = "192.168.1.1",
                     port         = 5000,
-                    showListBook = showListBook)
-                binding.layoutSelectBooks.root.animAppear   (context = this@QrActivity, duration = 500 )
+                    showListBook = showListBook,
+                    changeView   = changeView)
+                binding.layoutSelectBooks.root.animAppear(context = this@QrActivity, duration = 500 )
             }
 
         }
 
 
+
     }
+
+
+    /** MOSTRAR LA VISTA DE layoutSendData PARA QUE EL USUARIO ESPERE MIENTRAS INSERTA LOS LIBROS SELECCIONADOS
+     * @param list      listado de los nombres de los libros que selecciono el usuario para enviarselos de respuesta al server
+     * @param callback  lambda para enviarle el listado al server
+     * */
+    fun showlayoutSendData(list:List<String>,callback:(List<String>) -> Unit){
+        //Pasarle al servidor el listado de libros que quiere el user
+        callback.invoke(list)
+        binding.layoutSendData   .root.animAppear(this, duration = 700)
+        binding.layoutSelectBooks.root.animVanish(this, duration = 500)
+    }
+
+
 
 
 }

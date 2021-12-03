@@ -31,7 +31,8 @@ class ServerSocket {
     fun initServer(
         usernameConnected : (String )        -> Unit,
         useCase           : UseCase,
-        changeView        : (Boolean,String) -> Unit) {
+        changeView        : (Boolean,String) -> Unit
+    ) {
         //SERVIDOR INICIADO
         serverSocket = ServerSocket(PORT)
 
@@ -93,8 +94,8 @@ class ServerSocket {
 
     }
 
-    private fun convertListToMap(books: List<BookEntity>): Map<String, BookEntity> =
-        books.map { book -> "${book.id_book}" to book }.toMap()
+//    private fun convertListToMap(books: List<BookEntity>): Map<String, BookEntity> =
+//        books.map { book -> "${book.id_book}" to book }.toMap()
 
 
     companion object {
