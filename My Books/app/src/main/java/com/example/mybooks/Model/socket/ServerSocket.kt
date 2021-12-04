@@ -16,22 +16,21 @@ import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Models.User
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import org.json.JSONArray
 import java.io.IOException
 
 
 class ServerSocket {
-    private lateinit var serverSocket  : ServerSocket
-    private lateinit var socketClient  : Socket
-    private          val PORT          = 5000
-    private lateinit var input         : DataInputStream
-    private lateinit var out           : DataOutputStream
-
+    private lateinit var serverSocket: ServerSocket
+    private lateinit var socketClient: Socket
+    private val PORT = 5000
+    private lateinit var input: DataInputStream
+    private lateinit var out: DataOutputStream
+    private val user = User.getInstance()
 
     fun initServer(
-        usernameConnected : (String )        -> Unit,
-        useCase           : UseCase,
-        changeView        : (Boolean,String) -> Unit
+        usernameConnected: (String) -> Unit,
+        useCase: UseCase,
+        changeView: (Boolean, Array<String>) -> Unit
     ) {
         //SERVIDOR INICIADO
         serverSocket = ServerSocket(PORT)
@@ -43,43 +42,81 @@ class ServerSocket {
                 println("cliente connect")
 
                 input = DataInputStream(socketClient.getInputStream())
-                out   = DataOutputStream(socketClient.getOutputStream())
+                out = DataOutputStream(socketClient.getOutputStream())
                 println("cliente connect")
                 var mensaje = ""
                 try {
                     mensaje = input.read().toString()
-                    val changeText = GlobalScope.launch(Dispatchers.Main){
+                    val changeText = GlobalScope.launch(Dispatchers.Main) {
                         usernameConnected.invoke(mensaje)
                         delay(1500)
-                        changeView.invoke(false,"")
+                        changeView.invoke(false, arrayOf())
                     }
                     changeText.join()
 
-                    var books    = listOf<BookEntity>()
+                    var books = mutableListOf<BookEntity>()
                     val getBooks = GlobalScope.launch(Dispatchers.IO) {
-                        books    = useCase.getAllBooks(User.getInstance().id)
-                        changeView.invoke(true,"Compartiendo libros")
+                        books = useCase.getAllBooks(User.getInstance().id) as MutableList<BookEntity>
+                        changeView.invoke(
+                            true,
+                            arrayOf("Compartiendo libros", "0", "${books.size}")
+                        )
                         delay(1500)
                     }
                     //ESPERAR A QUE TERMINE LA COURRUTINA
                     getBooks.join()
-                    val mapBook= Gson().toJson(books)
+                    val jsonBook = Gson().toJson(books)
                     println("1 $mensaje")
-                    out.writeUTF(mapBook.toString())
+                    out.writeUTF(jsonBook.toString())
 
 
-                    changeView.invoke(true,"Esperando a que seleccionen los libros")
-                    mensaje =input.read().toString()
+                    changeView.invoke(
+                        true,
+                        arrayOf("Esperando a que seleccionen los libros", "0", "0")
+                    )
+                    mensaje = input.read().toString()
                     println("2 $mensaje")
+                    var indice = 0
 
-                    books.forEach {book->
-                        println("Hola")
-                        out.writeUTF(book.name)
-                        changeView.invoke(true,"Compartiendo \nel libro => ${book.name}")
-                        delay(1000)
-                        mensaje =input.read().toString()
+                    //val namesBooks = Gson().fromJson(jsonBook, Array<String>::class.java).asList()
+                    val namesBooks = Gson().fromJson("[\"Git\",\"Java\"]", Array<String>::class.java).asList()
+
+                    books.clear()
+
+                    //BUSCAR LOS LIBROS MEDIANTE EL NOMBRE DE ESTOS
+                    namesBooks.forEach {
+                    val booksFound   = useCase.searchBooks(idUser = user.id, name = it)
+                        booksFound.forEach { book->
+                            books.add(book)
+                        }
+                    }
+
+
+                    books.forEach { book ->
+                        val json= Gson().toJson(book)
+
+                        out.writeUTF(json)
+                        changeView.invoke(
+                            true,
+                            arrayOf(
+                                "Compartiendo \nel libro => ${book.name}",
+                                "${indice + 1}",
+                                "${books.size}"
+                            )
+                        )
+
+                        //esperar que al cliente  inserte el libro
+                        input.read().toString()
+
+                        val themes=useCase.getThemes(book.id_book)
+
+                        out.writeUTF(Gson().toJson(themes))
+
+                        //esperar que al cliente inserte los temas
+                        input.read().toString()
+
                         print("ADios")
-
+                        indice++
                     }
 
                 } catch (e: IOException) {

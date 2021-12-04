@@ -93,6 +93,12 @@
 
             <TextView
                 android:layout_width="match_parent"
+                android:text="0/10"
+                android:id="@+id/txtContador"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_25sp"
+                android:gravity="center"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -114,9 +120,9 @@
             android:padding="@dimen/_5dp">
 
             <TextView
+                android:id="@+id/txtWaitData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtWaitData"
                 android:layout_centerInParent="true"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"

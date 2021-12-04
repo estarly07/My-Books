@@ -32,10 +32,15 @@ class QrActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQrBinding.inflate(layoutInflater)
-        val changeView:(Boolean,String) -> Unit = { isChangeText,text ->
+        /**LAMBDA PARA MODIFICAR EL TEXTO DE LA NUBE Y EL CONTADOR DE LIBROS O CAMBIAR LA VISTA DE QR A LA DE SENTDATA
+         *@param boolean saber si es para cambiar la vista(false) o el texto (true)
+         *@param List    una lista de strings =>[mensaje de la nube, contador, cantidad de libros]
+         * */
+        val changeView:(Boolean,Array<String>) -> Unit = { isChangeText,text ->
             runOnUiThread {
                 if (isChangeText) {
-                    binding.layoutSendData.txtWaitData.text = text
+                    binding.layoutSendData.txtWaitData.text = text[0]
+                    binding.layoutSendData.txtContador.text = "${text[1]}/${text[2]} libros"
                 } else {
                     binding.layoutQr.animVanish(this@QrActivity, duration = 500)
                     binding.layoutSendData.root.animAppear(this@QrActivity, duration = 700)
@@ -80,10 +85,12 @@ class QrActivity : AppCompatActivity() {
                 })
             } else {
                 settingsViewModel.initComunicationWithServer(
+                    context      = this,
                     host         = "192.168.1.1",
                     port         = 5000,
                     showListBook = showListBook,
-                    changeView   = changeView)
+                    changeView   = changeView,
+                )
                 binding.layoutSelectBooks.root.animAppear(context = this@QrActivity, duration = 500 )
             }
 
