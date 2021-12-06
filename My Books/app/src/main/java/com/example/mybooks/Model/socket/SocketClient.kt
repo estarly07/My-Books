@@ -47,7 +47,8 @@ class SocketClient {
         host: String,
         port: Int,
         showListBook: (List<BookEntity>, (List<String>) -> Unit) -> Unit,
-        changeView: (Boolean, Array<String>) -> Unit
+        changeView: (Boolean, Array<String>) -> Unit,
+        finishComunication:() -> Unit
     ) {
         //IO Ejecturar en background
         GlobalScope.launch(Dispatchers.IO) {
@@ -108,10 +109,6 @@ class SocketClient {
                         "[{\"fk_idBook\":1,\"idTheme\":1,\"importance\":0,\"name\":\"git add\"},{\"fk_idBook\":1,\"idTheme\":2,\"importance\":0,\"name\":\"git commit\"},{\"fk_idBook\":1,\"idTheme\":3,\"importance\":0,\"name\":\"git push\"},{\"fk_idBook\":1,\"idTheme\":4,\"importance\":0,\"name\":\"git pull\"},{\"fk_idBook\":1,\"idTheme\":5,\"importance\":1,\"name\":\"Amend\"},{\"fk_idBook\":1,\"idTheme\":6,\"importance\":0,\"name\":\"git stash\"},{\"fk_idBook\":1,\"idTheme\":7,\"importance\":0,\"name\":\"git status\"},{\"fk_idBook\":1,\"idTheme\":8,\"importance\":1,\"name\":\"git tag\"},{\"fk_idBook\":1,\"idTheme\":9,\"importance\":1,\"name\":\"Eliminar ramas\"},{\"fk_idBook\":1,\"idTheme\":12,\"importance\":0,\"name\":\"ya\"}]",
                         Array<ThemeEntity>::class.java
                     ).toList() as MutableList<ThemeEntity>
-
-                    arrayThemes.forEach {
-                        println(it.idTheme)
-                    }
 
                     courrutine = GlobalScope.launch(Dispatchers.Main) {
                         insertTheme(

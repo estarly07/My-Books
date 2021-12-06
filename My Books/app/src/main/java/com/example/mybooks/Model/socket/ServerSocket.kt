@@ -26,18 +26,20 @@ class ServerSocket {
     private lateinit var input: DataInputStream
     private lateinit var out: DataOutputStream
     private val user = User.getInstance()
+    private var transmitConnection= true
 
     fun initServer(
         usernameConnected: (String) -> Unit,
         useCase: UseCase,
-        changeView: (Boolean, Array<String>) -> Unit
+        changeView: (Boolean, Array<String>) -> Unit,
+        finishComunication:() -> Unit,
     ) {
         //SERVIDOR INICIADO
         serverSocket = ServerSocket(PORT)
 
         //IO Ejecturar en background
         GlobalScope.launch(Dispatchers.IO) {
-            while (true) {
+            while (transmitConnection) {
                 socketClient = serverSocket.accept()
                 println("cliente connect")
 
@@ -112,23 +114,38 @@ class ServerSocket {
 
                         out.writeUTF(Gson().toJson(themes))
 
-                        //esperar que al cliente inserte los temas
+                        //esperar que al cliente inserte los temas y devuelva los temas con el id nuevo
                         input.read().toString()
+                        themes.forEachIndexed { index, themeEntity ->
+                            val contents=useCase.getContentById(themeEntity.idTheme)
+                            val jsonConten=Gson().toJson(contents)
+                            //mandarle cual es el id del tema (Ya que al insertarlo en el cliente el tema obtiene un nuveo id)
+                            out.writeUTF("1")
+                            //mandarle el array de contents
+                            out.writeUTF(jsonConten)
+                        }
 
                         print("ADios")
                         indice++
                     }
 
+
                 } catch (e: IOException) {
                     e.printStackTrace()
                     println("cliente desconnect")
                 } finally {
-                    socketClient.close()
+                    closeConnection()
+                    finishComunication.invoke()
                 }
 
             }
         }
 
+    }
+    fun closeConnection(){
+        transmitConnection=false
+        socketClient.close()
+        serverSocket.close()
     }
 
 //    private fun convertListToMap(books: List<BookEntity>): Map<String, BookEntity> =
