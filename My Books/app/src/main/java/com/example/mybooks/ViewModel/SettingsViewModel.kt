@@ -304,41 +304,48 @@ class SettingsViewModel @Inject constructor(
             map[entry[0].trim { it <= ' ' }] =
                 entry[1].trim { it <= ' ' } //add them to the hashmap and trim whitespaces
         }
+        println(map["PORT"])
         return  map
     }
 
     fun initComunicationWithServer(
-        context: Context,
-        host: String,
-        port: Int,
-        showListBook:(List<BookEntity>,callback:(List<String>) -> Unit) -> Unit,
-        changeView:(Boolean,Array<String>) -> Unit,
-        finishComunication:() -> Unit
-    ) {
+        context             : Context,
+        host                : String,
+        port                : Int,
+        showListBook        : (List<BookEntity>,callback:(List<String>) -> Unit) -> Unit,
+        changeView          : (Boolean,Array<String>) -> Unit,
+        finishCommunication : ()->Unit
+    ):()->Unit {
         val socketClient=SocketClient()
-        socketClient.setContext(context = context)
-        socketClient.setUseCase(useCase = useCase)
+        socketClient.setContext      (context = context)
+        socketClient.setUseCase      (useCase = useCase)
 
         socketClient.initComunicationWithServer(
-            host         = host,
-            port         = port,
-            showListBook = showListBook,
-            changeView   = changeView,
-            finishComunication = finishComunication
+            host               = host,
+            port               = port,
+            showListBook       = showListBook,
+            changeView         = changeView,
+            finishComunication = finishCommunication
         )
-
+        return { socketClient.closeConnection() }
     }
-    fun initServer(changeView:(Boolean,Array<String>,) -> Unit,     finishComunication:() -> Unit,){
+    fun initServer(
+        changeView          :(Boolean,Array<String>,) -> Unit,
+        finishCommunication  :()->Unit):()->Unit
+    {
         val usernameConnected:(String)->Unit={ user ->
             userConnected.postValue(user)
         }
-
-        ServerSocket().initServer(
-            usernameConnected = usernameConnected,
-            useCase           = useCase,
-            changeView        = changeView,
-            finishComunication=finishComunication
+        val server=ServerSocket()
+        server.initServer(
+            usernameConnected  = usernameConnected,
+            useCase            = useCase,
+            changeView         = changeView,
+            finishComunication = finishCommunication
         )
+        return {
+            server.closeConnection()
+        }
     }
 
 }

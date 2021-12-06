@@ -3,8 +3,11 @@ package com.example.mybooks.Model.socket
 import android.content.Context
 import android.widget.Toast
 import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.Model.Entities.ContentEntity
+import com.example.mybooks.Model.Entities.TextEntity
 import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.UseCase
+import com.example.mybooks.Models.Content
 import com.example.mybooks.Models.User
 import com.example.mybooks.R
 import com.example.mybooks.showToast
@@ -25,14 +28,15 @@ import java.util.concurrent.CountDownLatch
 
 class SocketClient {
 
-    private lateinit var input: DataInputStream
-    private lateinit var out: DataOutputStream
+    private lateinit var input   : DataInputStream
+    private lateinit var out     : DataOutputStream
+    private lateinit var useCase : UseCase
+    private lateinit var context : Context
 
-
-    private lateinit var useCase: UseCase
-    private lateinit var context: Context
-
-    private var arrayThemes= mutableListOf<ThemeEntity>()
+    private var arrayThemes     = listOf<ThemeEntity>()
+    private var arrayContents   = listOf<ContentEntity>()
+    private var arrayTexts      = listOf<TextEntity>()
+    private var socketClient    : Socket?=null
 
     fun setContext(context: Context) {
         this.context = context
@@ -48,65 +52,63 @@ class SocketClient {
         port: Int,
         showListBook: (List<BookEntity>, (List<String>) -> Unit) -> Unit,
         changeView: (Boolean, Array<String>) -> Unit,
-        finishComunication:() -> Unit
+        finishComunication:()->Unit
     ) {
         //IO Ejecturar en background
         GlobalScope.launch(Dispatchers.IO) {
-            val socketClient = Socket(host, port)
+        val gson = Gson()
             try {
-                input = DataInputStream(socketClient.getInputStream())
-                out = DataOutputStream(socketClient.getOutputStream())
+                socketClient = Socket(host, port)
+                input        = DataInputStream (socketClient?.getInputStream())
+                out          = DataOutputStream(socketClient?.getOutputStream())
                 println("connect")
                 var mensaje = User.getInstance().name
-//                    mensaje = input.readUTF()
-//                    println("cliente desconnect")
-                println(mensaje)
                 out.writeUTF(mensaje)
 
                 //obtener los libros que envia el servidor
-                mensaje =
-                    "[{\"creation_date\":\"04/11/2021\",\"description\":\"Comandos de git\",\"fk_id_user\":1,\"id_book\":1,\"image\":\"https://www.espai.es/blog/wp-content/uploads/2021/05/trabajar-ramas-git.png\",\"lastTimeOpen\":\"01/12/2021\",\"name\":\"Git\",\"saved\":true},{\"creation_date\":\"26/11/2021\",\"description\":\"Conocimientos de java\",\"fk_id_user\":1,\"id_book\":2,\"image\":\"https://besthqwallpapers.com/Uploads/17-2-2020/122068/thumb2-java-glitter-logo-programming-language-grid-metal-background-java-creative.jpg\",\"lastTimeOpen\":\"02/12/2021\",\"name\":\"Java\",\"saved\":false}]"
-                input.read()
-                val down = CountDownLatch(1)
-                val books: List<BookEntity> =
+                mensaje =input.readUTF()
+
+                val down  = CountDownLatch(1)
+                val books : List<BookEntity> =
                     Gson().fromJson(mensaje, Array<BookEntity>::class.java).asList()
 
                 //mostrar los libros para seleccionarlos
-                var gson = ""
+                var jsonBoks  = ""
                 var cantBooks = 0
                 showListBook.invoke(books) { books ->
                     cantBooks = books.size
-                    gson = Gson().toJson(books)
+                    jsonBoks  = gson.toJson(books)
                     down.countDown()
                 }
                 down.await()
 
-                out.writeUTF(gson)
+                out.writeUTF(jsonBoks)
 
                 changeView.invoke(true, arrayOf("Esperando libros", "0", "$cantBooks"))
                 for (i in 1..cantBooks) {
-                    mensaje = input.read().toString()
+                    //obtener el libro que envia el server
+                    mensaje = input.readUTF()
 
-                    val book = Gson().fromJson(
-                        "{\"creation_date\":\"04/11/2021\",\"description\":\"Comandos de git\",\"fk_id_user\":1,\"id_book\":1,\"image\":\"https://midu.dev/images/wallpapers/javascript-small-horizontal-4k.png\",\"lastTimeOpen\":\"04/12/2021\",\"name\":\"PruebaQr\",\"saved\":true}",
+                    val book = gson.fromJson(
+                        mensaje,
                         BookEntity::class.java
                     )
-                    var courrutine = GlobalScope.launch(Dispatchers.Main) {
+                    var courrutine   = GlobalScope.launch(Dispatchers.Main) {
                         book.id_book = insertaBook(
                             book
                         ).toInt()
                     }
                     println("${book.id_book} ID")
-                    changeView.invoke(true, arrayOf("Insertar libro => $mensaje", "${i}", "$cantBooks"))
+                    changeView.invoke(true, arrayOf("Insertar libro => ${book.name}", "${i}", "$cantBooks"))
                     courrutine.join()
                     delay(1000)
                     //notificar al server que ya se inserto el libro
                     out.writeUTF("");
 
-
-                    mensaje = input.read().toString()
-                    arrayThemes = Gson().fromJson(
-                        "[{\"fk_idBook\":1,\"idTheme\":1,\"importance\":0,\"name\":\"git add\"},{\"fk_idBook\":1,\"idTheme\":2,\"importance\":0,\"name\":\"git commit\"},{\"fk_idBook\":1,\"idTheme\":3,\"importance\":0,\"name\":\"git push\"},{\"fk_idBook\":1,\"idTheme\":4,\"importance\":0,\"name\":\"git pull\"},{\"fk_idBook\":1,\"idTheme\":5,\"importance\":1,\"name\":\"Amend\"},{\"fk_idBook\":1,\"idTheme\":6,\"importance\":0,\"name\":\"git stash\"},{\"fk_idBook\":1,\"idTheme\":7,\"importance\":0,\"name\":\"git status\"},{\"fk_idBook\":1,\"idTheme\":8,\"importance\":1,\"name\":\"git tag\"},{\"fk_idBook\":1,\"idTheme\":9,\"importance\":1,\"name\":\"Eliminar ramas\"},{\"fk_idBook\":1,\"idTheme\":12,\"importance\":0,\"name\":\"ya\"}]",
+                    //obtener los temas que envia el server
+                    mensaje     = input.readUTF()
+                    arrayThemes = gson.fromJson(
+                        mensaje,
                         Array<ThemeEntity>::class.java
                     ).toList() as MutableList<ThemeEntity>
 
@@ -120,25 +122,71 @@ class SocketClient {
                     delay(1000)
                     println(mensaje)
 
+                    //ENVIARLE AL SERVIDOR LA LISTA DE TEMAS CON LOS NUEVOS IDS
+                    out.writeUTF(Gson().toJson(arrayThemes))
 
-                    arrayThemes.forEach {
-                        println(it.idTheme)
+                    arrayThemes.forEachIndexed{index,themeEntity->
+                        println(themeEntity.idTheme)
 
-                        changeView.invoke(true, arrayOf("Insertando contenido al tema ${it.name}", "${i}", "$cantBooks"))
+
+                        //esperar cual es el id del tema (Ya que al insertarlo en el cliente el tema obtiene un nuveo id)
+                       val idTheme = input.readUTF().toInt()
+                        //esperar el array de contents
+                        arrayContents = gson.fromJson(input.readUTF(), Array<ContentEntity>::class.java).toList()
+
+                        courrutine = GlobalScope.launch(Dispatchers.Main) {
+                            insertContents(
+                                idTheme,
+                            )
+                        }
+                        changeView.invoke(true, arrayOf("Insertando contenido al tema ${themeEntity.name}", "${i}", "$cantBooks"))
+                        courrutine.join()
+                        delay(1000)
+                        println(mensaje)
+
+
+                        //DECIRLE QUE YA SE INSERTO LOS CONTENIDOS Y ENVIARLE AL SERVIDOR LA LISTA DE LOS CONTENIDOS CON LOS NUEVOS IDS
+                        out.writeUTF(gson.toJson(arrayContents))
+
+                        arrayContents.forEachIndexed { index, contentEntity ->
+
+                            //obtener cual es el id del contenido (Ya que al insertarlo en el cliente el tema obtiene un nuveo id)
+                           val idContent= input.readUTF().toInt()
+                            //obtener el array de texts
+                            arrayTexts= gson.fromJson(input.readUTF(),Array<TextEntity>::class.java).toList()
+                            courrutine = GlobalScope.launch(Dispatchers.Main) {
+                                insertTexts(
+                                    idContent,
+                                )
+                            }
+                            changeView.invoke(true, arrayOf("Insertando data...", "${i}", "$cantBooks"))
+                            courrutine.join()
+                            delay(1000)
+                            println(mensaje)
+
+
+                            //DECIRLE QUE YA SE INSERTO LOS TEXTOS
+                            out.writeUTF("")
+                        }
+
+
                     }
-
 
                 }
 
             } catch (e: IOException) {
                 println("cliente desconnect")
 
+            }finally {
+                finishComunication.invoke()
+
             }
 
-            socketClient.close()
+
         }
 
     }
+    fun closeConnection()=socketClient?.close()
 
     suspend fun insertaBook(data: BookEntity):Long {
 
@@ -159,7 +207,6 @@ class SocketClient {
 
     fun insertTheme(idBook: Int) {
 
-
      arrayThemes.forEach { data ->
             val theme = ThemeEntity(
                 idTheme = 0,
@@ -167,10 +214,31 @@ class SocketClient {
                 importance = 0,
                 fk_idBook = idBook
             )
-            useCase = UseCase(context)
 
             data.idTheme= useCase.insertTheme(theme).toInt()
         }
+    }
+    fun insertContents(themeId: Int) {
+         arrayContents.forEach { data ->
+             val content     = ContentEntity(
+                 idContent   = 0,
+                 subTitle    = data.subTitle,
+                 fk_idTheme  = themeId
+             )
+             data.idContent= useCase.insertContent(contentEntity = content).toInt()
+         }
+    }
+    suspend fun insertTexts(contentId: Int) {
+         arrayTexts.forEach { data ->
+             val text= TextEntity(
+                  id_text = 0,
+                  content = data.content,
+                  type = data.type,
+                  fk_id_content = contentId
+
+             )
+             useCase.insertTextData(text)
+         }
     }
 
     /**OBTENER LA FECHA ACTUAL*/

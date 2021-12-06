@@ -299,7 +299,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="true"
-                        android:text="Switch"
                         app:thumbTint="@color/naranja"
 
                         app:trackTint="@color/blanco1" />

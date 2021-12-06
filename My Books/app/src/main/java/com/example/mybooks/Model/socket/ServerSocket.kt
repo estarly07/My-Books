@@ -12,6 +12,8 @@ import java.net.Socket
 import android.net.wifi.WifiManager
 import android.text.format.Formatter
 import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.Model.Entities.ContentEntity
+import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Models.User
 import com.google.gson.Gson
@@ -27,28 +29,29 @@ class ServerSocket {
     private lateinit var out: DataOutputStream
     private val user = User.getInstance()
     private var transmitConnection= true
+    private var mensaje = ""
 
     fun initServer(
         usernameConnected: (String) -> Unit,
         useCase: UseCase,
         changeView: (Boolean, Array<String>) -> Unit,
-        finishComunication:() -> Unit,
+        finishComunication:()->Unit,
     ) {
         //SERVIDOR INICIADO
         serverSocket = ServerSocket(PORT)
-
+        val gson     = Gson()
         //IO Ejecturar en background
         GlobalScope.launch(Dispatchers.IO) {
             while (transmitConnection) {
                 socketClient = serverSocket.accept()
                 println("cliente connect")
 
-                input = DataInputStream(socketClient.getInputStream())
-                out = DataOutputStream(socketClient.getOutputStream())
+                input = DataInputStream (socketClient.getInputStream())
+                out   = DataOutputStream(socketClient.getOutputStream())
                 println("cliente connect")
-                var mensaje = ""
+
                 try {
-                    mensaje = input.read().toString()
+                    mensaje = input.readUTF()
                     val changeText = GlobalScope.launch(Dispatchers.Main) {
                         usernameConnected.invoke(mensaje)
                         delay(1500)
@@ -56,7 +59,7 @@ class ServerSocket {
                     }
                     changeText.join()
 
-                    var books = mutableListOf<BookEntity>()
+                    var books    = mutableListOf<BookEntity>()
                     val getBooks = GlobalScope.launch(Dispatchers.IO) {
                         books = useCase.getAllBooks(User.getInstance().id) as MutableList<BookEntity>
                         changeView.invoke(
@@ -67,21 +70,18 @@ class ServerSocket {
                     }
                     //ESPERAR A QUE TERMINE LA COURRUTINA
                     getBooks.join()
-                    val jsonBook = Gson().toJson(books)
-                    println("1 $mensaje")
+                    val jsonBook = gson.toJson(books)
                     out.writeUTF(jsonBook.toString())
-
 
                     changeView.invoke(
                         true,
                         arrayOf("Esperando a que seleccionen los libros", "0", "0")
                     )
-                    mensaje = input.read().toString()
-                    println("2 $mensaje")
+                    mensaje = input.readUTF()
                     var indice = 0
 
-                    //val namesBooks = Gson().fromJson(jsonBook, Array<String>::class.java).asList()
-                    val namesBooks = Gson().fromJson("[\"Git\",\"Java\"]", Array<String>::class.java).asList()
+                    val namesBooks = gson.fromJson(mensaje, Array<String>::class.java).asList()
+                   // val namesBooks = Gson().fromJson("[\"Git\",\"Java\"]", Array<String>::class.java).asList()
 
                     books.clear()
 
@@ -93,9 +93,8 @@ class ServerSocket {
                         }
                     }
 
-
                     books.forEach { book ->
-                        val json= Gson().toJson(book)
+                        val json= gson.toJson(book)
 
                         out.writeUTF(json)
                         changeView.invoke(
@@ -108,21 +107,36 @@ class ServerSocket {
                         )
 
                         //esperar que al cliente  inserte el libro
-                        input.read().toString()
+                        input.readUTF()
 
-                        val themes=useCase.getThemes(book.id_book)
-
-                        out.writeUTF(Gson().toJson(themes))
+                        val themes = useCase.getThemes(book.id_book)
+                        //enviar los temas al cliente
+                        out.writeUTF(gson.toJson(themes))
 
                         //esperar que al cliente inserte los temas y devuelva los temas con el id nuevo
-                        input.read().toString()
+                        val newThemes = gson.fromJson( input.readUTF(), Array<ThemeEntity>::class.java).toList()
                         themes.forEachIndexed { index, themeEntity ->
-                            val contents=useCase.getContentById(themeEntity.idTheme)
-                            val jsonConten=Gson().toJson(contents)
+                            val contents   = useCase.getContentById(themeEntity.idTheme)
+                            val jsonConten = Gson().toJson(contents)
                             //mandarle cual es el id del tema (Ya que al insertarlo en el cliente el tema obtiene un nuveo id)
-                            out.writeUTF("1")
+                            out.writeUTF("${newThemes[index].idTheme}")
                             //mandarle el array de contents
                             out.writeUTF(jsonConten)
+
+                            //esperar que al cliente inserte los contenidos y devuelva los contenidos con el id nuevo
+                            val newContents = gson.fromJson(input.readUTF(), Array<ContentEntity>::class.java).toList()
+                            contents.forEachIndexed { index, contentEntity ->
+                                val texts    = useCase.getDataContent(contentEntity.idContent)
+                                val jsonText = gson.toJson(texts)
+                                //mandarle cual es el id del contenido (Ya que al insertarlo en el cliente el tema obtiene un nuveo id)
+                                out.writeUTF("${newContents[index].idContent}")
+                                //mandarle el array de textos
+                                out.writeUTF(jsonText)
+
+                                //NOTIFICACION DE QUE YA INSERTO LOS TEXTOS
+                                input.readUTF()
+
+                            }
                         }
 
                         print("ADios")
@@ -154,16 +168,16 @@ class ServerSocket {
 
     companion object {
         fun getInfoSocket(context: Context): Map<String, Any> {
-            val wm = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            val wm       = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
             val wifiInfo = wm.connectionInfo
-            val ip = Formatter.formatIpAddress(wifiInfo.ipAddress)
-            var nameRed = wifiInfo.ssid
+            val ip       = Formatter.formatIpAddress(wifiInfo.ipAddress)
+            var nameRed  = wifiInfo.ssid
             //QUITARLE LAS COMILLAS QUE TRAE POR DEFECTO EL NOMBRE ("NAME")
-            nameRed = nameRed.substring(1, nameRed.length - 1)
+            nameRed      = nameRed.substring(1, nameRed.length - 1)
             println(ip)
             return mapOf<String, Any>(
-                "HOST" to ip,
-                "PORT" to 5000,
+                "HOST"     to ip,
+                "PORT"     to 5000,
                 "NAME_RED" to nameRed
             )
         }

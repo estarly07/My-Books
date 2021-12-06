@@ -31,8 +31,7 @@ import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.HashMap
 import androidx.core.app.ActivityCompat
-
-
+import java.lang.NullPointerException
 
 
 @AndroidEntryPoint

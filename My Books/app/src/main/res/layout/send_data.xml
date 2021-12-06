@@ -116,7 +116,7 @@
             android:layout_height="@dimen/imageBookSaveWidth"
             android:layout_margin="@dimen/_15dp"
             android:layout_weight="1"
-            android:background="@drawable/ic_nube"
+            android:background="@drawable/ic_nube2"
             android:padding="@dimen/_5dp">
 
             <TextView
