@@ -3,7 +3,9 @@ package com.example.mybooks.View.qr
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,16 +22,26 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class QrActivity : AppCompatActivity() {
 
-    private lateinit var binding            : ActivityQrBinding
-    private          val settingsViewModel  : SettingsViewModel by viewModels()
-    private lateinit var closeAll           :()->Unit
+    private lateinit var binding           : ActivityQrBinding
+    private          val settingsViewModel : SettingsViewModel by viewModels()
+    private lateinit var closeAll          : ()->Unit
+
+    private          val TIME              = 60500
+    private          var timer             : CountDownTimer? = null
 
     companion object{
-        private var info:Map<String,Any>?=null
-        fun setInfo(info:Map<String,Any>){
+        private var info : Map<String,Any>?=null
+        fun setInfo(info : Map<String,Any>){
             this.info=info
         }
 
+    }
+    /**LAMBDA PARA FINALIZAR COMUNICACION CON EL SERVER Y EL USUARIO*/
+    val finishCommunication : (msg : String)->Unit = { msg ->
+        runOnUiThread{
+            msg.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+            onBackPressed()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +55,13 @@ class QrActivity : AppCompatActivity() {
             runOnUiThread {
                 if (isChangeText) {
                     binding.layoutSendData.txtWaitData.text = text[0]
+                    if (text[0]=="Esperando a que seleccionen los libros"){
+                        startTimeOut(isQr = false)
+                    }else{
+                        if(timer!=null){
+                            timer!!.cancel()
+                        }
+                    }
                     binding.layoutSendData.txtContador.text = "${text[1]}/${text[2]} libros"
                     binding.layoutSendData.r1.scheduleLayoutAnimation()
                 } else {
@@ -51,6 +70,7 @@ class QrActivity : AppCompatActivity() {
                 }
             }
         }
+
 
         val showListBook: (List<BookEntity>, callback: (List<String>) -> Unit) -> Unit =
             { list, callback ->
@@ -90,35 +110,28 @@ class QrActivity : AppCompatActivity() {
                 binding.qr.      animAppear(this, duration = 1500)
                 closeAll= settingsViewModel.initServer(
                     changeView          = changeView,
-                    finishCommunication = {
-                        runOnUiThread{
-                            "Se finalizó comunicación".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
-                            onBackPressed()
-                        }
-                    }
+                    finishCommunication = finishCommunication
                 )
+
+                startTimeOut(isQr = true)
 
                 settingsViewModel.dataChange.observe(this, { data ->
                     binding.layoutSendData.txtWaitData.text = data
                 })
                 settingsViewModel.userConnected.observe(this, { name ->
+                    timer!!.cancel()
                     binding.btnConnect.text = "Usuario conectado : $name"
                 })
             } else {
                 closeAll = settingsViewModel.initComunicationWithServer(
-                    context            = this,
+                    context             = this,
 //                    host = info!!.get("HOST") as String,
 //                    port = (info!!["PORT"].toString()).toInt(),
-                    host               = "192.168.1.1",
-                    port               = 5000,
-                    showListBook       = showListBook,
-                    changeView         = changeView,
-                    finishCommunication = {
-                        runOnUiThread{
-                            "Se finalizó comunicación \ncon el sevidor".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
-                            onBackPressed()
-                        }
-                    }
+                    host                = "192.168.1.1",
+                    port                = 5000,
+                    showListBook        = showListBook,
+                    changeView          = changeView,
+                    finishCommunication = finishCommunication
                 )
                 binding.layoutSelectBooks.root.animAppear(context = this@QrActivity, duration = 700)
             }
@@ -126,6 +139,30 @@ class QrActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    /** COMENZAR EL TIEMPO DE ESPERA DEL SERVIDOR Y CUAN SE AGOTE SE DEVUELVA A LOS SETTINGS
+     * @param isQr Si esta en la vista qr ya que se mostrar el contador en el boton de la vista qr y si no se mostrar en la nube de la vista sendata
+     * */
+    private fun startTimeOut(isQr: Boolean) {
+        timer = object : CountDownTimer(TIME.toLong(),1000){
+            override fun onTick(p0: Long) {
+               if(isQr){
+                   binding.btnConnect.text = "${resources.getText(R.string.noSend)}\n\n${p0/1000} seg"
+               }else{
+                   binding.layoutSendData.txtWaitData.text = "Esperando a que seleccionen los libros\n${p0/1000} seg"
+               }
+
+            }
+
+            override fun onFinish() {
+                //validar si se conecto un usuario no se cierre la conexion del servidor
+                this@QrActivity.finishCommunication.invoke("Tiempo de espera finalizado")
+            }
+
+        }
+
+        timer!!.start()
     }
 
 

@@ -33,7 +33,7 @@ class ServerSocket {
         usernameConnected  : (String) -> Unit,
         useCase            : UseCase ,
         changeView         : (Boolean, Array<String>) -> Unit,
-        finishComunication : ()->Unit,
+        finishComunication : (String)->Unit,
     ) {
         //SERVIDOR INICIADO
         serverSocket = ServerSocket(PORT)
@@ -147,7 +147,7 @@ class ServerSocket {
                     println("cliente desconnect")
                 } finally {
                     closeConnection()
-                    finishComunication.invoke()
+                    finishComunication.invoke("Se finalizó comunicación")
                 }
 
             }
@@ -155,7 +155,7 @@ class ServerSocket {
 
     }
     fun closeConnection(){
-        transmitConnection=false
+        transmitConnection = false
         socketClient?.close()
         serverSocket.close()
     }

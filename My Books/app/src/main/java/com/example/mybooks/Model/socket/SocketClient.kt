@@ -48,11 +48,11 @@ class SocketClient {
 
 
     fun initComunicationWithServer(
-        host: String,
-        port: Int,
-        showListBook: (List<BookEntity>, (List<String>) -> Unit) -> Unit,
-        changeView: (Boolean, Array<String>) -> Unit,
-        finishComunication:()->Unit
+        host                : String,
+        port                : Int,
+        showListBook        : (List<BookEntity>, (List<String>) -> Unit) -> Unit,
+        changeView          : (Boolean, Array<String>) -> Unit,
+        finishCommunication : (String)->Unit
     ) {
         //IO Ejecturar en background
         GlobalScope.launch(Dispatchers.IO) {
@@ -62,11 +62,11 @@ class SocketClient {
                 input        = DataInputStream (socketClient?.getInputStream())
                 out          = DataOutputStream(socketClient?.getOutputStream())
                 println("connect")
-                var mensaje = User.getInstance().name
+                var mensaje  = User.getInstance().name
                 out.writeUTF(mensaje)
 
                 //obtener los libros que envia el servidor
-                mensaje =input.readUTF()
+                mensaje   = input.readUTF()
 
                 val down  = CountDownLatch(1)
                 val books : List<BookEntity> =
@@ -178,7 +178,7 @@ class SocketClient {
                 println("cliente desconnect")
 
             }finally {
-                finishComunication.invoke()
+                finishCommunication.invoke( "Se finalizó comunicación \ncon el sevidor")
 
             }
 
@@ -191,14 +191,14 @@ class SocketClient {
     suspend fun insertaBook(data: BookEntity):Long {
 
         val book = BookEntity(
-            id_book = 0,
-            name = data.name,
-            image = data.image,
+            id_book       = 0,
+            name          = data.name,
+            image         = data.image,
             creation_date = getDateNow(),
-            saved = false,
-            description = data.description,
-            fk_id_user = User.getInstance().id,
-            lastTimeOpen = ""
+            saved         = false,
+            description   = data.description,
+            fk_id_user    = User.getInstance().id,
+            lastTimeOpen  = ""
         )
 
 
@@ -209,13 +209,12 @@ class SocketClient {
 
      arrayThemes.forEach { data ->
             val theme = ThemeEntity(
-                idTheme = 0,
-                name = data.name,
-                importance = 0,
-                fk_idBook = idBook
+                idTheme     = 0,
+                name        = data.name,
+                importance  = 0,
+                fk_idBook   = idBook
             )
-
-            data.idTheme= useCase.insertTheme(theme).toInt()
+            data.idTheme    = useCase.insertTheme(theme).toInt()
         }
     }
     fun insertContents(themeId: Int) {
@@ -231,9 +230,9 @@ class SocketClient {
     suspend fun insertTexts(contentId: Int) {
          arrayTexts.forEach { data ->
              val text= TextEntity(
-                  id_text = 0,
-                  content = data.content,
-                  type = data.type,
+                  id_text       = 0,
+                  content       = data.content,
+                  type          = data.type,
                   fk_id_content = contentId
 
              )

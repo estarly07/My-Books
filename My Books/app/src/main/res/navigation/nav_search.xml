@@ -17,7 +17,7 @@
         <action
             android:id="@+id/action_searchFragment_to_nav_book"
             app:destination="@id/nav_book"
-            app:enterAnim="@anim/anim_scale_tocenter" />
+            app:enterAnim="@anim/anim_up" />
     </fragment>
     <fragment
         android:id="@+id/contentFragment2"

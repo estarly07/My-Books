@@ -87,9 +87,9 @@
                         android:id="@+id/qr"
                         android:layout_width="@dimen/imageBookWidthB"
                         android:layout_height="@dimen/imageBookWidthB"
-                        android:visibility="gone"
                         android:layout_centerInParent="true"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
             </RelativeLayout>

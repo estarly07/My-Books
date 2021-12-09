@@ -314,26 +314,26 @@ class SettingsViewModel @Inject constructor(
         port                : Int,
         showListBook        : (List<BookEntity>,callback:(List<String>) -> Unit) -> Unit,
         changeView          : (Boolean,Array<String>) -> Unit,
-        finishCommunication : ()->Unit
+        finishCommunication : (String)->Unit
     ):()->Unit {
-        val socketClient=SocketClient()
+        val socketClient = SocketClient()
         socketClient.setContext      (context = context)
         socketClient.setUseCase      (useCase = useCase)
 
         socketClient.initComunicationWithServer(
-            host               = host,
-            port               = port,
-            showListBook       = showListBook,
-            changeView         = changeView,
-            finishComunication = finishCommunication
+            host                = host,
+            port                = port,
+            showListBook        = showListBook,
+            changeView          = changeView,
+            finishCommunication = finishCommunication
         )
         return { socketClient.closeConnection() }
     }
     fun initServer(
-        changeView          :(Boolean,Array<String>,) -> Unit,
-        finishCommunication  :()->Unit):()->Unit
+        changeView          : (Boolean,Array<String>,) -> Unit,
+        finishCommunication : (String)->Unit):()->Unit
     {
-        val usernameConnected:(String)->Unit={ user ->
+        val usernameConnected : (String)-> Unit = { user ->
             userConnected.postValue(user)
         }
         val server=ServerSocket()
