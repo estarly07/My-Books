@@ -92,14 +92,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:text="0/10"
                 android:id="@+id/txtContador"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_25sp"
-                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:layout_height="wrap_content" />
+                android:gravity="center"
+                android:text="0/10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_25sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -107,8 +107,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_5dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_5dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -116,7 +116,9 @@
             android:layout_height="@dimen/imageBookSaveWidth"
             android:layout_margin="@dimen/_15dp"
             android:layout_weight="1"
+            android:id="@+id/r1"
             android:background="@drawable/ic_nube2"
+            android:layoutAnimation="@anim/layout_appear"
             android:padding="@dimen/_5dp">
 
             <TextView

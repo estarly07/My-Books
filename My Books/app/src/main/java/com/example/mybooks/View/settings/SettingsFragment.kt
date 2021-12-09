@@ -16,7 +16,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.mybooks.Model.socket.ServerSocket
 import com.example.mybooks.R
 import com.example.mybooks.View.Adapters.AdapterImgUser
 import com.example.mybooks.View.Animations.animAppear
@@ -26,12 +25,9 @@ import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.HashMap
-import androidx.core.app.ActivityCompat
-import java.lang.NullPointerException
+
 
 
 @AndroidEntryPoint
@@ -264,10 +260,12 @@ class SettingsFragment : Fragment() {
         })
     }
     var starAnimation:()-> Unit = {
-        binding.l1.scheduleLayoutAnimation()
+        binding.l1          .scheduleLayoutAnimation()
         binding.btnDescargar.scheduleLayoutAnimation()
-        binding.btnRegister.scheduleLayoutAnimation()
-        binding.l2.scheduleLayoutAnimation()
+        binding.btnRegister .scheduleLayoutAnimation()
+        binding.btnQr       .scheduleLayoutAnimation()
+        binding.btnReadQr   .scheduleLayoutAnimation()
+        binding.l2          .scheduleLayoutAnimation()
     }
 
     /**MOSTRAR UN DIALOGO PARA PREGUNTAR SI QUIERE ELIMINAR LOS LIBROS AL MOMENTO DE SINCRONIZAR CON LA NUBE*/

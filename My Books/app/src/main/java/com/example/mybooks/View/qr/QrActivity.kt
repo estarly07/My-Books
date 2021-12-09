@@ -44,6 +44,7 @@ class QrActivity : AppCompatActivity() {
                 if (isChangeText) {
                     binding.layoutSendData.txtWaitData.text = text[0]
                     binding.layoutSendData.txtContador.text = "${text[1]}/${text[2]} libros"
+                    binding.layoutSendData.r1.scheduleLayoutAnimation()
                 } else {
                     binding.layoutQr.animVanish(this@QrActivity, duration = 500)
                     binding.layoutSendData.root.animAppear(this@QrActivity, duration = 700)
@@ -62,6 +63,7 @@ class QrActivity : AppCompatActivity() {
                     binding.layoutSelectBooks.reciclerLibros.setHasFixedSize(true)
                     binding.layoutSelectBooks.reciclerLibros.adapter = adapter
                     adapter.notifyDataSetChanged()
+                    binding.layoutSelectBooks.reciclerLibros.scheduleLayoutAnimation()
 
 
                     binding.layoutSelectBooks.all.setOnClickListener {
@@ -84,9 +86,10 @@ class QrActivity : AppCompatActivity() {
             //si el bitmap no es null
             if (it != null) {
                 binding.qr.setImageBitmap(it as Bitmap)
-                binding.layoutQr.visibility = View.VISIBLE
+                binding.layoutQr.animAppear(this, duration = 1000)
+                binding.qr.      animAppear(this, duration = 1500)
                 closeAll= settingsViewModel.initServer(
-                    changeView         = changeView,
+                    changeView          = changeView,
                     finishCommunication = {
                         runOnUiThread{
                             "Se finalizó comunicación".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
@@ -117,7 +120,7 @@ class QrActivity : AppCompatActivity() {
                         }
                     }
                 )
-                binding.layoutSelectBooks.root.animAppear(context = this@QrActivity, duration = 500)
+                binding.layoutSelectBooks.root.animAppear(context = this@QrActivity, duration = 700)
             }
 
         }
@@ -133,7 +136,8 @@ class QrActivity : AppCompatActivity() {
     fun showlayoutSendData(list: List<String>, callback: (List<String>) -> Unit) {
         //Pasarle al servidor el listado de libros que quiere el user
         callback.invoke(list)
-        binding.layoutSendData   .root.animAppear(this, duration = 700)
+        binding.layoutSendData   .root.animAppear(this, duration = 1000)
+        binding.layoutSendData.r1.scheduleLayoutAnimation()
         binding.layoutSelectBooks.root.animVanish(this, duration = 500)
     }
 

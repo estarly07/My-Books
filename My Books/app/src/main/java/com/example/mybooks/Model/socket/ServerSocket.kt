@@ -1,9 +1,6 @@
 package com.example.mybooks.Model.socket
 
 import android.content.Context
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.ServerSocket
@@ -17,25 +14,26 @@ import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.UseCase
 import com.example.mybooks.Models.User
 import com.google.gson.Gson
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import java.io.IOException
 
 
 class ServerSocket {
-    private lateinit var serverSocket: ServerSocket
-    private lateinit var socketClient: Socket
-    private val PORT = 5000
-    private lateinit var input: DataInputStream
-    private lateinit var out: DataOutputStream
-    private val user = User.getInstance()
-    private var transmitConnection= true
-    private var mensaje = ""
+    private lateinit var serverSocket       : ServerSocket
+    private lateinit var out                : DataOutputStream
+    private lateinit var input              : DataInputStream
+    private          var socketClient       : Socket? = null
+    private          val PORT               = 5000
+    private          val user               = User.getInstance()
+    private          var transmitConnection = true
+    private          var mensaje            = ""
 
+    @DelicateCoroutinesApi
     fun initServer(
-        usernameConnected: (String) -> Unit,
-        useCase: UseCase,
-        changeView: (Boolean, Array<String>) -> Unit,
-        finishComunication:()->Unit,
+        usernameConnected  : (String) -> Unit,
+        useCase            : UseCase ,
+        changeView         : (Boolean, Array<String>) -> Unit,
+        finishComunication : ()->Unit,
     ) {
         //SERVIDOR INICIADO
         serverSocket = ServerSocket(PORT)
@@ -43,14 +41,14 @@ class ServerSocket {
         //IO Ejecturar en background
         GlobalScope.launch(Dispatchers.IO) {
             while (transmitConnection) {
-                socketClient = serverSocket.accept()
-                println("cliente connect")
-
-                input = DataInputStream (socketClient.getInputStream())
-                out   = DataOutputStream(socketClient.getOutputStream())
-                println("cliente connect")
 
                 try {
+                    socketClient = serverSocket.accept()
+                    println("cliente connect")
+
+                    input   = DataInputStream (socketClient?.getInputStream())
+                    out     = DataOutputStream(socketClient?.getOutputStream())
+                    println("cliente connect")
                     mensaje = input.readUTF()
                     val changeText = GlobalScope.launch(Dispatchers.Main) {
                         usernameConnected.invoke(mensaje)
@@ -158,7 +156,7 @@ class ServerSocket {
     }
     fun closeConnection(){
         transmitConnection=false
-        socketClient.close()
+        socketClient?.close()
         serverSocket.close()
     }
 
