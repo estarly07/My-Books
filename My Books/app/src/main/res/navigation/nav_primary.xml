@@ -13,7 +13,7 @@
         <action
             android:id="@+id/action_menuFragment_to_nav_book"
             app:destination="@id/nav_book"
-            app:enterAnim="@anim/anim_scale_tocenter" />
+            app:enterAnim="@anim/ne" />
         <action
             android:id="@+id/action_menuFragment_to_formsFragment"
             app:destination="@id/formsFragment"

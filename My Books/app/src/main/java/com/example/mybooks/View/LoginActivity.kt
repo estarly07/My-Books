@@ -22,9 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private val loginViewModel: LoginViewModel by viewModels()
-    private var page = EnumPagesLogin.START
+    private lateinit var binding        : ActivityMainBinding
+    private          val loginViewModel : LoginViewModel by viewModels()
+    private          var page           = EnumPagesLogin.START
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,11 +35,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun init(): Unit {
         getInfoUser()
+        binding.splash.root.animAppear(this, duration = 1300)
         binding.btnStart.setOnClickListener { view ->
             page = EnumPagesLogin.LOGIN
 
             binding.containerLogin.root.animTraslateToLeft(
-                context = this,
+                context  = this,
                 duration = 500
             )
 
@@ -100,7 +101,8 @@ class LoginActivity : AppCompatActivity() {
         val data=loginViewModel.isLogin(this)
         Handler().postDelayed({
             if (data[0]=="") {
-                binding.splash.root.animVanish(this,300)
+                binding.splash.root.   animVanish(this,1000)
+                binding.containerStart.animAppear(this,500)
             }else {
                 loginViewModel.login(
                     this,

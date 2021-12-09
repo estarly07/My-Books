@@ -104,6 +104,8 @@ class SavedFragment : Fragment() {
         saveViewModel.list.observe(viewLifecycleOwner, { list ->
             visibleWait(list.isEmpty())
             adapterSavedBooks.setList(list)
+            //ACTIVAR LA ANIMACION DEL RECICLER
+            binding.reciclerLibros.scheduleLayoutAnimation()
         })
 
 

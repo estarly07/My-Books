@@ -104,8 +104,9 @@ class BookFragment : Fragment() {
         MenuActivity.getOnScroll()?.showToolbar   (show = false)
 
         binding.scrollBook.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (scrollY < oldScrollY)
+            if (scrollY < oldScrollY) {
                 MenuActivity.getOnScroll()?.scrollChangeButtom(isUp = true)
+            }
             else
                 MenuActivity.getOnScroll()?.scrollChangeButtom(isUp = false)
         })
