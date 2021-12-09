@@ -125,6 +125,8 @@ class MenuFragment : Fragment() {
         })
         menuViewModel.listBook.observe(viewLifecycleOwner, { list ->
             visibleWait    (list.isEmpty())
+            //ACTIVAR LA ANIMACION DEL RECICLER
+            binding.reciclerLibros.scheduleLayoutAnimation()
             adapter.setlist(list)
         })
 
@@ -142,6 +144,8 @@ class MenuFragment : Fragment() {
         }
         menuViewModel.listBookRecents.observe(viewLifecycleOwner, { list ->
             adapterBooksMoreViews.setlist(list)
+            //ACTIVAR LA ANIMACION DEL RECICLER
+            binding.reciclerLibrosMasVistos.scheduleLayoutAnimation()
         })
         menuViewModel.bookCreate.observe(viewLifecycleOwner, { book ->
             adapter.setlist(book)

@@ -36,11 +36,11 @@ import java.lang.NullPointerException
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
-    lateinit var _binding: FragmentSettingsBinding
-    val binding get()    = _binding
-    var isEditName       = false//SABER SI ESTA EDITANDO EL NOMBRE
-    var isSincronized    =false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
-    val settingViewModel : SettingsViewModel by viewModels()
+    lateinit var _binding : FragmentSettingsBinding
+    val binding get()     = _binding
+    var isEditName        = false//SABER SI ESTA EDITANDO EL NOMBRE
+    var isSincronized     = false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
+    val settingViewModel  : SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -125,6 +125,9 @@ class SettingsFragment : Fragment() {
         })
         callBack = object : CallBack {
             override fun getData() {
+
+                starAnimation.invoke()
+
                 settingViewModel.getEstaditicas()
                 Glide.with(view.context)
                     .load(settingViewModel.user.photo)
@@ -238,6 +241,8 @@ class SettingsFragment : Fragment() {
 
         binding.img.setOnClickListener {
             binding.dialogo.animAppear   (it.context, duration = 1000)
+            //ACTIVAR LA ANIMACION DEL RECICLER
+            binding.reciclerStickers.scheduleLayoutAnimation()
         }
         binding.fondo.setOnClickListener {
             if (binding.dialogo.isVisible)
@@ -257,6 +262,12 @@ class SettingsFragment : Fragment() {
         settingViewModel.countThemeSave.observe(viewLifecycleOwner, { count ->
             binding.txtCountSaveThemes.setText("$count")
         })
+    }
+    var starAnimation:()-> Unit = {
+        binding.l1.scheduleLayoutAnimation()
+        binding.btnDescargar.scheduleLayoutAnimation()
+        binding.btnRegister.scheduleLayoutAnimation()
+        binding.l2.scheduleLayoutAnimation()
     }
 
     /**MOSTRAR UN DIALOGO PARA PREGUNTAR SI QUIERE ELIMINAR LOS LIBROS AL MOMENTO DE SINCRONIZAR CON LA NUBE*/

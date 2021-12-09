@@ -152,13 +152,13 @@ class SearchFragment : Fragment() {
         binding.btnFilteBook.setOnClickListener {
             invisbleIndicators()
             filter = Filters.BOOKS
-            binding.indicarBook.animAppear(context = view.context, duration = 200)
+            binding.indicarBook.animAppear(context = view.context, duration = 600)
             searchViewModel.searchBooks(txtInput)
         }
         binding.btnFilteTheme.setOnClickListener {
             invisbleIndicators()
             filter = Filters.THEMES
-            binding.indicarTema.animAppear(context = view.context, duration = 200)
+            binding.indicarTema.animAppear(context = view.context, duration = 600)
             searchViewModel.searchThemes(txtInput)
         }
     }

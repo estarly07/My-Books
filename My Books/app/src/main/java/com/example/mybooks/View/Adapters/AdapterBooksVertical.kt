@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.View.Animations.animAppear
+import com.example.mybooks.View.Animations.animTraslateToLeft
+import com.example.mybooks.View.Animations.animatioTraslateToLeftOrRight
 import com.example.mybooks.ViewModel.MenuViewModel
 import com.example.mybooks.databinding.ItemBookVerticalBinding
 
@@ -54,8 +57,19 @@ class AdapterBooksVertical() :
         return ViewHolder(ItemBookVerticalBinding.inflate(LayoutInflater, parent, false))
     }
 
-
+    var duration=350
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//
+//        //ANIMACION
+//        duration += 200
+//        println("$duration")
+//        holder.binding.root.animTraslateToLeft(
+//            context = holder.binding.root.context,
+//            duration = duration
+//        )
+//
+//        //----------------------------------------
+
         Glide.with(holder.binding.root.context)
             .load(list[position].image)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
