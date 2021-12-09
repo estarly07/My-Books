@@ -16,9 +16,12 @@ import com.example.mybooks.Models.User
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import java.io.IOException
+import javax.inject.Inject
 
 
-class ServerSocket {
+class ServerSocket @Inject constructor(
+    var useCase: UseCase
+){
     private lateinit var serverSocket       : ServerSocket
     private lateinit var out                : DataOutputStream
     private lateinit var input              : DataInputStream
@@ -31,7 +34,6 @@ class ServerSocket {
     @DelicateCoroutinesApi
     fun initServer(
         usernameConnected  : (String) -> Unit,
-        useCase            : UseCase ,
         changeView         : (Boolean, Array<String>) -> Unit,
         finishComunication : (String)->Unit,
     ) {

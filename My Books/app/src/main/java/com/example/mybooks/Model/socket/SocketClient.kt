@@ -25,12 +25,14 @@ import java.net.Socket
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.CountDownLatch
+import javax.inject.Inject
 
-class SocketClient {
+class SocketClient @Inject constructor(
+    private          var useCase : UseCase
+){
 
     private lateinit var input   : DataInputStream
     private lateinit var out     : DataOutputStream
-    private lateinit var useCase : UseCase
     private lateinit var context : Context
 
     private var arrayThemes     = listOf<ThemeEntity>()
@@ -41,11 +43,6 @@ class SocketClient {
     fun setContext(context: Context) {
         this.context = context
     }
-
-    fun setUseCase(useCase: UseCase) {
-        this.useCase = useCase
-    }
-
 
     fun initComunicationWithServer(
         host                : String,

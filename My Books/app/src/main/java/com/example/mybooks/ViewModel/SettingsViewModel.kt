@@ -25,7 +25,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    var useCase         : UseCase
+    var useCase         : UseCase,
+    var server          : ServerSocket,
+    var socketClient    : SocketClient
 ): ViewModel() {
     val countBook       = MutableLiveData<Int>   ()
     val countBookSave   = MutableLiveData<Int>   ()
@@ -316,9 +318,7 @@ class SettingsViewModel @Inject constructor(
         changeView          : (Boolean,Array<String>) -> Unit,
         finishCommunication : (String)->Unit
     ):()->Unit {
-        val socketClient = SocketClient()
         socketClient.setContext      (context = context)
-        socketClient.setUseCase      (useCase = useCase)
 
         socketClient.initComunicationWithServer(
             host                = host,
@@ -336,10 +336,9 @@ class SettingsViewModel @Inject constructor(
         val usernameConnected : (String)-> Unit = { user ->
             userConnected.postValue(user)
         }
-        val server=ServerSocket()
+
         server.initServer(
             usernameConnected  = usernameConnected,
-            useCase            = useCase,
             changeView         = changeView,
             finishComunication = finishCommunication
         )

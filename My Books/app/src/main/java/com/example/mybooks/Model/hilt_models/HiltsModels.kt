@@ -3,6 +3,8 @@ package com.example.mybooks.Model.hilt_models
 import android.content.Context
 import com.example.mybooks.Model.SharedPreferences.SharedPreferences
 import com.example.mybooks.Model.UseCase
+import com.example.mybooks.Model.socket.ServerSocket
+import com.example.mybooks.Model.socket.SocketClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +27,13 @@ class HiltsModels {
     fun providerUseCase(@ApplicationContext context:Context):UseCase{
         return UseCase(context = context)
     }
+   
+    @Provides
+    fun providerServerSocket(useCase: UseCase):ServerSocket{
+        return ServerSocket(useCase)
+    }
+
+    @Provides
+    fun providerSocketClient(useCase: UseCase):SocketClient = SocketClient(useCase)
+
 }
