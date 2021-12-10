@@ -72,7 +72,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/reciclerLibros"
                         android:layout_width="match_parent"
-                        android:layoutAnimation="@anim/layout_appear"
+                        android:layoutAnimation="@anim/layout_appear_center"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>

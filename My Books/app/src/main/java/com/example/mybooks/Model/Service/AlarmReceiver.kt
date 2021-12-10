@@ -23,14 +23,14 @@ class AlarmReceiver : BroadcastReceiver() {
            // today.set(Calendar.DAY_OF_MONTH, dia)
             //println("${today.get(Calendar.DAY_OF_MONTH)}")
             today.set(Calendar.HOUR_OF_DAY, 24)
-            today.set(Calendar.MINUTE,  0)
-            today.set(Calendar.SECOND, 0)
+            today.set(Calendar.MINUTE,       0)
+            today.set(Calendar.SECOND,       0)
 
             sharedPreferences.saveCountSincronized (context)
             AlarmService.getInstance().setAlarm    (context, today.timeInMillis, 1)
 
             val service = Intent(context, Notificacion::class.java)
-            service.setData(Uri.parse("custom://" + System.currentTimeMillis()))
+            service.data = Uri.parse("custom://" + System.currentTimeMillis())
             ContextCompat.startForegroundService(context, service)
             println("ALARMA RECIBIDAAAAAA")
 
@@ -42,7 +42,7 @@ class AlarmReceiver : BroadcastReceiver() {
     fun getDaysByMonth(month: Int): Int {
         when (month) {
             1, 3, 5, 7, 8, 10, 12 -> return 31
-            4, 6, 9, 11 -> return 30
+            4, 6, 9, 11           -> return 30
             2 -> {
                 val date = Date()
                 return if (isLeap(date.year)) 29 else 28

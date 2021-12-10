@@ -23,7 +23,7 @@ fun String.showToast(context: Context, duration: Int, resource: Int): Unit {
     val toast       = Toast(context)
     toast.duration  = duration
     val view        = LayoutInflater.from(context).inflate(resource, null, false)
-    val txtMensage: TextView = view.findViewById(R.id.txtMensageToast)
+    val txtMensage  : TextView = view.findViewById(R.id.txtMensageToast)
     txtMensage.text = this
     toast.view      = view
     toast.show()

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
+    android:layoutAnimation="@anim/layout_anim_appear"
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/txtNameThemeContent"

@@ -26,7 +26,7 @@
             android:id="@+id/reciclerStickers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layoutAnimation="@anim/layout_appear"
+            android:layoutAnimation="@anim/layout_appear_center"
             android:paddingLeft="@dimen/_15dp"
             android:paddingRight="@dimen/_15dp" />
     </androidx.cardview.widget.CardView>
@@ -76,7 +76,7 @@
                     android:layout_marginLeft="@dimen/_15dp"
                     android:layout_weight="1"
 android:id="@+id/l2"
-                    android:layoutAnimation="@anim/layout_appear"
+                    android:layoutAnimation="@anim/layout_appear_center"
                     android:orientation="horizontal">
 
                     <EditText
@@ -132,7 +132,7 @@ android:id="@+id/l2"
                     android:id="@+id/l1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layoutAnimation="@anim/layout_appear"
+                    android:layoutAnimation="@anim/layout_appear_center"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -277,7 +277,7 @@ android:id="@+id/l2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_15dp"
-                    android:layoutAnimation="@anim/layout_appear"
+                    android:layoutAnimation="@anim/layout_appear_center"
                     android:orientation="horizontal">
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -314,7 +314,7 @@ android:id="@+id/l2"
                 <LinearLayout
                     android:id="@+id/btnDescargar"
                     android:layout_width="match_parent"
-                    android:layoutAnimation="@anim/layout_appear"
+                    android:layoutAnimation="@anim/layout_appear_center"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_15dp"
                     android:orientation="horizontal">
@@ -349,7 +349,7 @@ android:id="@+id/l2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_15dp"
-                    android:layoutAnimation="@anim/layout_appear"
+                    android:layoutAnimation="@anim/layout_appear_center"
                     android:orientation="horizontal">
 
                     <com.makeramen.roundedimageview.RoundedImageView
@@ -381,7 +381,7 @@ android:id="@+id/l2"
                     android:id="@+id/btnQr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layoutAnimation="@anim/layout_appear"
+                    android:layoutAnimation="@anim/layout_appear_center"
                     android:layout_margin="@dimen/_15dp"
                     android:orientation="horizontal">
 

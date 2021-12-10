@@ -17,7 +17,7 @@
         <action
             android:id="@+id/action_menuFragment_to_formsFragment"
             app:destination="@id/formsFragment"
-            app:enterAnim="@anim/anim_scale_tocenter" />
+            app:enterAnim="@anim/anim_up" />
     </fragment>
     <include app:graph="@navigation/nav_book"
         />

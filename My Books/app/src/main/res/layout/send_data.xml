@@ -118,7 +118,7 @@
             android:layout_weight="1"
             android:id="@+id/r1"
             android:background="@drawable/ic_nube2"
-            android:layoutAnimation="@anim/layout_appear"
+            android:layoutAnimation="@anim/layout_appear_center"
             android:padding="@dimen/_5dp">
 
             <TextView

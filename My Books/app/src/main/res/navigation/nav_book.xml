@@ -25,7 +25,7 @@
         <action
             android:id="@+id/action_bookFragment_to_formsFragment"
             app:destination="@id/formsFragment3"
-            app:enterAnim="@anim/anim_scale_tocenter" />
+            app:enterAnim="@anim/anim_up" />
         <action
             android:id="@+id/action_bookFragment_to_contentFragment"
             app:destination="@id/contentFragment4"
@@ -39,11 +39,11 @@
         <action
             android:id="@+id/action_formsFragment3_to_bookFragment4"
             app:destination="@id/bookFragment4"
-            app:enterAnim="@anim/anim_scale_tocenter" />
+            app:enterAnim="@anim/anim_up" />
         <action
             android:id="@+id/action_formsFragment3_to_contentFragment4"
             app:destination="@id/contentFragment4"
-            app:enterAnim="@anim/anim_appear" />
+            app:enterAnim="@anim/anim_up" />
     </fragment>
     <fragment
         android:id="@+id/contentFragment4"
@@ -57,6 +57,6 @@
         <action
             android:id="@+id/action_contentFragment4_to_formsFragment3"
             app:destination="@id/formsFragment3"
-            app:enterAnim="@anim/anim_appear" />
+            app:enterAnim="@anim/anim_up" />
     </fragment>
 </navigation>
