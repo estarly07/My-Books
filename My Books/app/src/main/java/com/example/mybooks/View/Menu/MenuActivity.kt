@@ -119,22 +119,22 @@ class MenuActivity : AppCompatActivity() {
         if (result != null) {
             if (result.contents == null) {
                 "Cancelado".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
-                val intent =Intent()
-                intent.setClass   (this,QrActivity::class.java)
-                startActivity     (intent)
+//                val intent =Intent()
+//                intent.setClass   (this,QrActivity::class.java)
+//                startActivity     (intent)
             } else {
                 //"El valor escaneado es: " + result.contents.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
                 val map=settingsViewModel.convertToMap(info = result.contents)
-              //  if( settingsViewModel.validateNameRed(this, info = map)){
+                if( settingsViewModel.validateNameRed(this, info = map)){
                     val intent =Intent()
                     intent.setClass   (this,QrActivity::class.java)
                     QrActivity.setInfo(info = map)
                     startActivity     (intent)}
-//                else{
-//                    "Estas en una diferente red \nque la del servidor".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
-//               }
+                else{
+                    "Estas en una diferente red \nque la del servidor".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+               }
 
-         //   }
+            }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }

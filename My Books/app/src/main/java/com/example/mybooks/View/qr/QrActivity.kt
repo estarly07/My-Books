@@ -125,10 +125,10 @@ class QrActivity : AppCompatActivity() {
             } else {
                 closeAll = settingsViewModel.initComunicationWithServer(
                     context             = this,
-//                    host = info!!.get("HOST") as String,
-//                    port = (info!!["PORT"].toString()).toInt(),
-                    host                = "192.168.1.1",
-                    port                = 5000,
+                    host = info!!["HOST"] as String,
+                    port = (info!!["PORT"].toString()).toInt(),
+          //          host                = "192.168.1.1",
+            //        port                = 5000,
                     showListBook        = showListBook,
                     changeView          = changeView,
                     finishCommunication = finishCommunication
