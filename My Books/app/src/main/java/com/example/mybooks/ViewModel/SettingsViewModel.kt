@@ -346,5 +346,10 @@ class SettingsViewModel @Inject constructor(
             server.closeConnection()
         }
     }
+    /**VALIDAR QUE EL QR LEIDO SEA EL MISMO QUE EL GENERADO POR LA APP*/
+    fun validarQr(qr: String): Boolean =
+        qr.contains("NAME_RED")  &&
+        qr.contains("PORT"    )  &&
+        qr.contains("HOST"    )
 
 }

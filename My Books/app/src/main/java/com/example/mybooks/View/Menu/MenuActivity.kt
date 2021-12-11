@@ -124,6 +124,14 @@ class MenuActivity : AppCompatActivity() {
 //                startActivity     (intent)
             } else {
                 //"El valor escaneado es: " + result.contents.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+                    if(!settingsViewModel.validarQr(qr = result.contents)){
+                        "Qr incorrecto".showToast(
+                            context  = this,
+                            duration = R.layout.toast_login,
+                            resource = R.layout.toast_login
+                        )
+                        return
+                    }
                 val map=settingsViewModel.convertToMap(info = result.contents)
                 if( settingsViewModel.validateNameRed(this, info = map)){
                     val intent =Intent()
