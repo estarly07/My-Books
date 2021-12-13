@@ -11,28 +11,31 @@ import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.Service.AlarmService
 import com.example.mybooks.Model.SharedPreferences.SharedPreferences
 import com.example.mybooks.Model.UseCase
+import com.example.mybooks.Model.socket.ServerSocket
+import com.example.mybooks.Model.socket.SocketClient
 import com.example.mybooks.Models.User
 import com.example.mybooks.R
 import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.validateEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    var useCase         : UseCase
+    var useCase         : UseCase,
+    var server          : ServerSocket,
+    var socketClient    : SocketClient
 ): ViewModel() {
-    val countBook       = MutableLiveData<Int>()
-    val countBookSave   = MutableLiveData<Int>()
-    val countTheme      = MutableLiveData<Int>()
-    val countThemeSave  = MutableLiveData<Int>()
-    val user            = User.getInstance()
+    val countBook       = MutableLiveData<Int>   ()
+    val countBookSave   = MutableLiveData<Int>   ()
+    val countTheme      = MutableLiveData<Int>   ()
+    val countThemeSave  = MutableLiveData<Int>   ()
+    val user            = User.getInstance       ()
+    var userConnected   = MutableLiveData<String>()
+    var dataChange      = MutableLiveData<String>()
 
     /**
      * CALLBACK PARA EJECUTAR LOS METODOS DE INSERTAR LIBROS,TEMAS, TEXTOS Y CONTENIDOS
@@ -283,4 +286,70 @@ class SettingsViewModel @Inject constructor(
     fun saveToken(context: Context,token:String){
         useCase.saveToken(context, token)
     }
+    fun getInfoSocket(context: Context):Map<String,Any>{
+        return ServerSocket.getInfoSocket(context)
+    }
+
+    fun validateNameRed(context: Context, info: Map<String, Any>) = info["NAME_RED"] == ServerSocket.getInfoSocket(context)["NAME_RED"]
+
+    fun convertToMap(info: String):Map<String, Any>{
+        var data = info
+        data = data.substring(1, data.length - 1)   //eliminar los corchetes
+
+        val keyValuePairs = data.split(",") //Eliminar las " , "
+
+        val map: MutableMap<String, Any> = mutableMapOf()
+
+        for (pair in keyValuePairs)
+        {
+            val entry = pair.split("=").toTypedArray() //split the pairs to get key and value
+            map[entry[0].trim { it <= ' ' }] =
+                entry[1].trim { it <= ' ' } //add them to the hashmap and trim whitespaces
+        }
+        println(map["PORT"])
+        return  map
+    }
+
+    fun initComunicationWithServer(
+        context             : Context,
+        host                : String,
+        port                : Int,
+        showListBook        : (List<BookEntity>,callback:(List<String>) -> Unit) -> Unit,
+        changeView          : (Boolean,Array<String>) -> Unit,
+        finishCommunication : (String)->Unit
+    ):()->Unit {
+        socketClient.setContext      (context = context)
+
+        socketClient.initComunicationWithServer(
+            host                = host,
+            port                = port,
+            showListBook        = showListBook,
+            changeView          = changeView,
+            finishCommunication = finishCommunication
+        )
+        return { socketClient.closeConnection() }
+    }
+    fun initServer(
+        changeView          : (Boolean,Array<String>,) -> Unit,
+        finishCommunication : (String)->Unit):()->Unit
+    {
+        val usernameConnected : (String)-> Unit = { user ->
+            userConnected.postValue(user)
+        }
+
+        server.initServer(
+            usernameConnected  = usernameConnected,
+            changeView         = changeView,
+            finishComunication = finishCommunication
+        )
+        return {
+            server.closeConnection()
+        }
+    }
+    /**VALIDAR QUE EL QR LEIDO SEA EL MISMO QUE EL GENERADO POR LA APP*/
+    fun validarQr(qr: String): Boolean =
+        qr.contains("NAME_RED")  &&
+        qr.contains("PORT"    )  &&
+        qr.contains("HOST"    )
+
 }

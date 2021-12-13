@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/fondo" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollAllBooks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:outlineSpotShadowColor="@color/primary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/containerScroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20dp"
+                        android:layout_marginBottom="@dimen/_25dp"
+                        android:gravity="center"
+                        android:text="@string/booksread"
+                        android:textSize="@dimen/_25sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/reciclerLibros"
+                        android:layoutAnimation="@anim/layout_appear_center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/only"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/_5dp"
+            android:padding="@dimen/_3dp"
+            android:textSize="@dimen/text10"
+            android:background="@drawable/btn_bookdos"
+            android:text="@string/onlySelect"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/all"
+            android:layout_margin="@dimen/_5dp"
+            android:textSize="@dimen/text10"
+            android:padding="@dimen/_3dp"
+            android:background="@drawable/btn_bookdos"
+            android:text="@string/allbook"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

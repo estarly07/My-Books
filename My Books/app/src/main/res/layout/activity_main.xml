@@ -9,6 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/containerStart"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
       >
@@ -111,5 +112,6 @@
         layout="@layout/layout_login"
         android:visibility="gone" />
     <include layout="@layout/activity_splash"
+        android:visibility="gone"
         android:id="@+id/splash"/>
 </RelativeLayout>

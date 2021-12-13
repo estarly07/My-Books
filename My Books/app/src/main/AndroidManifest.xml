@@ -4,10 +4,18 @@
     package="com.example.mybooks">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".View.aplication.MyBooks"
@@ -16,17 +24,29 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.MyBooks">
         <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".View.qr.QrActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+        <activity
             android:name=".View.allBook.AllBookActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".View.Menu.MenuActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".View.LoginActivity"
-            android:theme="@style/SplasTheme"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplasTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

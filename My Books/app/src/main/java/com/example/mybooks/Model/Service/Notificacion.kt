@@ -103,7 +103,7 @@ class Notificacion : IntentService("MyService") {
                         delay(500)
                         increaseProgress(
                             notificacion = this,
-                            progress = (100 / books.size)
+                            progress     = (100 / books.size)
                         )
                     }
                     useCase.saveThemesFirebase (this@Notificacion,listThemes)

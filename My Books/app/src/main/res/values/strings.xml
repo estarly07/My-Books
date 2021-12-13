@@ -10,6 +10,9 @@
     <string name="Hello">Hola</string>
     <string name="todos">Todos tus libros</string>
     <string name="todossaved">Tus libros guardados</string>
+    <string name="onlySelect">Obtener solo los seleccionados</string>
+    <string name="allbook">Obtener todos los libros</string>
+    <string name="booksread">Selecciona los libros a obtener</string>
     <string name="search">Dato no encontrado</string>
     <string name="retry">Intenta con otro valor</string>
     <string name="nobooks">No tienes ningun libro</string>
@@ -32,6 +35,9 @@
     <string name="settings">Ajustes</string>
     <string name="subir">Guardar en la nube</string>
     <string name="sincronizar">Sincronizar con la nube</string>
+    <string name="qr">Generar Qr</string>
+    <string name="qrscan">Escanea el código Qr</string>
+    <string name="rqr">Leer Qr</string>
 
     <string name="bookname">Ingresa el nombre del libro</string>
     <string name="bookimage">Ingresa el url de la imagen del libro</string>
@@ -42,8 +48,10 @@
 
     <string name="themename">Ingresa el nombre del tema</string>
     <string name="themeadd">Añadir tema</string>
+    <string name="infoqr">Escanea el código Qr para compartir tu información</string>
+    <string name="noSend">No se está compartiendo</string>
 
-    <string name="contentname">Ingresa el titulo del contenido</string>
+    <string name="contentname">Ingresa el titulo del contenido.</string>
     <string name="content">Escribe contenido</string>
     <string name="contentadd">Agregar</string>
     <string name="contentimgae">Ingresa la url de la imagen</string>

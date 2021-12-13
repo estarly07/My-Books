@@ -17,7 +17,7 @@ data class ContentEntity(
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "idContent")
-    val idContent: Int,
+    var idContent: Int,
     @NonNull
     @ColumnInfo(name = "subTitle")
     val subTitle: String,

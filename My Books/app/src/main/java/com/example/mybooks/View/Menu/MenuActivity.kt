@@ -1,30 +1,32 @@
 package com.example.mybooks.View.Menu
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
-import com.example.mybooks.Global
-import com.example.mybooks.Model.Entities.BookEntity
-import com.example.mybooks.Model.Entities.ThemeEntity
-import com.example.mybooks.NameFragments
-import com.example.mybooks.R
+import com.example.mybooks.*
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToBottomOrUp
 import com.example.mybooks.View.Animations.animVanish
 import com.example.mybooks.View.Book.BookFragment
 import com.example.mybooks.View.Saved.SavedFragment
 import com.example.mybooks.View.allBook.AllBookActivity
+import com.example.mybooks.View.qr.QrActivity
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.ActivityMenuBinding
-import com.example.mybooks.pressedButtonsToolbar
+import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -37,6 +39,7 @@ class MenuActivity : AppCompatActivity() {
     lateinit var buttonsToolbar   : List<List<View?>>
     private  val global           = Global.getInstance()
     private  val settingsViewModel: SettingsViewModel by viewModels()
+    private  val CODE_LOCATION    = 1
 
     interface ShowDialog {
         fun showDialog      (context: Context)
@@ -71,6 +74,23 @@ class MenuActivity : AppCompatActivity() {
 
     companion object {
 
+        private lateinit var readQr:(()->Unit)
+        fun getQrLector():()->Unit{
+            return  readQr
+        }
+
+        private lateinit var validateLocationPermission:()->Unit
+        /**VALIDAR SI TIENE EL PERMISO DE LOCALIZACION*/
+        fun validateLocationPermission():()->Unit{
+            return validateLocationPermission
+        }
+
+
+        private lateinit var generateQr:((Bitmap)->Unit)
+        fun generateQr():(Bitmap)->Unit{
+            return  generateQr
+        }
+
         private var showDialog: ShowDialog? = null
 
         fun getShowDialogListener(): ShowDialog {
@@ -94,20 +114,78 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                "Cancelado".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+//                val intent =Intent()
+//                intent.setClass   (this,QrActivity::class.java)
+//                startActivity     (intent)
+            } else {
+                //"El valor escaneado es: " + result.contents.showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+                    if(!settingsViewModel.validarQr(qr = result.contents)){
+                        "Qr incorrecto".showToast(
+                            context  = this,
+                            duration = R.layout.toast_login,
+                            resource = R.layout.toast_login
+                        )
+                        return
+                    }
+                val map=settingsViewModel.convertToMap(info = result.contents)
+                if( settingsViewModel.validateNameRed(this, info = map)){
+                    val intent =Intent()
+                    intent.setClass   (this,QrActivity::class.java)
+                    QrActivity.setInfo(info = map)
+                    startActivity     (intent)}
+                else{
+                    "Estas en una diferente red \nque la del servidor".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+               }
+
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.count.setText(
-            "${settingsViewModel.getCountSincronized(this)}"
-        )
+        binding.count.text = "${settingsViewModel.getCountSincronized(this)}"
+        readQr={
+             val intent = IntentIntegrator(this)
+             intent.setPrompt("Lee el código Qr para obtener la información")
+             intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+             intent.initiateScan()
 
-      binding.btnShowBook.setOnClickListener {
-          val intent = Intent()
-          intent.setClass(this@MenuActivity, AllBookActivity::class.java)
-          AllBookActivity.setBook(book = BookFragment.getBook())
-          startActivity(intent)
-      }
+        }
+        validateLocationPermission={
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),  /* Este codigo es para identificar tu request */
+                CODE_LOCATION
+            )
+        }
+        generateQr={bitmap->
+           val intent =Intent()
+           intent.setClass   (this,QrActivity::class.java)
+           intent.putExtra("qr",bitmap)
+           startActivity     (intent)
+
+        }
+
+        binding.btnShowBook.setOnClickListener {
+           val intent = Intent()
+           intent.setClass(this@MenuActivity, AllBookActivity::class.java)
+           AllBookActivity.setBook(book = BookFragment.getBook())
+           startActivity(intent)
+        }
 
         buttonsToolbar = listOf(
             listOf(binding.btnHome,     binding.imgHome),
@@ -318,6 +396,29 @@ class MenuActivity : AppCompatActivity() {
             }
             else -> finishAffinity()
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+             CODE_LOCATION ->{
+                 // If request is cancelled, the result arrays are empty.
+                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SettingsFragment.generateInfoQr().invoke(this)
+                 } else {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
+                        validateLocationPermission.invoke()
+                    else "Debes dar permiso de localización \npara usar esta función".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+
+                 }
+             }
+        }
+
     }
 }
 

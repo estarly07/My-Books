@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+    tools:context=".View.qr.QrActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/layoutQr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/_20dp"
+                    android:layout_marginTop="@dimen/_50dp"
+                    android:layout_marginRight="@dimen/_20dp"
+                    android:layout_marginBottom="@dimen/_50dp"
+                    android:outlineSpotShadowColor="@color/gris4"
+                    android:padding="@dimen/_15dp"
+                    app:cardBackgroundColor="@color/blanco1"
+                    app:cardCornerRadius="@dimen/_15dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:gravity="center_horizontal"
+                            android:text="@string/qr"
+                            android:textColor="@color/gris4"
+                            android:textSize="@dimen/textprimary" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_15dp"
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:fontFamily="sans-serif-condensed"
+                            android:gravity="center_horizontal"
+                            android:text="@string/infoqr"
+                            android:textColor="@color/gris4"
+                            android:textSize="@dimen/textSecondary" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_15dp"
+
+                    android:background="@drawable/ic_qrfondo"
+                    android:padding="@dimen/_15dp">
+
+                    <ImageView
+                        android:id="@+id/qr"
+                        android:layout_width="@dimen/imageBookWidthB"
+                        android:layout_height="@dimen/imageBookWidthB"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btnConnect"
+                    android:layout_width="@dimen/imageBookWidthB"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/btn_bookdos"
+                    android:backgroundTint="@color/azul"
+                    android:padding="@dimen/_5dp"
+                    android:text="@string/noSend"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/layoutSelectBooks"
+        layout="@layout/seleccion_books_socket"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/layoutSendData"
+        layout="@layout/send_data"
+        android:visibility="gone" />
+
+</RelativeLayout>

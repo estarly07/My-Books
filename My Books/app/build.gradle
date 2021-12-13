@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mybooks"
-        minSdk 21
+        minSdk 24
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -37,6 +37,9 @@ android {
 }
 apply plugin: 'com.google.gms.google-services'
 dependencies {
+    /**QR*/
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+
     /**Dagger hilt*/
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"

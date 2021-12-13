@@ -2,6 +2,8 @@ package com.example.mybooks.View.settings
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,15 +24,19 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
+
+
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
-    lateinit var _binding: FragmentSettingsBinding
-    val binding get()   = _binding
-    var isEditName      = false//SABER SI ESTA EDITANDO EL NOMBRE
-    var isSincronized   =false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
-    val settingViewModel: SettingsViewModel by viewModels()
+    lateinit var _binding : FragmentSettingsBinding
+    val binding get()     = _binding
+    var isEditName        = false//SABER SI ESTA EDITANDO EL NOMBRE
+    var isSincronized     = false //Saber si el usuario le dio sincronizar y le salio el dialogo para que ingrese su correo y despues de que se logue si pueda sincronizar
+    val settingViewModel  : SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +92,11 @@ class SettingsFragment : Fragment() {
         fun getCallBack(): CallBack {
             return callBack
         }
+        private lateinit var generateInfoQr:(Context)->Unit
+        fun generateInfoQr():(Context)->Unit{
+            return generateInfoQr
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,6 +121,9 @@ class SettingsFragment : Fragment() {
         })
         callBack = object : CallBack {
             override fun getData() {
+
+                starAnimation.invoke()
+
                 settingViewModel.getEstaditicas()
                 Glide.with(view.context)
                     .load(settingViewModel.user.photo)
@@ -169,6 +183,28 @@ class SettingsFragment : Fragment() {
         binding.btnDescargar.setOnClickListener {
             showDialog(it.context)
         }
+        binding.btnReadQr.setOnClickListener {
+            MenuActivity.getQrLector().invoke()
+        }
+        binding.btnQr.setOnClickListener {
+            MenuActivity.validateLocationPermission().invoke()
+        }
+
+        generateInfoQr={context->
+            val data      = settingViewModel.getInfoSocket(context=context)
+            val writer    = QRCodeWriter ()
+            val bitMatrix = writer.encode(data.toString(),BarcodeFormat.QR_CODE,350,350)
+            val  width    = bitMatrix.width
+            val  heigth   = bitMatrix.height
+            val bitmap    = Bitmap.createBitmap(width,heigth,Bitmap.Config.RGB_565)
+            for (x in 0 until width){
+                for (y in 0 until heigth){
+                    bitmap.setPixel(x,y,if(bitMatrix[x,y]) Color.BLACK else Color.WHITE)
+                }
+            }
+            MenuActivity.generateQr().invoke(bitmap)
+        }
+
 
         Glide.with(view.context)
             .load(settingViewModel.user.photo)
@@ -201,6 +237,8 @@ class SettingsFragment : Fragment() {
 
         binding.img.setOnClickListener {
             binding.dialogo.animAppear   (it.context, duration = 1000)
+            //ACTIVAR LA ANIMACION DEL RECICLER
+            binding.reciclerStickers.scheduleLayoutAnimation()
         }
         binding.fondo.setOnClickListener {
             if (binding.dialogo.isVisible)
@@ -220,6 +258,14 @@ class SettingsFragment : Fragment() {
         settingViewModel.countThemeSave.observe(viewLifecycleOwner, { count ->
             binding.txtCountSaveThemes.setText("$count")
         })
+    }
+    var starAnimation:()-> Unit = {
+        binding.l1          .scheduleLayoutAnimation()
+        binding.btnDescargar.scheduleLayoutAnimation()
+        binding.btnRegister .scheduleLayoutAnimation()
+        binding.btnQr       .scheduleLayoutAnimation()
+        binding.btnReadQr   .scheduleLayoutAnimation()
+        binding.l2          .scheduleLayoutAnimation()
     }
 
     /**MOSTRAR UN DIALOGO PARA PREGUNTAR SI QUIERE ELIMINAR LOS LIBROS AL MOMENTO DE SINCRONIZAR CON LA NUBE*/
