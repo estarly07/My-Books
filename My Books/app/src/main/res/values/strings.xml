@@ -72,9 +72,27 @@
 
     <string name="email">Ingresa tu email</string>
 
+    <string name="Omitir">Omitir</string>
+    <string name="next">Siguiente</string>
+
     <string name="acept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="photoDefault">https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg</string>
+
+
+    <string-array name="contensAbout">
+        <item>Guarda tus libros de estudio y téngalos a la mano.</item>
+        <item>Salve sus libros en la nube para que nunca los pierda. </item>
+        <item>Comparte tus libros para que otros usuarios tengan tus apuntes.</item>
+        <item>Con My Books ya no necesitaras una gran cantidad de cuadernos para escribir tus apuntes.</item>
+    </string-array>
+    <string-array name="titlesAbout">
+        <item>Función.💼</item>
+        <item>¿Se te eliminó la App?.🙄</item>
+        <item>No seas envidioso.🤔</item>
+        <item>¿De que te salvas?🤭 </item>
+    </string-array>
+
 
     <string-array name="stickers">
         <item>https://cdn-icons-png.flaticon.com/512/5020/5020692.png</item>

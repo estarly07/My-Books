@@ -114,4 +114,8 @@
     <include layout="@layout/activity_splash"
         android:visibility="gone"
         android:id="@+id/splash"/>
+    <include
+        android:id="@+id/about"
+        layout="@layout/about"
+        android:visibility="gone" />
 </RelativeLayout>

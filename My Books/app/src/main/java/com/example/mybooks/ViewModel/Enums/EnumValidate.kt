@@ -3,5 +3,6 @@ package com.example.mybooks.ViewModel.Enums
 enum class EnumValidate {
     EMPTY_VAL,
     ERROR,
-    SUCESS
+    REGISTRER_SUCESS,
+    LOGIN_SUCESS,
 }

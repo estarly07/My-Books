@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        style="@style/TextSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_50dp"
+        android:gravity="end"
+        android:id="@+id/btnOmitir"
+        android:textSize="@dimen/text15"
+        android:paddingLeft="@dimen/_25dp"
+        android:paddingRight="@dimen/_25dp"
+        android:paddingTop="@dimen/_25dp"
+        android:text="@string/Omitir" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:layout_marginRight="@dimen/_25dp"
+        android:layout_marginBottom="@dimen/_25dp"
+        android:layout_marginLeft="@dimen/_25dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_50dp"
+            android:id="@+id/btnNext"
+            android:layout_gravity="bottom"
+            android:background="@drawable/circle"
+
+            app:elevation="@dimen/_1dp">
+
+            <TextView
+                style="@style/TextPrimary"
+                android:layout_width="wrap_content"
+                android:id="@+id/txtButton"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/next"
+                android:layout_margin="@dimen/_3dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text10" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
