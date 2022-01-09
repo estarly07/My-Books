@@ -184,10 +184,10 @@ class SettingsFragment : Fragment() {
             showDialog(it.context)
         }
         binding.btnReadQr.setOnClickListener {
-            MenuActivity.getQrLector().invoke()
+            MenuActivity.validateLocationPermission().invoke(true)
         }
         binding.btnQr.setOnClickListener {
-            MenuActivity.validateLocationPermission().invoke()
+            MenuActivity.validateLocationPermission().invoke(false)
         }
 
         generateInfoQr={context->

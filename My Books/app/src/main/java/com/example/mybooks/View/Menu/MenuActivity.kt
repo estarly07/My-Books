@@ -35,11 +35,12 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MenuActivity : AppCompatActivity() {
-    lateinit var binding          : ActivityMenuBinding
-    lateinit var buttonsToolbar   : List<List<View?>>
-    private  val global           = Global.getInstance()
-    private  val settingsViewModel: SettingsViewModel by viewModels()
-    private  val CODE_LOCATION    = 1
+    lateinit var binding              : ActivityMenuBinding
+    lateinit var buttonsToolbar       : List<List<View?>>
+    private  val global               = Global.getInstance()
+    private  val settingsViewModel    : SettingsViewModel by viewModels()
+    private  val CODE_LOCATION        = 1
+    private  val CODE_LOCATION_READQR = 2
 
     interface ShowDialog {
         fun showDialog      (context: Context)
@@ -79,9 +80,9 @@ class MenuActivity : AppCompatActivity() {
             return  readQr
         }
 
-        private lateinit var validateLocationPermission:()->Unit
+        private lateinit var validateLocationPermission:(isRead : Boolean)->Unit
         /**VALIDAR SI TIENE EL PERMISO DE LOCALIZACION*/
-        fun validateLocationPermission():()->Unit{
+        fun validateLocationPermission():(isRead : Boolean)->Unit{
             return validateLocationPermission
         }
 
@@ -162,14 +163,14 @@ class MenuActivity : AppCompatActivity() {
              intent.initiateScan()
 
         }
-        validateLocationPermission={
+        validateLocationPermission={isRead->
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ),  /* Este codigo es para identificar tu request */
-                CODE_LOCATION
+                if(isRead) CODE_LOCATION_READQR else CODE_LOCATION
             )
         }
         generateQr={bitmap->
@@ -412,7 +413,18 @@ class MenuActivity : AppCompatActivity() {
                     SettingsFragment.generateInfoQr().invoke(this)
                  } else {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
-                        validateLocationPermission.invoke()
+                        validateLocationPermission.invoke(false)
+                    else "Debes dar permiso de localización \npara usar esta función".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+
+                 }
+             }
+            CODE_LOCATION_READQR ->{
+                 // If request is cancelled, the result arrays are empty.
+                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                     getQrLector().invoke()
+                 } else {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
+                        validateLocationPermission.invoke( true)
                     else "Debes dar permiso de localización \npara usar esta función".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
 
                  }
