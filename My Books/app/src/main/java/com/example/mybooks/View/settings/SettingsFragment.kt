@@ -24,6 +24,7 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
+import com.example.mybooks.validateIfIsConnected
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
@@ -156,11 +157,11 @@ class SettingsFragment : Fragment() {
         }
         binding.dialogoRegistrar.txtRegister.setOnClickListener { view ->
             if (binding.dialogoRegistrar.btnAcept.text == view.context.resources.getText(R.string.loginE)) {
-                binding.dialogoRegistrar.btnAcept.setText(view.context.resources.getText(R.string.registerE))
-                binding.dialogoRegistrar.txtRegister.setText(view.context.resources.getText(R.string.loginEmail))
+                binding.dialogoRegistrar.btnAcept   .text = view.context.resources.getText(R.string.registerE)
+                binding.dialogoRegistrar.txtRegister.text = view.context.resources.getText(R.string.loginEmail)
             } else {
-                binding.dialogoRegistrar.btnAcept.setText(view.context.resources.getText(R.string.loginE))
-                binding.dialogoRegistrar.txtRegister.setText(view.context.resources.getText(R.string.register))
+                binding.dialogoRegistrar.btnAcept   .text = view.context.resources.getText(R.string.loginE)
+                binding.dialogoRegistrar.txtRegister.text = view.context.resources.getText(R.string.register)
             }
 
         }
@@ -184,7 +185,10 @@ class SettingsFragment : Fragment() {
             showDialog(it.context)
         }
         binding.btnReadQr.setOnClickListener {
-            MenuActivity.validateLocationPermission().invoke(true)
+            if (!view.context.validateIfIsConnected()) {
+                "Debes estar conectado a wifi".showToast(view.context,Toast.LENGTH_SHORT,R.layout.toast_login)}
+            else{
+            MenuActivity.validateLocationPermission().invoke(true)}
         }
         binding.btnQr.setOnClickListener {
             MenuActivity.validateLocationPermission().invoke(false)
@@ -202,7 +206,8 @@ class SettingsFragment : Fragment() {
                     bitmap.setPixel(x,y,if(bitMatrix[x,y]) Color.BLACK else Color.WHITE)
                 }
             }
-            MenuActivity.generateQr().invoke(bitmap)
+            if (!context.validateIfIsConnected()) { "Debes estar conectado a wifi".showToast(context,Toast.LENGTH_SHORT,R.layout.toast_login) }else{
+            MenuActivity.generateQr().invoke(bitmap)}
         }
 
 
@@ -278,7 +283,10 @@ class SettingsFragment : Fragment() {
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
 
         btnAccept.setOnClickListener { view ->
-
+            if(view.context.validateIfIsConnected()){
+                "Debes estar conectado a alguna red".showToast(view.context,Toast.LENGTH_SHORT,R.layout.toast_login)
+                return@setOnClickListener
+            }
 
             dialog.dismiss()
             if (settingViewModel.getToken(view.context) == "") {

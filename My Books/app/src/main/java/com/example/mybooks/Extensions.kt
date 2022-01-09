@@ -12,6 +12,13 @@ import android.widget.Toast
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import java.util.regex.Pattern
+import android.net.NetworkInfo
+
+import androidx.core.content.ContextCompat.getSystemService
+
+import android.net.ConnectivityManager
+import androidx.core.content.ContextCompat
+
 
 /**
  *EXTENSION PARA MOSTRAR UN MENSAJE
@@ -136,4 +143,12 @@ fun ViewPager.changePager(listener:(Int)->Unit){
         override fun onPageScrollStateChanged(state: Int) {
         }
     })
+}
+
+/**EXTENSIO PARA VALIDAR SI EL DISPOTIVO ESTA CONECTADO*/
+fun Context.validateIfIsConnected():Boolean{
+    val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+    val networkInfo = connectivityManager!!.activeNetworkInfo
+
+    return networkInfo != null && networkInfo.isConnected
 }

@@ -180,6 +180,7 @@ class QrActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
        // super.onBackPressed()
+        if (timer!= null){ timer!!.cancel() }
         finish()
         closeAll.invoke()
     }
