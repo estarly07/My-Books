@@ -93,6 +93,7 @@ class BookFragment : Fragment() {
 
         Glide.with(view.context)
             .load (book.image)
+            .placeholder(R.drawable.book_front)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into (binding.imgBook)
 

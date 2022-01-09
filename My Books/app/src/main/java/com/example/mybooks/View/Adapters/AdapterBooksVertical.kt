@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.R
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToLeft
 import com.example.mybooks.View.Animations.animatioTraslateToLeftOrRight
@@ -72,6 +73,7 @@ class AdapterBooksVertical() :
 
         Glide.with(holder.binding.root.context)
             .load(list[position].image)
+            .placeholder(R.drawable.book_front)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(holder.binding.imgBookVertical)
         holder.binding.root.setOnClickListener { view ->
