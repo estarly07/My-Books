@@ -68,11 +68,11 @@ class SettingsFragment : Fragment() {
             if (isSincronized){
                 MenuActivity.getShowDialogListener().showDialog(context!!)
                 MenuActivity.getShowDialogListener()
-                    .setMensajeDialog(context!!.resources.getString(R.string.eliminandoData))
+                    .setMensajeDialog(context!!.resources.getString(R.string.eliminandoData),R.raw.dowloand)
                 settingViewModel.sincronizarData(context!!)
                 isSincronized=false
             }else{
-                MenuActivity.getActiveSincronized().activeSincronized(true)
+                MenuActivity.getActiveSynchronized().activeSincronized(true)
             }
         }
 
@@ -135,7 +135,7 @@ class SettingsFragment : Fragment() {
                 binding.txtNameUser.isEnabled = isEditName
                 binding.btnEdit.setBackgroundResource(R.drawable.ic_edit)
                 println()
-                if (!MenuActivity.getActiveSincronized().getActiveSincronized())
+                if (!MenuActivity.getActiveSynchronized().getActiveSincronized())
                     binding.switchSave.isChecked = false
 
             }
@@ -146,9 +146,9 @@ class SettingsFragment : Fragment() {
                 if (settingViewModel.getToken(view.context) == "")
                     binding.dialogoRegistrar.root.animAppear(view.context, duration = 1000)
                 else
-                    MenuActivity.getActiveSincronized().activeSincronized(true)
+                    MenuActivity.getActiveSynchronized().activeSincronized(true)
             else
-                MenuActivity.getActiveSincronized().activeSincronized(false)
+                MenuActivity.getActiveSynchronized().activeSincronized(false)
         }
         binding.dialogoRegistrar.btnCancel.setOnClickListener {
             binding.switchSave.isChecked = false
@@ -283,7 +283,7 @@ class SettingsFragment : Fragment() {
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
 
         btnAccept.setOnClickListener { view ->
-            if(view.context.validateIfIsConnected()){
+            if(!view.context.validateIfIsConnected()){
                 "Debes estar conectado a alguna red".showToast(view.context,Toast.LENGTH_SHORT,R.layout.toast_login)
                 return@setOnClickListener
             }
@@ -311,7 +311,7 @@ class SettingsFragment : Fragment() {
             } else {
                 MenuActivity.getShowDialogListener().showDialog(view.context)
                 MenuActivity.getShowDialogListener()
-                    .setMensajeDialog(view.context.resources.getString(R.string.eliminandoData))
+                    .setMensajeDialog(view.context.resources.getString(R.string.eliminandoData),R.raw.dowloand)
                 settingViewModel.sincronizarData(view.context)
             }
         }

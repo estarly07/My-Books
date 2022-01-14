@@ -22,18 +22,16 @@ class AlarmReceiver : BroadcastReceiver() {
 //                dia = 1
            // today.set(Calendar.DAY_OF_MONTH, dia)
             //println("${today.get(Calendar.DAY_OF_MONTH)}")
-            today.set(Calendar.HOUR_OF_DAY, 24)
+            today.set(Calendar.HOUR_OF_DAY,  24)
             today.set(Calendar.MINUTE,       0)
             today.set(Calendar.SECOND,       0)
 
-            sharedPreferences.saveCountSincronized (context)
+            sharedPreferences.saveCountSynchronized (context)
             AlarmService.getInstance().setAlarm    (context, today.timeInMillis, 1)
 
             val service = Intent(context, Notificacion::class.java)
             service.data = Uri.parse("custom://" + System.currentTimeMillis())
             ContextCompat.startForegroundService(context, service)
-            println("ALARMA RECIBIDAAAAAA")
-
         }
 
     }

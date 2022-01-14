@@ -13,11 +13,14 @@ import com.example.mybooks.Model.Entities.ThemeEntity
 import com.example.mybooks.Model.SharedPreferences.SharedPreferences
 import com.example.mybooks.Model.UseCase
 import com.example.mybooks.R
+import com.example.mybooks.ViewModel.SettingsViewModel
+import com.example.mybooks.getDateNow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.CountDownLatch
+import javax.inject.Inject
 
 
 class Notificacion : IntentService("MyService") {
@@ -70,7 +73,6 @@ class Notificacion : IntentService("MyService") {
         startForeground(1, builder.build())
     }
 
-
     @SuppressLint("WrongThread")
     override fun onHandleIntent(p0: Intent?) {
         val countDownLatch = CountDownLatch(1)
@@ -109,6 +111,7 @@ class Notificacion : IntentService("MyService") {
                     useCase.saveThemesFirebase (this@Notificacion,listThemes)
                     useCase.saveContentFirebase(this@Notificacion,listContents)
                     useCase.saveTextFirebase   (this@Notificacion,listTexts)
+                    useCase.savedLastDateOfBackupCloud(context = this@Notificacion,date = getDateNow())
                     countDownLatch.countDown()
 
                 }

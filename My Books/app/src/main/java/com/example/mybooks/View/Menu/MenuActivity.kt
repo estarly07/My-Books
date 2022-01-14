@@ -1,7 +1,6 @@
 package com.example.mybooks.View.Menu
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -45,7 +44,7 @@ class MenuActivity : AppCompatActivity() {
     interface ShowDialog {
         fun showDialog      (context: Context)
         fun dimissDialog    ()
-        fun setMensajeDialog(msg: String)
+        fun setMensajeDialog(msg: String,animation: Int)
     }
 
     interface OnScroll {
@@ -104,13 +103,13 @@ class MenuActivity : AppCompatActivity() {
         }
 
 
-        private lateinit var stateDowloand: StateDowloand
-        fun getStateDowloand(): StateDowloand {
-            return stateDowloand
+        private lateinit var stateDownload: StateDowloand
+        fun getStateDownload(): StateDowloand {
+            return stateDownload
         }
 
         private lateinit var activeSincronized: StateSincronized
-        fun getActiveSincronized(): StateSincronized {
+        fun getActiveSynchronized(): StateSincronized {
             return activeSincronized
         }
     }
@@ -156,6 +155,7 @@ class MenuActivity : AppCompatActivity() {
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.count.text = "${settingsViewModel.getCountSincronized(this)}"
+
         readQr={
              val intent = IntentIntegrator(this)
              intent.setPrompt("Lee el código Qr para obtener la información")
@@ -212,12 +212,13 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
 
-            override fun setMensajeDialog(msg: String) {
+            override fun setMensajeDialog(msg: String, animation: Int) {
                 binding.dialogDownloading.txtMensaje.text = msg
+                binding.dialogDownloading.anim.setAnimation(animation)
             }
         }
 
-        stateDowloand = object : StateDowloand {
+        stateDownload = object : StateDowloand {
             override fun setState(isSucessDowloand: Boolean) {
                 settingsViewModel.saveStateDowloand(activity = this@MenuActivity, isSucessDowloand)
             }
@@ -227,7 +228,7 @@ class MenuActivity : AppCompatActivity() {
                 Log.w("TAGGGGGG", "$state   asasasasasasasasasas")
                 if (!state) {
                     getShowDialogListener().showDialog(this@MenuActivity)
-                    getShowDialogListener().setMensajeDialog(resources.getString(R.string.eliminandoData))
+                    getShowDialogListener().setMensajeDialog(resources.getString(R.string.eliminandoData),R.raw.dowloand)
                     settingsViewModel.sincronizarData(this@MenuActivity)
                 }
             }
@@ -247,7 +248,18 @@ class MenuActivity : AppCompatActivity() {
             }
 
         }
-        stateDowloand.getStateDowloand()
+        stateDownload.getStateDowloand()
+        if(settingsViewModel.getLastDateBackup(this) != getDateNow()
+            && activeSincronized.getActiveSincronized()){
+            showDialog?.showDialog(this)
+
+            showDialog?.setMensajeDialog(getString(R.string.errorSincronization),R.raw.wait_clock)
+            settingsViewModel.savedAllRemote(this) {
+                showDialog?.dimissDialog()
+            }
+        }
+
+
 
         binding.btnHome.setOnClickListener { view ->
             buttonsToolbar.forEach { views ->

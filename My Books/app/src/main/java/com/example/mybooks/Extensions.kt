@@ -9,15 +9,12 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import java.util.regex.Pattern
-import android.net.NetworkInfo
-
-import androidx.core.content.ContextCompat.getSystemService
 
 import android.net.ConnectivityManager
-import androidx.core.content.ContextCompat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -151,4 +148,9 @@ fun Context.validateIfIsConnected():Boolean{
     val networkInfo = connectivityManager!!.activeNetworkInfo
 
     return networkInfo != null && networkInfo.isConnected
+}
+
+fun getDateNow():String{
+    val format = SimpleDateFormat("dd/M/yyyy")
+    return format.format(Date())
 }

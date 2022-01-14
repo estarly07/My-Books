@@ -3,14 +3,13 @@ package com.example.mybooks.Model.SharedPreferences
 import android.app.Activity
 import android.content.Context
 import com.example.mybooks.Models.User
-import javax.inject.Inject
 
 class SharedPreferences {
     private val KEY             = "preferences"
     private val KEY_SINCRONIZED = "sincronized"
     private val KEY_ID          = "id"
     private val TOKEN           = "token"
-
+    private val BACKUP          = "backup"
     private val ID              = "idUser"
     private val DESCARGA        = "descarga"
     private val NAME            = "name"
@@ -112,20 +111,39 @@ class SharedPreferences {
         return preferences.getInt(ID, 0)
     }
 
-    fun saveCountSincronized(context: Context) {
+    fun saveCountSynchronized(context: Context) {
         val sharedPreferences = context.getSharedPreferences("COUNT", Context.MODE_PRIVATE)
         val editor            = sharedPreferences.edit()
-        var value             = getCountSincronized(context)
+        var value             = getCountSynchronized(context)
 
         value += 1
         editor.putInt("COUNT", value)
         editor.apply()
     }
 
-    fun getCountSincronized(context: Context): Int {
+    fun getCountSynchronized(context: Context): Int {
         val sharedPreferences = context.getSharedPreferences("COUNT", Context.MODE_PRIVATE)
         return sharedPreferences.getInt("COUNT", 0)
 
+    }
+    /**
+     * SALVAR LA FECHA EN LA QUE SE HIZO EL ULTIMO BACKUP EN LA NUBE
+     * @param date fecha del backup
+     * */
+    fun savedLastDateOfBackupCloud(context: Context,date : String){
+        val preferences = context.getSharedPreferences(BACKUP,Context.MODE_PRIVATE)
+        val editor      = preferences.edit()
+
+        editor.putString(BACKUP, date)
+        editor.apply()
+    }
+
+    /**
+     * OBTENER LA FECHA EN LA QUE SE HIZO EL ULTIMO BACKUP EN LA NUBE
+     * @return  fecha del backup
+     * */
+    fun getLastDateOfBackupCloud(context: Context) : String{
+        return context.getSharedPreferences(BACKUP,Context.MODE_PRIVATE).getString(BACKUP,"")!!
     }
 
     /**OBTENER LA INFORMACION DEL USUARIO

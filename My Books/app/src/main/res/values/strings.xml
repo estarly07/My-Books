@@ -75,6 +75,8 @@
     <string name="Omitir">Omitir</string>
     <string name="next">Siguiente</string>
 
+    <string name="errorSincronization">Guardando información \n(Hubo un error en la sincronización diaria)</string>
+
     <string name="acept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="photoDefault">https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg</string>
