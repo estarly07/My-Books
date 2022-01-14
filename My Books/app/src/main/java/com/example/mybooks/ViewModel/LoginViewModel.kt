@@ -56,7 +56,7 @@ class LoginViewModel @Inject constructor(
                 sharedPreferences.savaDataUser(context, data = data)
             }
             if (sucess != null)
-                isLogin.postValue(EnumValidate.SUCESS)
+                isLogin.postValue(EnumValidate.REGISTRER_SUCESS)
             else
                 isLogin.postValue(EnumValidate.ERROR)
         }.start()
@@ -85,7 +85,7 @@ class LoginViewModel @Inject constructor(
             }
 
             if (data != null) {
-                isLogin.postValue(EnumValidate.SUCESS)
+                isLogin.postValue(EnumValidate.LOGIN_SUCESS)
             } else
                 isLogin.postValue(EnumValidate.ERROR)
 

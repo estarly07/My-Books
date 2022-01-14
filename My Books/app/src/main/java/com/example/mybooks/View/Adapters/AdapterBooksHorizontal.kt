@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.mybooks.Model.Entities.BookEntity
+import com.example.mybooks.R
 import com.example.mybooks.databinding.ItemBookHotizontalBinding
 
 class AdapterBooksHorizontal :
@@ -38,6 +39,7 @@ class AdapterBooksHorizontal :
         Glide.with(holder.binding.root.context)
             .load(list[position].image)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.book_front)
             .into(holder.binding.imgBook)
         holder.binding.root.setOnClickListener { view ->
             click.invoke(list[position], position, view)

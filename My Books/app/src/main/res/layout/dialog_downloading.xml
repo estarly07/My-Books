@@ -25,6 +25,7 @@ android:background="@color/transparenteOscuro"
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="@dimen/imageBookWidth"
                 android:layout_height="@dimen/imageBookWidth"
+                android:id="@+id/anim"
                 android:layout_gravity="center"
                 app:lottie_rawRes="@raw/dowloand"
                 app:lottie_autoPlay="true"

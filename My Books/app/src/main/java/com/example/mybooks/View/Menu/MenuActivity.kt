@@ -1,7 +1,6 @@
 package com.example.mybooks.View.Menu
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -35,16 +34,17 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MenuActivity : AppCompatActivity() {
-    lateinit var binding          : ActivityMenuBinding
-    lateinit var buttonsToolbar   : List<List<View?>>
-    private  val global           = Global.getInstance()
-    private  val settingsViewModel: SettingsViewModel by viewModels()
-    private  val CODE_LOCATION    = 1
+    lateinit var binding              : ActivityMenuBinding
+    lateinit var buttonsToolbar       : List<List<View?>>
+    private  val global               = Global.getInstance()
+    private  val settingsViewModel    : SettingsViewModel by viewModels()
+    private  val CODE_LOCATION        = 1
+    private  val CODE_LOCATION_READQR = 2
 
     interface ShowDialog {
         fun showDialog      (context: Context)
         fun dimissDialog    ()
-        fun setMensajeDialog(msg: String)
+        fun setMensajeDialog(msg: String,animation: Int)
     }
 
     interface OnScroll {
@@ -79,9 +79,9 @@ class MenuActivity : AppCompatActivity() {
             return  readQr
         }
 
-        private lateinit var validateLocationPermission:()->Unit
+        private lateinit var validateLocationPermission:(isRead : Boolean)->Unit
         /**VALIDAR SI TIENE EL PERMISO DE LOCALIZACION*/
-        fun validateLocationPermission():()->Unit{
+        fun validateLocationPermission():(isRead : Boolean)->Unit{
             return validateLocationPermission
         }
 
@@ -103,13 +103,13 @@ class MenuActivity : AppCompatActivity() {
         }
 
 
-        private lateinit var stateDowloand: StateDowloand
-        fun getStateDowloand(): StateDowloand {
-            return stateDowloand
+        private lateinit var stateDownload: StateDowloand
+        fun getStateDownload(): StateDowloand {
+            return stateDownload
         }
 
         private lateinit var activeSincronized: StateSincronized
-        fun getActiveSincronized(): StateSincronized {
+        fun getActiveSynchronized(): StateSincronized {
             return activeSincronized
         }
     }
@@ -155,6 +155,7 @@ class MenuActivity : AppCompatActivity() {
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.count.text = "${settingsViewModel.getCountSincronized(this)}"
+
         readQr={
              val intent = IntentIntegrator(this)
              intent.setPrompt("Lee el código Qr para obtener la información")
@@ -162,14 +163,14 @@ class MenuActivity : AppCompatActivity() {
              intent.initiateScan()
 
         }
-        validateLocationPermission={
+        validateLocationPermission={isRead->
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ),  /* Este codigo es para identificar tu request */
-                CODE_LOCATION
+                if(isRead) CODE_LOCATION_READQR else CODE_LOCATION
             )
         }
         generateQr={bitmap->
@@ -211,12 +212,13 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
 
-            override fun setMensajeDialog(msg: String) {
+            override fun setMensajeDialog(msg: String, animation: Int) {
                 binding.dialogDownloading.txtMensaje.text = msg
+                binding.dialogDownloading.anim.setAnimation(animation)
             }
         }
 
-        stateDowloand = object : StateDowloand {
+        stateDownload = object : StateDowloand {
             override fun setState(isSucessDowloand: Boolean) {
                 settingsViewModel.saveStateDowloand(activity = this@MenuActivity, isSucessDowloand)
             }
@@ -226,7 +228,7 @@ class MenuActivity : AppCompatActivity() {
                 Log.w("TAGGGGGG", "$state   asasasasasasasasasas")
                 if (!state) {
                     getShowDialogListener().showDialog(this@MenuActivity)
-                    getShowDialogListener().setMensajeDialog(resources.getString(R.string.eliminandoData))
+                    getShowDialogListener().setMensajeDialog(resources.getString(R.string.eliminandoData),R.raw.dowloand)
                     settingsViewModel.sincronizarData(this@MenuActivity)
                 }
             }
@@ -246,7 +248,18 @@ class MenuActivity : AppCompatActivity() {
             }
 
         }
-        stateDowloand.getStateDowloand()
+        stateDownload.getStateDowloand()
+        if(settingsViewModel.getLastDateBackup(this) != getDateNow()
+            && activeSincronized.getActiveSincronized()){
+            showDialog?.showDialog(this)
+
+            showDialog?.setMensajeDialog(getString(R.string.errorSincronization),R.raw.wait_clock)
+            settingsViewModel.savedAllRemote(this) {
+                showDialog?.dimissDialog()
+            }
+        }
+
+
 
         binding.btnHome.setOnClickListener { view ->
             buttonsToolbar.forEach { views ->
@@ -412,7 +425,18 @@ class MenuActivity : AppCompatActivity() {
                     SettingsFragment.generateInfoQr().invoke(this)
                  } else {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
-                        validateLocationPermission.invoke()
+                        validateLocationPermission.invoke(false)
+                    else "Debes dar permiso de localización \npara usar esta función".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
+
+                 }
+             }
+            CODE_LOCATION_READQR ->{
+                 // If request is cancelled, the result arrays are empty.
+                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                     getQrLector().invoke()
+                 } else {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION))
+                        validateLocationPermission.invoke( true)
                     else "Debes dar permiso de localización \npara usar esta función".showToast(this,Toast.LENGTH_SHORT,R.layout.toast_login)
 
                  }

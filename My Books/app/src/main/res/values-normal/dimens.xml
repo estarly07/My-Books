@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <dimen name="marginsmall">15dp</dimen>
-    <dimen name="margintop">10dp</dimen>
-    <dimen name="_50dp">50dp</dimen>
-    <dimen name="_15dp">15dp</dimen>
-    <dimen name="_20dp">20dp</dimen>
-    <dimen name="_25dp">25dp</dimen>
-    <dimen name="_5dp">10dp</dimen>
-    <dimen name="_8dp">16dp</dimen>
-    <dimen name="_3dp">6dp</dimen>
-    <dimen name="_1dp">1dp</dimen>
-    <dimen name="_30dp">30dp</dimen>
-    <dimen name="linea">3dp</dimen>
-    <dimen name="boton">40dp</dimen>
+    <dimen name="marginsmall" tools:ignore="MissingDefaultResource">15dp</dimen>
+    <dimen name="margintop"   tools:ignore="MissingDefaultResource">10dp</dimen>
+    <dimen name="_50dp"       tools:ignore="MissingDefaultResource">50dp</dimen>
+    <dimen name="_15dp"       tools:ignore="MissingDefaultResource">15dp</dimen>
+    <dimen name="_20dp"       tools:ignore="MissingDefaultResource">20dp</dimen>
+    <dimen name="_25dp"       tools:ignore="MissingDefaultResource">25dp</dimen>
+    <dimen name="_5dp"        tools:ignore="MissingDefaultResource">10dp</dimen>
+    <dimen name="_8dp"        tools:ignore="MissingDefaultResource">16dp</dimen>
+    <dimen name="_3dp"        tools:ignore="MissingDefaultResource">6dp</dimen>
+    <dimen name="_1dp"        tools:ignore="MissingDefaultResource">1dp</dimen>
+    <dimen name="_30dp"       tools:ignore="MissingDefaultResource">30dp</dimen>
+    <dimen name="linea"       tools:ignore="MissingDefaultResource">3dp</dimen>
+    <dimen name="boton"       tools:ignore="MissingDefaultResource">40dp</dimen>
 
-    <dimen name="_45dp">45dp</dimen>
+    <dimen name="_45dp"       tools:ignore="MissingDefaultResource">45dp</dimen>
 
     <!--TEXTO-->
-    <dimen name="title">25sp</dimen>
-    <dimen name="subtitles">15sp</dimen>
-    <dimen name="textSecondary">15sp</dimen>
-    <dimen name="textprimary">25sp</dimen>
-    <dimen name="text10">10sp</dimen>
-    <dimen name="txtBotones">20sp</dimen>
-    <dimen name="_25sp">20sp</dimen>
-    <dimen name="text15">15sp</dimen>
+    <dimen name="title"         tools:ignore="MissingDefaultResource">25sp</dimen>
+    <dimen name="subtitles"     tools:ignore="MissingDefaultResource">15sp</dimen>
+    <dimen name="textSecondary" tools:ignore="MissingDefaultResource">15sp</dimen>
+    <dimen name="textprimary"   tools:ignore="MissingDefaultResource">25sp</dimen>
+    <dimen name="text10"        tools:ignore="MissingDefaultResource">10sp</dimen>
+    <dimen name="txtBotones"    tools:ignore="MissingDefaultResource">20sp</dimen>
+    <dimen name="_25sp"         tools:ignore="MissingDefaultResource">20sp</dimen>
+    <dimen name="text15"        tools:ignore="MissingDefaultResource">15sp</dimen>
 
     <!--BOTONES-->
-    <dimen name="btn20dp">20dp</dimen>
-    <dimen name="btn30dp">30dp</dimen>
-    <dimen name="btn40dp">40dp</dimen>
+    <dimen name="btn20dp" tools:ignore="MissingDefaultResource">20dp</dimen>
+    <dimen name="btn30dp" tools:ignore="MissingDefaultResource">30dp</dimen>
+    <dimen name="btn40dp" tools:ignore="MissingDefaultResource">40dp</dimen>
 
     <!--BOOK-->
-    <dimen name="imageBook">150dp</dimen>
-    <dimen name="imageBookWidth">100dp</dimen>
-    <dimen name="imageBookH">250dp</dimen>
-    <dimen name="imageBookHComplemento">168dp</dimen>
-    <dimen name="imageBookWidthH">170dp</dimen>
-    <dimen name="imageBookB">300dp</dimen>
-    <dimen name="imageBookWidthB">220dp</dimen>
-    <dimen name="cardStick">260dp</dimen>
+    <dimen name="imageBook"             tools:ignore="MissingDefaultResource">150dp</dimen>
+    <dimen name="imageBookWidth"        tools:ignore="MissingDefaultResource">100dp</dimen>
+    <dimen name="imageBookH"            tools:ignore="MissingDefaultResource">250dp</dimen>
+    <dimen name="imageBookHComplemento" tools:ignore="MissingDefaultResource">168dp</dimen>
+    <dimen name="imageBookWidthH"       tools:ignore="MissingDefaultResource">170dp</dimen>
+    <dimen name="imageBookB"            tools:ignore="MissingDefaultResource">300dp</dimen>
+    <dimen name="imageBookWidthB"       tools:ignore="MissingDefaultResource">220dp</dimen>
+    <dimen name="cardStick"             tools:ignore="MissingDefaultResource">260dp</dimen>
 
     <!--TABLERO-->
-    <dimen name="tableroWidth">180dp</dimen>
-    <dimen name="tableroHeight">120dp</dimen>
-    <dimen name="imageBookSaveHeight">150dp</dimen>
-    <dimen name="imageBookSaveWidth">100dp</dimen>
+    <dimen name="tableroWidth"          tools:ignore="MissingDefaultResource">180dp</dimen>
+    <dimen name="tableroHeight"         tools:ignore="MissingDefaultResource">120dp</dimen>
+    <dimen name="imageBookSaveHeight"   tools:ignore="MissingDefaultResource">150dp</dimen>
+    <dimen name="imageBookSaveWidth"    tools:ignore="MissingDefaultResource">100dp</dimen>
 </resources>

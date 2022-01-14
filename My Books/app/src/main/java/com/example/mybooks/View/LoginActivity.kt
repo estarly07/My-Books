@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.mybooks.R
+import com.example.mybooks.View.Adapters.AdapterAbout
 import com.example.mybooks.View.Animations.animAppear
 import com.example.mybooks.View.Animations.animTraslateToLeft
 import com.example.mybooks.View.Animations.animVanish
@@ -16,15 +17,16 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.Enums.EnumPagesLogin
 import com.example.mybooks.ViewModel.Enums.EnumValidate
 import com.example.mybooks.ViewModel.LoginViewModel
+import com.example.mybooks.changePager
 import com.example.mybooks.databinding.ActivityMainBinding
 import com.example.mybooks.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding        : ActivityMainBinding
-    private          val loginViewModel : LoginViewModel by viewModels()
-    private          var page           = EnumPagesLogin.START
+    private lateinit var binding: ActivityMainBinding
+    private val loginViewModel: LoginViewModel by viewModels()
+    private var page = EnumPagesLogin.START
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -40,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             page = EnumPagesLogin.LOGIN
 
             binding.containerLogin.root.animTraslateToLeft(
-                context  = this,
+                context = this,
                 duration = 500
             )
 
@@ -65,12 +67,21 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT,
                     R.layout.toast_login
                 )
-                EnumValidate.SUCESS -> {
+                EnumValidate.REGISTRER_SUCESS -> {
                     "Bienvenido".showToast(
                         this,
                         Toast.LENGTH_SHORT,
                         R.layout.toast_login
                     )
+                    showAbout()
+                }
+                EnumValidate.LOGIN_SUCESS -> {
+                    "Bienvenido".showToast(
+                        this,
+                        Toast.LENGTH_SHORT,
+                        R.layout.toast_login
+                    )
+
                     val intent = Intent()
                     intent.setClass(this, MenuActivity::class.java)
                     startActivity(intent)
@@ -97,13 +108,54 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun getInfoUser() {
-        val data=loginViewModel.isLogin(this)
+    fun showAbout() {
+        binding.about.root.animAppear(this, 1100)
+
+        val contents = resources.getStringArray(R.array.contensAbout)
+        val titles = resources.getStringArray(R.array.titlesAbout)
+
+        val adapterAbout = AdapterAbout(
+            contents = contents, titles = titles, images = arrayOf(
+                R.drawable.ic_one,
+                R.drawable.ic_two,
+                R.drawable.ic_three,
+                R.drawable.ic_four,
+            )
+        )
+        binding.about.viewPager.adapter = adapterAbout
+        binding.about.viewPager.changePager { position ->
+            if (position < contents.size) {
+                binding.about.txtButton.text = resources.getString(R.string.next)
+            } else {
+                binding.about.txtButton.text = resources.getString(R.string.comenzar)
+            }
+        }
+        binding.about.btnNext.setOnClickListener {
+            if (binding.about.viewPager.currentItem < contents.size-1) {
+                binding.about.viewPager.currentItem=binding.about.viewPager.currentItem+1
+            } else {
+                val intent = Intent()
+                intent.setClass(this, MenuActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+
+        binding.about.btnOmitir.setOnClickListener {
+            val intent = Intent()
+            intent.setClass(this, MenuActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    private fun getInfoUser() {
+        val data = loginViewModel.isLogin(this)
         Handler().postDelayed({
-            if (data[0]=="") {
-                binding.splash.root.   animVanish(this,1000)
-                binding.containerStart.animAppear(this,500)
-            }else {
+            if (data[0] == "") {
+                binding.splash.root.animVanish(this, 1000)
+                binding.containerStart.animAppear(this, 500)
+            } else {
                 loginViewModel.login(
                     this,
                     data[0],

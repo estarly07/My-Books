@@ -17,6 +17,7 @@ import com.example.mybooks.Models.User
 import com.example.mybooks.R
 import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.View.settings.SettingsFragment
+import com.example.mybooks.getDateNow
 import com.example.mybooks.validateEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -50,7 +51,7 @@ class SettingsViewModel @Inject constructor(
     private val callBack = object : CallBack {
         override fun insertBooks(context: Context, list: List<BookEntity>) {
             MenuActivity.getShowDialogListener()
-                .setMensajeDialog(context.resources.getString(R.string.InsertandoData))
+                .setMensajeDialog(context.resources.getString(R.string.InsertandoData),R.raw.dowloand)
 
             GlobalScope.launch(Dispatchers.Main) {
                 list.forEach { book ->
@@ -86,7 +87,7 @@ class SettingsViewModel @Inject constructor(
                     useCase.insertTextData(text)
                 }
                 delay(300)
-                MenuActivity.getStateDowloand().setState(isSucessDowloand = true)
+                MenuActivity.getStateDownload().setState(isSucessDowloand = true)
                 MenuActivity.getShowDialogListener().dimissDialog()
             }
         }
@@ -181,11 +182,11 @@ class SettingsViewModel @Inject constructor(
      * */
     fun sincronizarData(context: Context) {
         GlobalScope.launch(Dispatchers.Main) {
-            MenuActivity.getStateDowloand().setState(isSucessDowloand = false)
+            MenuActivity.getStateDownload().setState(isSucessDowloand = false)
             useCase.deleteAll()
             delay(300)
             MenuActivity.getShowDialogListener()
-                .setMensajeDialog(context.resources.getString(R.string.DescargandoData))
+                .setMensajeDialog(context.resources.getString(R.string.DescargandoData),R.raw.dowloand)
             useCase.getBooksFirebase(context, callBack)
         }
     }
@@ -219,9 +220,9 @@ class SettingsViewModel @Inject constructor(
     ) {
         if (isActiveSynchronized) {
             val today: Calendar = Calendar.getInstance()
-            today.set(Calendar.HOUR_OF_DAY, 8)
-            today.set(Calendar.MINUTE,      0)
-            today.set(Calendar.SECOND,      0)
+//            today.set(Calendar.HOUR_OF_DAY, 24)
+//            today.set(Calendar.MINUTE,      0)
+//            today.set(Calendar.SECOND,      0)
 
             AlarmService.getInstance().setAlarm(
                 context = context,
@@ -232,6 +233,10 @@ class SettingsViewModel @Inject constructor(
             activity             = activity,
             isActiveSynchronized = isActiveSynchronized
         )
+    }
+
+    fun getLastDateBackup(context: Context): String {
+        return useCase.getLastDateBackup(context)
     }
 
     fun getActiveSincronized(context: Context): Boolean {
@@ -346,6 +351,39 @@ class SettingsViewModel @Inject constructor(
             server.closeConnection()
         }
     }
+    fun savedAllRemote(context: Context, callback: () -> Unit){
+        GlobalScope.launch(Dispatchers.Main) {
+            val books= useCase.getAllBooks(idUser = user.id)
+            if (books.isNotEmpty()) {
+                useCase.saveBooksFirebase(context,books)
+                val listThemes      = mutableListOf<ThemeEntity>()
+                val listContents    = mutableListOf<ContentEntity>()
+                val listTexts       = mutableListOf<TextEntity>()
+
+                books.forEach { bookEntity ->
+                    val themes = useCase.getThemes(bookEntity.id_book)
+                    themes.forEach { theme ->
+                        listThemes.add(theme)
+                        val contents = useCase.getContentById(theme.idTheme)
+                        contents.forEach { content ->
+                            listContents.add(content)
+                            val texts = useCase.getDataContent(content.idContent)
+                            texts.forEach { text ->
+                                listTexts.add(text)
+                            }
+                        }
+                    }
+                    delay(500)
+                }
+                useCase.saveThemesFirebase (context,listThemes)
+                useCase.saveContentFirebase(context,listContents)
+                useCase.saveTextFirebase   (context,listTexts)
+                useCase.savedLastDateOfBackupCloud(context, date = getDateNow())
+                callback.invoke()
+            }
+        }
+    }
+
     /**VALIDAR QUE EL QR LEIDO SEA EL MISMO QUE EL GENERADO POR LA APP*/
     fun validarQr(qr: String): Boolean =
         qr.contains("NAME_RED")  &&

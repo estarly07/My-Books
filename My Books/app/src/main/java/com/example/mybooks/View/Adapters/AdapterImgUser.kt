@@ -25,6 +25,7 @@ class AdapterImgUser(val context: Context) : RecyclerView.Adapter<AdapterImgUser
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.binding.root.context)
             .load               (list[position])
+            .placeholder(R.drawable.ic_astronaut_holder)
             .diskCacheStrategy  (DiskCacheStrategy.ALL)
             .into               (holder.binding.imgUser)
 

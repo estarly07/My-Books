@@ -10,6 +10,7 @@ import com.example.mybooks.Model.firebase.Firebase
 import com.example.mybooks.Models.User
 import com.example.mybooks.View.settings.SettingsFragment
 import com.example.mybooks.ViewModel.SettingsViewModel
+import com.example.mybooks.getDateNow
 
 class UseCase(context: Context) {
 
@@ -206,7 +207,7 @@ class UseCase(context: Context) {
     }
 
     fun getCountSincronized(context: Context): Int {
-        return prefereces.getCountSincronized(context)
+        return prefereces.getCountSynchronized(context)
     }
     fun getToken(context: Context):String{
         return prefereces.getToken(context)
@@ -214,4 +215,10 @@ class UseCase(context: Context) {
     fun saveToken(context: Context,token:String){
         prefereces.saveToken(context, token)
     }
+
+    fun getLastDateBackup(context : Context): String = prefereces.getLastDateOfBackupCloud(context)
+    fun savedLastDateOfBackupCloud(context: Context, date: String) {
+        prefereces.savedLastDateOfBackupCloud(context = context,date = getDateNow())
+    }
+
 }

@@ -24,6 +24,7 @@ import com.example.mybooks.View.Menu.MenuActivity
 import com.example.mybooks.ViewModel.SettingsViewModel
 import com.example.mybooks.databinding.FragmentSettingsBinding
 import com.example.mybooks.showToast
+import com.example.mybooks.validateIfIsConnected
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,11 +68,11 @@ class SettingsFragment : Fragment() {
             if (isSincronized){
                 MenuActivity.getShowDialogListener().showDialog(context!!)
                 MenuActivity.getShowDialogListener()
-                    .setMensajeDialog(context!!.resources.getString(R.string.eliminandoData))
+                    .setMensajeDialog(context!!.resources.getString(R.string.eliminandoData),R.raw.dowloand)
                 settingViewModel.sincronizarData(context!!)
                 isSincronized=false
             }else{
-                MenuActivity.getActiveSincronized().activeSincronized(true)
+                MenuActivity.getActiveSynchronized().activeSincronized(true)
             }
         }
 
@@ -134,7 +135,7 @@ class SettingsFragment : Fragment() {
                 binding.txtNameUser.isEnabled = isEditName
                 binding.btnEdit.setBackgroundResource(R.drawable.ic_edit)
                 println()
-                if (!MenuActivity.getActiveSincronized().getActiveSincronized())
+                if (!MenuActivity.getActiveSynchronized().getActiveSincronized())
                     binding.switchSave.isChecked = false
 
             }
@@ -145,9 +146,9 @@ class SettingsFragment : Fragment() {
                 if (settingViewModel.getToken(view.context) == "")
                     binding.dialogoRegistrar.root.animAppear(view.context, duration = 1000)
                 else
-                    MenuActivity.getActiveSincronized().activeSincronized(true)
+                    MenuActivity.getActiveSynchronized().activeSincronized(true)
             else
-                MenuActivity.getActiveSincronized().activeSincronized(false)
+                MenuActivity.getActiveSynchronized().activeSincronized(false)
         }
         binding.dialogoRegistrar.btnCancel.setOnClickListener {
             binding.switchSave.isChecked = false
@@ -156,11 +157,11 @@ class SettingsFragment : Fragment() {
         }
         binding.dialogoRegistrar.txtRegister.setOnClickListener { view ->
             if (binding.dialogoRegistrar.btnAcept.text == view.context.resources.getText(R.string.loginE)) {
-                binding.dialogoRegistrar.btnAcept.setText(view.context.resources.getText(R.string.registerE))
-                binding.dialogoRegistrar.txtRegister.setText(view.context.resources.getText(R.string.loginEmail))
+                binding.dialogoRegistrar.btnAcept   .text = view.context.resources.getText(R.string.registerE)
+                binding.dialogoRegistrar.txtRegister.text = view.context.resources.getText(R.string.loginEmail)
             } else {
-                binding.dialogoRegistrar.btnAcept.setText(view.context.resources.getText(R.string.loginE))
-                binding.dialogoRegistrar.txtRegister.setText(view.context.resources.getText(R.string.register))
+                binding.dialogoRegistrar.btnAcept   .text = view.context.resources.getText(R.string.loginE)
+                binding.dialogoRegistrar.txtRegister.text = view.context.resources.getText(R.string.register)
             }
 
         }
@@ -184,10 +185,13 @@ class SettingsFragment : Fragment() {
             showDialog(it.context)
         }
         binding.btnReadQr.setOnClickListener {
-            MenuActivity.getQrLector().invoke()
+            if (!view.context.validateIfIsConnected()) {
+                "Debes estar conectado a wifi".showToast(view.context,Toast.LENGTH_SHORT,R.layout.toast_login)}
+            else{
+            MenuActivity.validateLocationPermission().invoke(true)}
         }
         binding.btnQr.setOnClickListener {
-            MenuActivity.validateLocationPermission().invoke()
+            MenuActivity.validateLocationPermission().invoke(false)
         }
 
         generateInfoQr={context->
@@ -202,7 +206,8 @@ class SettingsFragment : Fragment() {
                     bitmap.setPixel(x,y,if(bitMatrix[x,y]) Color.BLACK else Color.WHITE)
                 }
             }
-            MenuActivity.generateQr().invoke(bitmap)
+            if (!context.validateIfIsConnected()) { "Debes estar conectado a wifi".showToast(context,Toast.LENGTH_SHORT,R.layout.toast_login) }else{
+            MenuActivity.generateQr().invoke(bitmap)}
         }
 
 
@@ -278,7 +283,10 @@ class SettingsFragment : Fragment() {
         val btnCancel = dialog.findViewById<Button>(R.id.btnCancel)
 
         btnAccept.setOnClickListener { view ->
-
+            if(!view.context.validateIfIsConnected()){
+                "Debes estar conectado a alguna red".showToast(view.context,Toast.LENGTH_SHORT,R.layout.toast_login)
+                return@setOnClickListener
+            }
 
             dialog.dismiss()
             if (settingViewModel.getToken(view.context) == "") {
@@ -303,7 +311,7 @@ class SettingsFragment : Fragment() {
             } else {
                 MenuActivity.getShowDialogListener().showDialog(view.context)
                 MenuActivity.getShowDialogListener()
-                    .setMensajeDialog(view.context.resources.getString(R.string.eliminandoData))
+                    .setMensajeDialog(view.context.resources.getString(R.string.eliminandoData),R.raw.dowloand)
                 settingViewModel.sincronizarData(view.context)
             }
         }

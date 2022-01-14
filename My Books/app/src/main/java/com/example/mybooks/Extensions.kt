@@ -9,9 +9,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import java.util.regex.Pattern
+
+import android.net.ConnectivityManager
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 /**
  *EXTENSION PARA MOSTRAR UN MENSAJE
@@ -136,4 +140,17 @@ fun ViewPager.changePager(listener:(Int)->Unit){
         override fun onPageScrollStateChanged(state: Int) {
         }
     })
+}
+
+/**EXTENSIO PARA VALIDAR SI EL DISPOTIVO ESTA CONECTADO*/
+fun Context.validateIfIsConnected():Boolean{
+    val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+    val networkInfo = connectivityManager!!.activeNetworkInfo
+
+    return networkInfo != null && networkInfo.isConnected
+}
+
+fun getDateNow():String{
+    val format = SimpleDateFormat("dd/M/yyyy")
+    return format.format(Date())
 }

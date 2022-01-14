@@ -54,6 +54,7 @@ class AdapterSavedBooks(val context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.binding.root.context)
             .load               (list[position].image)
+            .placeholder(R.drawable.book_front)
             .diskCacheStrategy  (DiskCacheStrategy.ALL)
             .into               (holder.binding.imgBook)
 
